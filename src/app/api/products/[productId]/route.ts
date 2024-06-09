@@ -14,6 +14,8 @@ export async function PATCH(
     return NextResponse.redirect(new URL("/", req.nextUrl).toString());
   }
   const body = await req.json();
+
+  body.price = parseInt(body.price);
   await db.product.update({
     where: {
       id: params.productId,

@@ -8,9 +8,16 @@ import "react-multi-carousel/lib/styles.css";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Category } from "@prisma/client";
 import Image from "next/image";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { Dispatch, SetStateAction } from "react";
 
-const CategoriesMenu = ({ data }: { data: Category[] }) => {
+const CategoriesMenu = ({
+  data,
+  setCurrentCategory,
+}: {
+  data: Category[];
+  setCurrentCategory: Dispatch<SetStateAction<string | null>>;
+}) => {
   const router = useRouter();
   const responsive = {
     superLargeDesktop: {
@@ -60,7 +67,7 @@ const CategoriesMenu = ({ data }: { data: Category[] }) => {
           {data.map((category) => (
             <div
               key={category.id}
-              onClick={() => router.push(`?category=${category.id}`)}
+              onClick={() => setCurrentCategory(category.id)}
               className="aspect-square border p-3 rounded-2xl hover:bg-color-1/35 transition-all cursor-pointer"
             >
               <Image
@@ -76,6 +83,22 @@ const CategoriesMenu = ({ data }: { data: Category[] }) => {
               </div>
             </div>
           ))}
+          <div
+            onClick={() => setCurrentCategory(null)}
+            className="aspect-square border p-3 rounded-2xl hover:bg-color-1/35 transition-all cursor-pointer"
+          >
+            <Image
+              src="/all-cakes.jpg"
+              width={200}
+              height={200}
+              alt="category image"
+              className="w-full h-[150px] rounded-xl object-cover"
+            />
+            <div className="relative flex h-[50px] items-center justify-center text-2xl w-fit mx-auto">
+              الكل
+              <div className="absolute bottom-2 w-full h-4 bg-color-4/40 -z-10"></div>
+            </div>
+          </div>
         </Carousel>
       </div>
     </>

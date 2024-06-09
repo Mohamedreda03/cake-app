@@ -1,22 +1,14 @@
-import Card from "@/components/Card";
-import CategoriesMenu from "@/components/Carousel";
+import Hero from "@/components/Hero";
 import Products from "@/components/Products";
 import { db } from "@/lib/db";
 
-export default async function Home({
-  params,
-}: {
-  params: { categoryId: string };
-}) {
+export default async function Home({}: {}) {
   const categories = await db.category.findMany();
+  const products = await db.product.findMany();
   return (
     <div className="max-w-screen-xl mx-auto p-7">
-      <div className="h-[400px]" dir="ltr">
-        <CategoriesMenu data={categories} />
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 place-items-center gap-5">
-        <Products />
-      </div>
+      <Hero />
+      <Products products={products} categories={categories} />
     </div>
   );
 }

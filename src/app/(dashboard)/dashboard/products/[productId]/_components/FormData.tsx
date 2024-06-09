@@ -29,6 +29,7 @@ import { Category, Product } from "@prisma/client";
 import uploadImage from "@/actions/upload-image";
 import Image from "next/image";
 import { Link } from "lucide-react";
+import UploadWidget from "@/components/Cloudinary";
 
 const FormData = ({
   data,
@@ -39,8 +40,7 @@ const FormData = ({
 }) => {
   const { productId } = useParams();
   const [image, setImage] = useState<string | null>(data.image);
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const router = useRouter();
+
   const queryClient = useQueryClient();
 
   const form = useForm<ProductFormTypes>({
@@ -63,27 +63,28 @@ const FormData = ({
     },
   });
 
-  const onSubmit = async (formData: ProductFormTypes) => {
-    if (imageFile) {
-      const imageUrl = await uploadImage(imageFile);
-      mutate({ ...formData, image: imageUrl });
-      setImage(imageUrl as string);
-    } else {
-      mutate({ ...formData });
-    }
+  const onSubmit = (formData: ProductFormTypes) => {
+    mutate(formData);
+  };
+
+  const handleUploadSuccess = (imageUrl: any) => {
+    form.setValue("image", imageUrl?.info?.secure_url);
+    setImage(imageUrl?.info?.secure_url);
   };
 
   return (
     <div className="flex gap-6 flex-col md:flex-row">
       <div className="max-w-[900px] w-full px-5 py-10 md:px-20">
         <div className="mb-5">
-          <Image
-            src={image as string}
-            width={200}
-            height={200}
-            alt="product image"
-            className="rounded-lg"
-          />
+          {image && (
+            <Image
+              src={image}
+              width={200}
+              height={200}
+              alt="product image"
+              className="rounded-lg"
+            />
+          )}
         </div>
         <Form {...form}>
           <form
@@ -91,24 +92,9 @@ const FormData = ({
             className="space-y-10 w-full"
           >
             <div className="flex flex-col gap-5 w-full">
-              <FormField
-                control={form.control}
-                name="image"
-                render={() => (
-                  <FormItem className="w-full">
-                    <FormLabel>صورة المنتج</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="file"
-                        accept="image/*"
-                        disabled={isLoading}
-                        placeholder="أسم امنتج"
-                        onChange={(e) => setImageFile(e.target.files![0])}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+              <UploadWidget
+                handleUploadSuccess={handleUploadSuccess}
+                title="تحديث الصوره"
               />
               <FormField
                 control={form.control}

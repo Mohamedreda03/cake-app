@@ -1,38 +1,47 @@
 "use client";
 
-import { Product } from "@prisma/client";
-import { useQuery } from "react-query";
+import { Category, Product } from "@prisma/client";
 import Loading from "./Loading";
-import Card from "./Card";
-import axios from "axios";
+
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import Card from "./Card";
+import CategoriesMenu from "./Carousel";
 
-export default function Products() {
-  const [isMounted, setIsMounted] = useState(false);
-  //   const { data: category, isLoading } = useQuery("products", async () => {
-  //     return await axios.get(
-  //       `/api/category-products?category=${searchParams.get("category")}`
-  //     );
-  //   });
+export default function Products({
+  products,
+  categories,
+}: {
+  products: Product[];
+  categories: Category[];
+}) {
+  const [currentCategory, setCurrentCategory] = useState<string | null>(null);
+  const searchParams = useSearchParams();
+  const [filterdProducts, setFilterdProducts] = useState<Product[]>(products);
 
   useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) {
-    return <Loading />;
-  }
-
-  //   if (isLoading) {
-  //     return <Loading />;
-  //   }
+    if (currentCategory) {
+      setFilterdProducts(
+        products.filter((product) => product.categoryId === currentCategory)
+      );
+    } else {
+      setFilterdProducts(products);
+    }
+  }, [currentCategory, products]);
 
   return (
     <>
-      {/* {category?.data?.products?.map((product: Product) => (
-        <Card key={product.id} product={product} />
-      ))} */}
+      <div className="h-[400px]">
+        <CategoriesMenu
+          data={categories}
+          setCurrentCategory={setCurrentCategory}
+        />
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 place-items-center gap-5">
+        {filterdProducts.map((product: Product) => (
+          <Card key={product.id} product={product} />
+        ))}
+      </div>
     </>
   );
 }
