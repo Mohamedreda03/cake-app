@@ -8,15 +8,8 @@ import useCart, { CartItemType } from "@/store/cartStore";
 import axios from "axios";
 import { LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { number } from "zod";
-
-const url = "https://api.moyasar.com/v1/invoices";
-const username = "pk_test_wkfV8icpcMEyvpxLkpq2fau7RF8BUCS2ZAeQY9Ew";
-const password = "";
-
-const credentials = `${username}:${password}`;
-const encodedCredentials = btoa(credentials);
 
 export default function Cart() {
   const router = useRouter();
@@ -29,7 +22,6 @@ export default function Cart() {
 
   const handleCheckout = async () => {
     if (paymentOption) {
-      // router.push("/cart/checkout");
       await axios
         .request({
           url: "https://api.moyasar.com/v1/invoices",
@@ -54,6 +46,36 @@ export default function Cart() {
       router.push("/cart/success");
     }
   };
+
+  useEffect(() => {
+    const checkStatus = async () => {
+      if (paymentOption) {
+        const res = await axios
+          .request({
+            url: "https://api.moyasar.com/v1/webhooks",
+            method: "POST",
+            auth: {
+              username: process.env.NEXT_PUBLIC_MOYASAR_API_KEY!,
+              password: "",
+            },
+            headers: {
+              "Content-Type": "application/json",
+            },
+            data: {
+              http_method: "post",
+              url: `${process.env.NEXT_PUBLIC_URL}/api/webhook`,
+              shared_secret: "24214",
+              events: ["payment_paid", "payment_faild"],
+            },
+          })
+          .then((res) => console.log(res.data))
+          .catch((err) => console.log(err));
+      } else {
+        router.push("/cart/success");
+      }
+    };
+    checkStatus();
+  }, []);
 
   return (
     <div className="py-8 px-7 max-w-screen-xl mx-auto flex flex-col gap-6 min-h-[600px]">
