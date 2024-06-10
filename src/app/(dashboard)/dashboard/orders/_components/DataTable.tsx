@@ -10,14 +10,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { User } from "@prisma/client";
+import { Order, User } from "@prisma/client";
 import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState, useTransition } from "react";
 import toast from "react-hot-toast";
 import { useMutation, useQueryClient } from "react-query";
 
-export default function DataTable({ users }: { users: User[] }) {
+export default function DataTable({ users }: { users: Order[] }) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedUser, setSelectedUser] = useState<string | null>(null);
 
@@ -25,7 +25,7 @@ export default function DataTable({ users }: { users: User[] }) {
 
   const { mutate, isLoading } = useMutation({
     mutationFn: async () => {
-      await axios.delete(`/api/users/${selectedUser}`);
+      await axios.delete(`/api/orders/${selectedUser}`);
     },
     onSuccess: () => {
       queryClient.invalidateQueries("users");
@@ -46,8 +46,8 @@ export default function DataTable({ users }: { users: User[] }) {
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         onDelete={handleDelete}
-        title="حذف المستخدم"
-        description="هل أنت متأكد من حذف المستخدم؟"
+        title="حذف الطلب"
+        description="هل أنت متأكد من حذف الطلب؟"
       />
       <div className="px-5 py-10 md:px-20">
         <Table dir="rtl" className="border">
