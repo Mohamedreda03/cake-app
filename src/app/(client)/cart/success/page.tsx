@@ -3,7 +3,7 @@
 import useCart from "@/store/cartStore";
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 
 export default function Success() {
   const cart = useCart();
@@ -40,5 +40,12 @@ export default function Success() {
     checkStatus();
   }, []);
 
-  return <div>Success</div>;
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <div>
+        <h1>Payment Success</h1>
+        <p>Thank you for your payment</p>
+      </div>
+    </Suspense>
+  );
 }
