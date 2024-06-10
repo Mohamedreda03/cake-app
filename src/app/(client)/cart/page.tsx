@@ -8,10 +8,11 @@ import useCart, { CartItemType } from "@/store/cartStore";
 import axios from "axios";
 import { LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { number } from "zod";
+import { FormEvent, useState } from "react";
 
 export default function Cart() {
+  const [address, setAddress] = useState<string>("");
+  const [phone, setPhone] = useState<string>("");
   const router = useRouter();
   const cart = useCart();
   const [paymentOption, setPaymentOption] = useState<boolean>(true);
@@ -20,8 +21,16 @@ export default function Cart() {
 
   const isPending = false;
 
-  const handleCheckout = async () => {
+  const handleCheckout = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (paymentOption) {
+      const orderRes = await axios.post("/api/orders", {
+        address: address,
+        phone: phone,
+        total: total,
+        items: cart.items,
+      });
+
       await axios
         .request({
           url: "https://api.moyasar.com/v1/invoices",
@@ -36,46 +45,29 @@ export default function Cart() {
           data: {
             amount: 10 * 100,
             currency: "SAR",
-            description: `Payment for order #`,
-            callback_url: "http://localhost:3000/cart/success",
+            description: `${process.env.NEXT_PUBLIC_URL!}/cart`,
+            success_url: `${process.env.NEXT_PUBLIC_URL!}/cart/success`,
           },
         })
-        .then((res) => router.replace(res.data.url))
+        .then(async (res) => {
+          await axios.patch(`/api/orders/${orderRes.data.data.id}`, {
+            payment_id: res.data.id,
+          });
+          // window.localStorage.setItem("payment", res.data.id);
+          window.location.href = res.data.url;
+        })
         .catch((err) => console.log(err));
     } else {
+      await axios.post("/api/orders", {
+        address: address,
+        phone: phone,
+        total: total,
+        items: cart.items,
+      });
+      cart.clearCart();
       router.push("/cart/success");
     }
   };
-
-  useEffect(() => {
-    const checkStatus = async () => {
-      if (paymentOption) {
-        const res = await axios
-          .request({
-            url: "https://api.moyasar.com/v1/webhooks",
-            method: "POST",
-            auth: {
-              username: process.env.NEXT_PUBLIC_MOYASAR_API_KEY!,
-              password: "",
-            },
-            headers: {
-              "Content-Type": "application/json",
-            },
-            data: {
-              http_method: "post",
-              url: `${process.env.NEXT_PUBLIC_URL}/api/webhook`,
-              shared_secret: "24214",
-              events: ["payment_paid", "payment_faild"],
-            },
-          })
-          .then((res) => console.log(res.data))
-          .catch((err) => console.log(err));
-      } else {
-        router.push("/cart/success");
-      }
-    };
-    checkStatus();
-  }, []);
 
   return (
     <div className="py-8 px-7 max-w-screen-xl mx-auto flex flex-col gap-6 min-h-[600px]">
@@ -129,19 +121,46 @@ export default function Cart() {
                 >
                   الدفع عند الاستلام
                 </div>
+                <div className="w-full h-[1PX] bg-gray-200" />
+                <form onSubmit={handleCheckout}>
+                  <div className="flex flex-col gap-3">
+                    <div className="col-span-2 sm:col-span-1">
+                      <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                        العنوان كاملاً
+                      </label>
+                      <input
+                        type="text"
+                        onChange={(e) => setAddress(e.target.value)}
+                        value={address}
+                        className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+                        placeholder="العنوان كاملاً"
+                        required
+                      />
+                    </div>
+                    <div className="col-span-2 sm:col-span-1">
+                      <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                        رقم الهاتف
+                      </label>
+                      <input
+                        type="text"
+                        onChange={(e) => setPhone(e.target.value)}
+                        value={phone}
+                        className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+                        placeholder="رقم الهاتف"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <Button variant="main" className="rounded-full w-full mt-5">
+                    <LoaderCircle
+                      className={`w-5 h-5 animate-spin mr-2 ${
+                        isPending ? "block" : "hidden"
+                      }`}
+                    />
+                    اكمال الطلب
+                  </Button>
+                </form>
               </div>
-              <Button
-                variant="main"
-                onClick={handleCheckout}
-                className="rounded-full w-full"
-              >
-                <LoaderCircle
-                  className={`w-5 h-5 animate-spin mr-2 ${
-                    isPending ? "block" : "hidden"
-                  }`}
-                />
-                اكمال الطلب
-              </Button>
             </Card>
           </div>
         </div>
