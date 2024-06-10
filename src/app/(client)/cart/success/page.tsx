@@ -6,6 +6,14 @@ import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect } from "react";
 
 export default function Success() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SuccessPage />
+    </Suspense>
+  );
+}
+
+const SuccessPage = () => {
   const cart = useCart();
   const invoiceId = useSearchParams().get("invoice_id");
   useEffect(() => {
@@ -37,13 +45,10 @@ export default function Success() {
     };
     checkStatus();
   }, [invoiceId]);
-
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <div>
-        <h1>Payment Success</h1>
-        <p>Thank you for your payment</p>
-      </div>
-    </Suspense>
+    <div>
+      <h1>Payment Success</h1>
+      <p>Thank you for your payment</p>
+    </div>
   );
-}
+};
