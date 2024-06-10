@@ -83,26 +83,7 @@ const FormData = () => {
                 title="رفع صورة"
                 handleUploadSuccess={handleUploadSuccess}
               />
-              {/* <FormField
-                control={form.control}
-                name="image"
-                rules={{ required: "صورة الفئة مطلوبة" }}
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>صورة المنتج</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="file"
-                        accept="image/*"
-                        disabled={isLoading}
-                        placeholder="صورة المنتج"
-                        onChange={(e) => field.onChange(e.target.files![0])}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              /> */}
+
               <FormField
                 control={form.control}
                 name="name"

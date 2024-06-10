@@ -3,15 +3,57 @@
 import CartItem from "@/components/CartItem";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 import useCart, { CartItemType } from "@/store/cartStore";
+import axios from "axios";
 import { LoaderCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { number } from "zod";
+
+const url = "https://api.moyasar.com/v1/invoices";
+const username = "pk_test_wkfV8icpcMEyvpxLkpq2fau7RF8BUCS2ZAeQY9Ew";
+const password = "";
+
+const credentials = `${username}:${password}`;
+const encodedCredentials = btoa(credentials);
 
 export default function Cart() {
+  const router = useRouter();
   const cart = useCart();
+  const [paymentOption, setPaymentOption] = useState<boolean>(true);
 
   const total = cart.items.reduce((acc, item) => acc + item.total, 0);
 
   const isPending = false;
+
+  const handleCheckout = async () => {
+    if (paymentOption) {
+      // router.push("/cart/checkout");
+      await axios
+        .request({
+          url: "https://api.moyasar.com/v1/invoices",
+          method: "POST",
+          auth: {
+            username: process.env.NEXT_PUBLIC_MOYASAR_API_KEY!,
+            password: "",
+          },
+          headers: {
+            "Content-Type": "application/json",
+          },
+          data: {
+            amount: 10 * 100,
+            currency: "SAR",
+            description: `Payment for order #`,
+            callback_url: "http://localhost:3000/cart/success",
+          },
+        })
+        .then((res) => router.replace(res.data.url))
+        .catch((err) => console.log(err));
+    } else {
+      router.push("/cart/success");
+    }
+  };
 
   return (
     <div className="py-8 px-7 max-w-screen-xl mx-auto flex flex-col gap-6 min-h-[600px]">
@@ -44,9 +86,31 @@ export default function Cart() {
                   {total} ريال
                 </span>
               </div>
+              <div className="flex flex-col gap-3">
+                <div className="w-full h-[1PX] bg-gray-200" />
+                <div>
+                  <h3 className="text-lg font-medium">اختر طريقة الدفع</h3>
+                </div>
+                <div
+                  onClick={() => setPaymentOption(true)}
+                  className={cn(`px-3 py-3 border rounded-lg cursor-pointer`, {
+                    "bg-color-1 text-white": paymentOption,
+                  })}
+                >
+                  الدفع الالكتروني
+                </div>
+                <div
+                  onClick={() => setPaymentOption(false)}
+                  className={cn(`px-3 py-3 border rounded-lg cursor-pointer`, {
+                    "bg-color-1 text-white": !paymentOption,
+                  })}
+                >
+                  الدفع عند الاستلام
+                </div>
+              </div>
               <Button
                 variant="main"
-                //   onClick={handleCheckout}
+                onClick={handleCheckout}
                 className="rounded-full w-full"
               >
                 <LoaderCircle
