@@ -35,9 +35,12 @@ const SuccessPage = () => {
             if (res.data.status === "paid") {
               window.localStorage.removeItem("payment");
               cart.clearCart();
-              await axios.post("/api/orders", {
-                payment_status: "PAID",
-              });
+              await axios
+                .patch(`/api/orders/${res.data.metadata.order_id}`, {
+                  payment_status: "PAID",
+                })
+                .then((res) => console.log(res.data))
+                .catch((err) => console.log(err));
             }
           })
           .catch((err) => console.log(err));

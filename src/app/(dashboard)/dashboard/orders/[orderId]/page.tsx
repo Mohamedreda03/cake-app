@@ -1,22 +1,22 @@
 import { db } from "@/lib/db";
-import FormData from "./_components/FormData";
 import Loading from "@/components/Loading";
 import Link from "next/link";
 import { MoveRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { OrderData } from "./_components/OrderData";
 
 export default async function UserDetails({
   params,
 }: {
-  params: { userId: string };
+  params: { orderId: string };
 }) {
-  const user = await db.user.findFirst({
+  const order = await db.order.findFirst({
     where: {
-      id: params.userId,
+      id: params.orderId,
     },
   });
 
-  if (!user) {
+  if (!order) {
     return <Loading />;
   }
 
@@ -35,7 +35,14 @@ export default async function UserDetails({
           الرجوع للخلف
         </Button>
       </Link>
-      <FormData data={user} />
+      <div>
+        <div className="px-5 md:px-20 py-5">
+          <h1 className="text-3xl font-medium border-b-2 border-color-1 w-fit mb-10">
+            تفاصيل الطلب
+          </h1>
+          <OrderData order={order} />
+        </div>
+      </div>
     </div>
   );
 }

@@ -56,8 +56,11 @@ export default function Cart() {
           data: {
             amount: 10 * 100,
             currency: "SAR",
-            description: `${process.env.NEXT_PUBLIC_URL!}/cart`,
+            description: `Payment for order ${orderRes.data.data.id}`,
             success_url: `${process.env.NEXT_PUBLIC_URL!}/cart/success`,
+            metadata: {
+              order_id: orderRes.data.data.id,
+            },
           },
         })
         .then(async (res) => {

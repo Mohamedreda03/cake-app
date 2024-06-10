@@ -10,6 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { cn } from "@/lib/utils";
 import { Order, User } from "@prisma/client";
 import axios from "axios";
 import Link from "next/link";
@@ -28,8 +29,8 @@ export default function DataTable({ orders }: { orders: Order[] }) {
       await axios.delete(`/api/orders/${selectedUser}`);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries("users");
-      toast.success("تم حذف المستخدم بنجاح");
+      queryClient.invalidateQueries("orders");
+      toast.success("تم حذف الطلب بنجاح");
     },
   });
 
@@ -38,8 +39,6 @@ export default function DataTable({ orders }: { orders: Order[] }) {
 
     setIsOpen(false);
   };
-
-  console.log(orders);
 
   return (
     <>
@@ -76,15 +75,26 @@ export default function DataTable({ orders }: { orders: Order[] }) {
                 <TableCell className="text-center">{order.cafe_name}</TableCell>
                 <TableCell className="text-center">{order.phone}</TableCell>
                 <TableCell className="text-center">
-                  {order.payment_status === "PAID"
-                    ? "تم الدفع"
-                    : "الدفع عند الاستلام"}
+                  <div
+                    className={cn({
+                      "text-green-500 bg-green-50 w-fit px-2 py-1 rounded-full mx-auto":
+                        order.payment_status === "PAID",
+                      "text-red-500 bg-red-50 w-fit px-3 py-1 rounded-full mx-auto":
+                        order.payment_status === "PENDING",
+                    })}
+                  >
+                    {order.payment_status === "PAID"
+                      ? "تم الدفع"
+                      : "الدفع عند الاستلام"}
+                  </div>
                 </TableCell>
-                <TableCell className="text-center">{order.total}</TableCell>
+                <TableCell className="text-center">
+                  {order.total} <span className="mr-1">ريال</span>
+                </TableCell>
                 <TableCell className="text-center flex gap-3 items-center justify-center">
-                  <Link href={`/dashboard/users/${order.id}`}>
+                  <Link href={`/dashboard/orders/${order.id}`}>
                     <Button className="text-sm" variant="secondary">
-                      تعديل
+                      تفاصيل
                     </Button>
                   </Link>
                   <Button
