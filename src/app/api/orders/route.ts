@@ -40,6 +40,8 @@ export async function POST(req: NextRequest) {
   try {
     const order = await db.order.create({
       data: {
+        cafe_name: body.cafe_name,
+        order_maker_name: body.order_maker_name,
         address: body.address,
         phone: body.phone,
         payment_status: "PENDING",

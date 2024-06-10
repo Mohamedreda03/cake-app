@@ -93,7 +93,7 @@ model Product {
 model Order {
   id               String         @id @default(cuid())
   cafe_name        String
-  Order_maker_name String
+  order_maker_name String
   total            Int
   status           OrderStatus
   payment_status   PaymentStatus

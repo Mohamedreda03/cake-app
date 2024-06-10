@@ -34,7 +34,7 @@ export default function Users() {
         </h1>
         <div></div>
       </div>
-      <DataTable users={orders?.data?.data} />
+      <DataTable orders={orders?.data?.data} />
       <PaginationButtons
         currentPage={Number(pageNumber)}
         pageCount={orders?.data?.count}

@@ -9,10 +9,13 @@ import axios from "axios";
 import { LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
+import toast from "react-hot-toast";
 
 export default function Cart() {
   const [address, setAddress] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
+  const [cageName, setCafeName] = useState<string>("");
+  const [orderMakerName, setOrderMakerName] = useState<string>("");
   const router = useRouter();
   const cart = useCart();
   const [paymentOption, setPaymentOption] = useState<boolean>(true);
@@ -23,8 +26,16 @@ export default function Cart() {
 
   const handleCheckout = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!cageName || !orderMakerName || !address || !phone) {
+      toast.error("الرجاء ملء جميع الحقول");
+      return;
+    }
+
     if (paymentOption) {
       const orderRes = await axios.post("/api/orders", {
+        cafe_name: cageName,
+        order_maker_name: orderMakerName,
         address: address,
         phone: phone,
         total: total,
@@ -53,12 +64,14 @@ export default function Cart() {
           await axios.patch(`/api/orders/${orderRes.data.data.id}`, {
             payment_id: res.data.id,
           });
-          // window.localStorage.setItem("payment", res.data.id);
+
           window.location.href = res.data.url;
         })
         .catch((err) => console.log(err));
     } else {
       await axios.post("/api/orders", {
+        cafe_name: cageName,
+        order_maker_name: orderMakerName,
         address: address,
         phone: phone,
         total: total,
@@ -124,6 +137,32 @@ export default function Cart() {
                 <div className="w-full h-[1PX] bg-gray-200" />
                 <form onSubmit={handleCheckout}>
                   <div className="flex flex-col gap-3">
+                    <div className="col-span-2 sm:col-span-1">
+                      <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                        اسم المقهى
+                      </label>
+                      <input
+                        type="text"
+                        onChange={(e) => setCafeName(e.target.value)}
+                        value={cageName}
+                        className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+                        placeholder="اسم المقهى"
+                        required
+                      />
+                    </div>
+                    <div className="col-span-2 sm:col-span-1">
+                      <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                        اسم اصاحب الطلب
+                      </label>
+                      <input
+                        type="text"
+                        onChange={(e) => setOrderMakerName(e.target.value)}
+                        value={orderMakerName}
+                        className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+                        placeholder="اسم اصاحب الطلب"
+                        required
+                      />
+                    </div>
                     <div className="col-span-2 sm:col-span-1">
                       <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
                         العنوان كاملاً

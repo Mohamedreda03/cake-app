@@ -17,7 +17,7 @@ import { useEffect, useState, useTransition } from "react";
 import toast from "react-hot-toast";
 import { useMutation, useQueryClient } from "react-query";
 
-export default function DataTable({ users }: { users: Order[] }) {
+export default function DataTable({ orders }: { orders: Order[] }) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedUser, setSelectedUser] = useState<string | null>(null);
 
@@ -39,6 +39,8 @@ export default function DataTable({ users }: { users: Order[] }) {
     setIsOpen(false);
   };
 
+  console.log(orders);
+
   return (
     <>
       <DeleteModel
@@ -54,30 +56,40 @@ export default function DataTable({ users }: { users: Order[] }) {
           <TableHeader>
             <TableRow>
               <TableHead className="text-center text-lg">
-                أسم المستخدم
+                اسم صاحب الطلب
               </TableHead>
-              <TableHead className="text-center text-lg">الإيمال</TableHead>
-              <TableHead className="text-center text-lg">الصلاحيه</TableHead>
+              <TableHead className="text-center text-lg">اسم المقهى</TableHead>
+              <TableHead className="text-center text-lg">رقم الجوال</TableHead>
+              <TableHead className="text-center text-lg">حلات الدفع</TableHead>
+              <TableHead className="text-center text-lg">
+                المبلغ الكلي
+              </TableHead>
               <TableHead className="text-center text-lg"></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {users.map((user) => (
-              <TableRow key={user.name}>
+            {orders.map((order) => (
+              <TableRow key={order.id}>
                 <TableCell className="font-medium text-center">
-                  {user.name}
+                  {order.order_maker_name}
                 </TableCell>
-                <TableCell className="text-center">{user.email}</TableCell>
-                <TableCell className="text-center">{user.role}</TableCell>
+                <TableCell className="text-center">{order.cafe_name}</TableCell>
+                <TableCell className="text-center">{order.phone}</TableCell>
+                <TableCell className="text-center">
+                  {order.payment_status === "PAID"
+                    ? "تم الدفع"
+                    : "الدفع عند الاستلام"}
+                </TableCell>
+                <TableCell className="text-center">{order.total}</TableCell>
                 <TableCell className="text-center flex gap-3 items-center justify-center">
-                  <Link href={`/dashboard/users/${user.id}`}>
+                  <Link href={`/dashboard/users/${order.id}`}>
                     <Button className="text-sm" variant="secondary">
                       تعديل
                     </Button>
                   </Link>
                   <Button
                     onClick={() => {
-                      setSelectedUser(user.id);
+                      setSelectedUser(order.id);
                       setIsOpen(true);
                     }}
                     className="text-sm"
