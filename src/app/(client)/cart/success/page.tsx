@@ -38,14 +38,12 @@ export default function Success() {
       }
     };
     checkStatus();
-  }, []);
+  }, [searchParams]);
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <div>
-        <h1>Payment Success</h1>
-        <p>Thank you for your payment</p>
-      </div>
-    </Suspense>
+    <div>
+      <h1>Payment Success</h1>
+      <p>Thank you for your payment</p>
+    </div>
   );
 }
