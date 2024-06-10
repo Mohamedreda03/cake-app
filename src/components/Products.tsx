@@ -16,7 +16,6 @@ export default function Products({
   categories: Category[];
 }) {
   const [currentCategory, setCurrentCategory] = useState<string | null>(null);
-  const searchParams = useSearchParams();
   const [filterdProducts, setFilterdProducts] = useState<Product[]>(products);
 
   useEffect(() => {
