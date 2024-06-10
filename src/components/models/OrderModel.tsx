@@ -64,7 +64,7 @@ export default function OrderModel({
                 </div>
               </div>
             </div>
-            {/* <div className=""> */}
+
             <div className="my-5 w-40 flex flex-col items-center md:block mx-auto md:mx-0">
               <p className="text-sm text-gray-500 mb-2">الكمية</p>
               <div className="flex justify-between items-center w-40">
@@ -76,7 +76,6 @@ export default function OrderModel({
                   +
                 </Button>
               </div>
-              {/* </div> */}
             </div>
           </div>
           <div>

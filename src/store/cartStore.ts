@@ -2,14 +2,15 @@ import { Product } from "@prisma/client";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
-interface CartItem extends Product {
+export interface CartItemType extends Product {
   quantity: number;
   total: number;
 }
 
 interface CartStore {
-  items: CartItem[];
-  addItem: (item: CartItem) => void;
+  items: CartItemType[];
+  addItem: (item: CartItemType) => void;
+  updateItemQuantity: (id: string, quantity: number) => void;
   removeItem: (id: string) => void;
   clearCart: () => void;
 }
@@ -44,6 +45,18 @@ const useCart = create(
           }
         });
       },
+      updateItemQuantity: (id, quantity) =>
+        set((state) => ({
+          items: state.items.map((item) =>
+            item.id === id
+              ? {
+                  ...item,
+                  quantity,
+                  total: item.price * quantity,
+                }
+              : item
+          ),
+        })),
       removeItem: (id) =>
         set((state) => ({
           items: state.items.filter((item) => item.id !== id),

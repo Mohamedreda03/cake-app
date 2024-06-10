@@ -47,8 +47,7 @@ const FormData = () => {
 
   const onSubmit = async (formData: any) => {
     startLoading(async () => {
-      // const imageUrl = await uploadImage(formData.image);
-      mutate({ ...formData });
+      mutate(formData);
       router.push("/dashboard/categories");
     });
     console.log(formData);

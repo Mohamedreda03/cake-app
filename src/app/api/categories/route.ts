@@ -56,14 +56,12 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  console.log(image);
-
-  // const category = await db.category.create({
-  //   data: {
-  //     name: name,
-  //     image: image,
-  //   },
-  // });
+  const category = await db.category.create({
+    data: {
+      name: name,
+      image: image,
+    },
+  });
 
   return NextResponse.json({ data: "category" });
 }

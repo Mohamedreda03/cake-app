@@ -26,9 +26,7 @@ import { useMutation, useQueryClient } from "react-query";
 import { useRouter } from "next/navigation";
 import { Textarea } from "@/components/ui/textarea";
 import { Category } from "@prisma/client";
-import uploadImage from "@/actions/upload-image";
 import UploadWidget from "@/components/Cloudinary";
-import { set } from "zod";
 import Image from "next/image";
 
 const FormData = ({ categories }: { categories: Category[] }) => {
@@ -62,13 +60,8 @@ const FormData = ({ categories }: { categories: Category[] }) => {
   });
 
   const onSubmit = async (formData: ProductFormTypes) => {
-    startLoading(async () => {
-      const imageUrl = await uploadImage(formData.image);
-
-      mutate({ ...formData, image: imageUrl });
-
-      router.push("/dashboard/products");
-    });
+    mutate(formData);
+    router.push("/dashboard/products");
   };
 
   const handleCloase = () => {
