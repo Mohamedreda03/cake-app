@@ -7,15 +7,13 @@ import { Suspense, useEffect } from "react";
 
 export default function Success() {
   const cart = useCart();
-  const searchParams = useSearchParams();
+  const invoiceId = useSearchParams().get("invoice_id");
   useEffect(() => {
     const checkStatus = async () => {
-      if (searchParams.get("invoice_id")) {
+      if (invoiceId) {
         await axios
           .request({
-            url: `https://api.moyasar.com/v1/invoices/${searchParams.get(
-              "invoice_id"
-            )}`,
+            url: `https://api.moyasar.com/v1/invoices/${invoiceId}`,
             method: "GET",
             auth: {
               username: process.env.NEXT_PUBLIC_MOYASAR_API_KEY!,
@@ -38,12 +36,14 @@ export default function Success() {
       }
     };
     checkStatus();
-  }, [searchParams]);
+  }, [invoiceId]);
 
   return (
-    <div>
-      <h1>Payment Success</h1>
-      <p>Thank you for your payment</p>
-    </div>
+    <Suspense fallback={<div>Loading...</div>}>
+      <div>
+        <h1>Payment Success</h1>
+        <p>Thank you for your payment</p>
+      </div>
+    </Suspense>
   );
 }
