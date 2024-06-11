@@ -5,7 +5,6 @@ import { Category, Product } from "@prisma/client";
 import { useEffect, useState } from "react";
 import Card from "./Card";
 import CategoriesMenu from "./Carousel";
-import { fi } from "date-fns/locale";
 
 export default function Products({
   products,
@@ -18,9 +17,13 @@ export default function Products({
   const [filterdProducts, setFilterdProducts] = useState<Product[]>(products);
 
   useEffect(() => {
-    if (currentCategory) {
+    if (currentCategory && currentCategory !== "best_seller") {
       setFilterdProducts(
         products.filter((product) => product.categoryId === currentCategory)
+      );
+    } else if (currentCategory === "best_seller") {
+      setFilterdProducts(
+        products.filter((product) => product.best_seller === true)
       );
     } else {
       setFilterdProducts(products);
@@ -36,7 +39,7 @@ export default function Products({
           currentCategory={currentCategory}
         />
       </div>
-      {/* place-items-center */}
+
       {filterdProducts.length === 0 && (
         <div className="flex justify-center items-center h-[90vh]">
           <h1 className="text-4xl">لا يوجد منتجات</h1>

@@ -69,6 +69,7 @@ export const ProductSchema = z.object({
   categoryId: z.string().min(2),
   size: z.string().min(1),
   image: z.any(),
+  best_seller: z.boolean(),
 });
 
 export type ProductFormTypes = z.infer<typeof ProductSchema>;

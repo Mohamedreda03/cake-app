@@ -45,18 +45,11 @@ export async function POST(req: NextRequest) {
     return NextResponse.redirect(new URL("/", req.nextUrl).toString());
   }
 
-  const { name, image } = await req.json();
-
-  if (!name || !image) {
-    return NextResponse.json(
-      { message: "جميع الحقول مطلوبة." },
-      { status: 400 }
-    );
-  }
+  const body = await req.json();
 
   const category = await db.category.create({
     data: {
-      name: name,
+      name: body.name,
     },
   });
 

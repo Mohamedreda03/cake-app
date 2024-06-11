@@ -82,7 +82,7 @@ model Product {
   size        String
   price       Float
   image       String
-  best_seller Boolean
+  best_seller Boolean  @default(false)
   categoryId  String
   category    Category @relation(fields: [categoryId], references: [id])
 

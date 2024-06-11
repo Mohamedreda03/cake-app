@@ -105,12 +105,7 @@ export function OrderData({ order }: { order: SpecialOrder }) {
               {orderStatus === "DELIVERED" && "تم التوصيل"}
             </TableCell>
           </TableRow>
-          {/* <TableRow className={inter.className}>
-            <TableCell className="font-medium w-[200px]">payment id</TableCell>
-            <TableCell colSpan={4} className="font-medium">
-              {order.payment_id}
-            </TableCell>
-          </TableRow> */}
+
           <TableRow>
             <TableCell className="font-medium w-[200px]">
               العنوان كامل

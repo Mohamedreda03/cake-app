@@ -42,6 +42,14 @@ const CategoriesMenu = ({
               الكل
             </Button>
           </div>
+          <div>
+            <Button
+              onClick={() => setCurrentCategory("best_seller")}
+              variant={currentCategory === "best_seller" ? "main" : "secondary"}
+            >
+              الكثر مبيعا
+            </Button>
+          </div>
           {data.map((category) => (
             <div key={category.id}>
               <Button

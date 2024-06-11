@@ -30,6 +30,7 @@ import uploadImage from "@/actions/upload-image";
 import Image from "next/image";
 import { Link } from "lucide-react";
 import UploadWidget from "@/components/Cloudinary";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const FormData = ({
   data,
@@ -50,6 +51,7 @@ const FormData = ({
       price: data.price,
       description: data.description,
       categoryId: data.categoryId,
+      best_seller: data.best_seller,
     },
   });
 
@@ -197,6 +199,28 @@ const FormData = ({
                   </FormItem>
                 )}
               />
+              <div className="border border-gray-200 p-3 rounded-md">
+                <FormField
+                  control={form.control}
+                  name="best_seller"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <div className="flex items-center gap-2">
+                        <FormControl>
+                          <Checkbox
+                            disabled={isLoading}
+                            checked={field.value as any}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                        <FormLabel className="text-md">
+                          منتج اكثر مبيعا
+                        </FormLabel>
+                      </div>
+                    </FormItem>
+                  )}
+                />
+              </div>
             </div>
             <div className="flex items-center gap-3">
               <Button
