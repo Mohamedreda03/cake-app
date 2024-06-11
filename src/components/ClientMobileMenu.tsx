@@ -28,6 +28,10 @@ const menu: Menu[] = [
     name: "القائمة",
     path: "/menu",
   },
+  {
+    name: "عنا",
+    path: "/about",
+  },
 ];
 
 export default function ClientMobileMenu() {
