@@ -10,7 +10,7 @@ export default function Hero() {
         backgroundPosition: "center",
       }}
     >
-      <div className="absolute inset-0 bg-gradient-to-b from-color-2/50 to-color-1/50"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-color-1/30 to-color-1/40"></div>
       <div
         style={{ position: "relative", zIndex: 1 }}
         className="flex flex-col items-center justify-center"

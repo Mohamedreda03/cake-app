@@ -48,7 +48,7 @@ const CategoriesMenu = ({
 
   return (
     <>
-      <div className="mt-[50px] md:mt-[100px] mb-[100px] md:mb-0">
+      <div dir="rtl" className="mt-[50px] md:mt-[100px] mb-[100px]">
         <Carousel
           responsive={responsive}
           containerClass="-mx-[10px]"
@@ -56,6 +56,7 @@ const CategoriesMenu = ({
           swipeable={true}
           autoPlay={true}
           rtl={true}
+          className="direction-rtl"
           customRightArrow={
             <ChevronLeft className="bg-color-4/45 h-12 w-12 text-black/40 absolute top-[40%] left-0 hover:text-black/80 hover:bg-color-4/80 transition-all rounded-full p-2 cursor-pointer" />
           }
@@ -65,7 +66,7 @@ const CategoriesMenu = ({
         >
           <div
             onClick={() => setCurrentCategory(null)}
-            className="h-[300px] border p-3 rounded-2xl hover:bg-color-1/35 transition-all cursor-pointer"
+            className="h-[300px] md:h-[230px] border p-3 rounded-2xl hover:bg-color-1/35 transition-all cursor-pointer"
           >
             <Image
               src="/all-cakes.jpg"
@@ -83,7 +84,7 @@ const CategoriesMenu = ({
             <div
               key={category.id}
               onClick={() => setCurrentCategory(category.id)}
-              className="h-[300px] border p-3 rounded-2xl hover:bg-color-1/35 transition-all cursor-pointer"
+              className="h-[300px] md:h-[230px] border p-3 rounded-2xl hover:bg-color-1/35 transition-all cursor-pointer"
             >
               <Image
                 src={category.image}
