@@ -25,8 +25,7 @@ export default function Hero() {
           />
           <div className="absolute bottom-[35%] w-full h-10 bg-color-2 -z-10"></div>
         </div>
-        <h1 className="text-5xl">النص الخاص بك هنا</h1>
-        <p>نص إضافي هنا</p>
+        <h1 className="text-5xl text-center">مرحبا بكم في بيلا</h1>
       </div>
     </div>
   );

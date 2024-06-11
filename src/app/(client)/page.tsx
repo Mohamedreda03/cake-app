@@ -7,7 +7,7 @@ export default async function Home() {
   const categories = await db.category.findMany();
   const products = await db.product.findMany();
   return (
-    <div className="max-w-screen-xl mx-auto p-7">
+    <div className="max-w-screen-xl mx-auto p-5 md:p-7">
       <Hero />
       <Services />
       <Products products={products} categories={categories} />
