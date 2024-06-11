@@ -1,3 +1,4 @@
+import Footer from "@/components/Footer";
 import Navbar from "@/components/navbar/Navbar";
 import React from "react";
 
@@ -6,6 +7,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
     <div className="bg-color-3/20">
       <Navbar />
       <main>{children}</main>
+      <Footer />
     </div>
   );
 }

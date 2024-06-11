@@ -42,15 +42,15 @@ const FormData = () => {
     onSuccess: () => {
       queryClient.invalidateQueries("categories");
       toast.success("تم انشاء الفئة بنجاح");
+      router.push("/dashboard/categories");
+    },
+    onError: () => {
+      toast.error("جميع البيانات مطلوبة");
     },
   });
 
   const onSubmit = async (formData: any) => {
-    startLoading(async () => {
-      mutate(formData);
-      router.push("/dashboard/categories");
-    });
-    console.log(formData);
+    mutate(formData);
   };
 
   const handleUploadSuccess = (imageUrl: any) => {

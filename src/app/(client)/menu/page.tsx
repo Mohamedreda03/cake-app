@@ -1,4 +1,3 @@
-import Products from "@/components/Products";
 import { db } from "@/lib/db";
 import Card from "@/components/Card";
 

@@ -77,7 +77,7 @@ const FormData = ({ data }: { data: Category }) => {
               height={300}
               width={300}
               objectFit="cover"
-              className="rounded-lg"
+              className="rounded-lg h-[300px] w-[300px] object-cover"
               alt="category image"
             />
           </div>
@@ -92,6 +92,7 @@ const FormData = ({ data }: { data: Category }) => {
                 title="رفع صورة"
                 handleUploadSuccess={handleUploadSuccess}
               />
+
               <FormField
                 control={form.control}
                 name="name"

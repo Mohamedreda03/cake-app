@@ -53,6 +53,7 @@ const FormData = ({ categories }: { categories: Category[] }) => {
     onSuccess: () => {
       queryClient.invalidateQueries("products");
       toast.success("تم انشاء المنتج بنجاح");
+      router.push("/dashboard/products");
     },
     onError: () => {
       toast.error("جميع الحقول مطلوبة.");
@@ -61,7 +62,6 @@ const FormData = ({ categories }: { categories: Category[] }) => {
 
   const onSubmit = async (formData: ProductFormTypes) => {
     mutate(formData);
-    router.push("/dashboard/products");
   };
 
   const handleCloase = () => {

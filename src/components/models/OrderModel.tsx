@@ -37,8 +37,6 @@ export default function OrderModel({
     onClose();
   };
 
-  console.log(cart.items);
-
   return (
     <Alert title={""} isOpen={isOpen} onClose={onClose}>
       <div dir="rtl" className="">

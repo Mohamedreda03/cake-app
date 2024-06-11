@@ -10,9 +10,9 @@ export default function CartCounter() {
   const cart = useCart();
   const session = useSession();
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-7">
       {session?.data?.user && session.data?.user.role !== "USER" && (
-        <Link href="/dashboard" className="hidden md:block">
+        <Link href="/dashboard/products" className="hidden md:block">
           <Button variant="outline">
             لوحة التحكم
             <ArrowLeftIcon size={15} className="mr-1" />

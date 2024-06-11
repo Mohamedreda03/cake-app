@@ -8,7 +8,7 @@ export default async function Home() {
   return (
     <div className="max-w-screen-xl mx-auto p-7">
       <Hero />
-      <Products products={products} categories={categories} />
+      {/* <Products products={products} categories={categories} /> */}
     </div>
   );
 }

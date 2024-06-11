@@ -37,7 +37,7 @@ const signin = async (data: SignInFormTypes) => {
     const res = await signIn("credentials", {
       email,
       password,
-      redirectTo: "/dashboard",
+      redirectTo: "/dashboard/products",
     });
 
     console.log(res);

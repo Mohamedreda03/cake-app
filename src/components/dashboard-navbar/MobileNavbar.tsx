@@ -30,11 +30,11 @@ interface Menu {
 }
 
 const menu: Menu[] = [
-  {
-    name: "الرأيسية",
-    path: "/dashboard",
-    Icon: Home,
-  },
+  // {
+  //   name: "الرأيسية",
+  //   path: "/dashboard",
+  //   Icon: Home,
+  // },
   {
     name: "المنتجات",
     path: "/dashboard/products",
@@ -71,7 +71,7 @@ export default function MobileNavbar() {
                   <div
                     className={cn(
                       "py-3 px-4 hover:bg-color-3/45 hover:text-color-2 flex gap-3 items-center",
-                      pathname === item.path
+                      pathname.includes(item.path)
                         ? "bg-color-3 text-color-2 hover:bg-color-3 hover:text-color-2"
                         : "text-color-2"
                     )}

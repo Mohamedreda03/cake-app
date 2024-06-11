@@ -1,7 +1,10 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import useCart from "@/store/cartStore";
 import axios from "axios";
+import { ArrowLeft, CheckCircle } from "lucide-react";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect } from "react";
 
@@ -49,9 +52,17 @@ const SuccessPage = () => {
     checkStatus();
   }, [invoiceId]);
   return (
-    <div>
-      <h1>Payment Success</h1>
-      <p>Thank you for your payment</p>
+    <div className="max-w-screen-xl mx-auto p-7 flex items-center justify-center flex-col">
+      <div className="h-[calc(73vh-5px)] flex items-center flex-col">
+        <CheckCircle size={100} className="text-green-500 mt-7" />
+        <h1 className="text-3xl mt-4">تمت عملية الدفع بنجاح</h1>
+        <Link href="/" className="mt-4">
+          <Button variant="outline">
+            <p className="text-blue-500">العودة للرئيسية</p>
+            <ArrowLeft size={15} className="text-blue-500 mr-2" />
+          </Button>
+        </Link>
+      </div>
     </div>
   );
 };

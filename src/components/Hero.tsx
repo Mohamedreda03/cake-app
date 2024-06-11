@@ -1,13 +1,16 @@
+import Image from "next/image";
+
 export default function Hero() {
   return (
-    <div className="flex">
-      <div className="flex-1"></div>
-      <div className="flex-1">
-        <img
-          src="https://images.unsplash.com/photo-1557683316-973673baf926"
-          alt="hero"
-          className="w-full h-[400px] object-cover"
-        />
+    <div className="flex h-[500px] rounded-lg">
+      <div className="flex flex-col justify-center items-center w-full text-white">
+        <h1 className="text-4xl font-bold">Welcome to our store</h1>
+        <p className="mt-4 text-lg">
+          The best place to buy your favorite products
+        </p>
+        <button className="mt-4 bg-white text-black px-4 py-2 rounded-lg">
+          Shop now
+        </button>
       </div>
     </div>
   );

@@ -9,7 +9,7 @@ import {
 import { signOut, useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { Users, Menu, ArrowLeftIcon } from "lucide-react";
+import { Menu, ArrowLeftIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
@@ -25,7 +25,7 @@ const menu: Menu[] = [
     path: "/",
   },
   {
-    name: "المنيو",
+    name: "القائمة",
     path: "/menu",
   },
 ];
@@ -61,7 +61,7 @@ export default function ClientMobileMenu() {
             ))}
             <SheetClose asChild>
               <Link
-                href="/dashboard"
+                href="/dashboard/products"
                 className={cn(session?.user ? "block" : "hidden")}
               >
                 <div

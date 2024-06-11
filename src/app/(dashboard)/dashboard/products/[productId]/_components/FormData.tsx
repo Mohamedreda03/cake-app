@@ -79,10 +79,10 @@ const FormData = ({
           {image && (
             <Image
               src={image}
-              width={200}
-              height={200}
+              width={300}
+              height={300}
               alt="product image"
-              className="rounded-lg"
+              className="rounded-lg h-[300px] w-[300px] object-cover"
             />
           )}
         </div>

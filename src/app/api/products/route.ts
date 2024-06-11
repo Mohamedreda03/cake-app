@@ -49,6 +49,20 @@ export async function POST(req: NextRequest) {
 
   body.price = Number(body.price);
 
+  if (
+    !body.name ||
+    !body.price ||
+    !body.size ||
+    !body.categoryId ||
+    !body.image ||
+    !body.description
+  ) {
+    return NextResponse.json(
+      { error: "all fields are required" },
+      { status: 400 }
+    );
+  }
+
   try {
     const product = await db.product.create({
       data: {
