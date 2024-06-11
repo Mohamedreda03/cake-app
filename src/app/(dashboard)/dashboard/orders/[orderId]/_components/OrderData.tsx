@@ -66,7 +66,7 @@ export function OrderData({ order }: OrderDataProps) {
       <div className="mb-5">
         <div className="flex items-center gap-6">
           <p>تعديل حالت الطلب</p>
-
+          <div></div>
           <select
             className="border rounded-lg"
             value={orderStatus}
