@@ -32,7 +32,7 @@ export function OrderData({ order }: OrderDataProps) {
   const queryClient = useQueryClient();
   const [orderStatus, setOrderStatus] = useState(order?.status);
 
-  console.log("order", order);
+  // console.log("order", order);
 
   // const { data: products } = useQuery({
   //   queryKey: ["order", order.id],
