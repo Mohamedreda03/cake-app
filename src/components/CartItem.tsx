@@ -35,17 +35,17 @@ const CartItem = ({ item }: { item: CartItemType }) => {
             alt="image"
             width={100}
             height={100}
-            className="rounded-md w-[100px] h-[100px] object-cover"
+            className="rounded-md w-[80px] h-[80px] sm:h-[100px] sm:w-[100px] object-cover"
           />
           <div className="flex flex-col gap-1 mr-5">
             <div className="relative w-fit">
-              <div className="z-10 text-2xl mb-2">{item.name}</div>
+              <div className="z-10 text-lg md:text-2xl mb-2">{item.name}</div>
               <div className="absolute bottom-2 w-full h-4 bg-color-4/40 -z-10"></div>
             </div>
-            <div className="flex items-center gap-6 mb-2">
+            <div className="flex flex-col sm:flex-row items-start gap-6 mb-2 text-sm md:text-md">
               <p className=" border-b border-color-1">{item.size} سم</p>
-              <span className="h-5 w-0.5 bg-color-1" />
-              <p className="text-primary text-lg border-b border-color-1">
+              <span className="h-5 w-0.5 bg-color-1 hidden sm:block" />
+              <p className="text-primary border-b border-color-1">
                 {currentPrice} ريال
               </p>
             </div>

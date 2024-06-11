@@ -10,7 +10,7 @@ export default function Navbar() {
           <Image src="/logo.svg" alt="logo" width={150} height={150} />
         </Link>
       </div>
-      <div className="flex items-center gap-4">
+      <div className="md:flex items-center gap-4 hidden">
         <Link
           href="/"
           className="relative before:block before:absolute before:bg-color-1 before:h-[2px] before:w-[0%] before:-left-2 hover:before:w-[100%] before:transition-all before:duration-300 before:ease-in-out before:bottom-0"
