@@ -140,7 +140,7 @@ model SpecialItem {
   id          Int    @id @default(autoincrement())
   description String
   quantity    Int
-  price       Int    @default(0)
-  orderId     String
-  order       Order  @relation(fields: [orderId], references: [id])
+
+  orderId String
+  order   Order  @relation(fields: [orderId], references: [id])
 }

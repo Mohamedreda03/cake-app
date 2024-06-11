@@ -20,7 +20,7 @@ import { useMutation, useQueryClient } from "react-query";
 const inter = Inter({ subsets: ["latin"] });
 
 interface SpecialItem {
-  id: string;
+  id: number;
   quantity: number;
   description: string;
 }
