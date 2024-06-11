@@ -9,8 +9,18 @@ export default function Navbar() {
         <Link href="/">
           <Image src="/logo.svg" alt="logo" width={150} height={150} />
         </Link>
-
-        <Link href="/menu">
+      </div>
+      <div className="flex items-center gap-4">
+        <Link
+          href="/"
+          className="relative before:block before:absolute before:bg-color-1 before:h-[2px] before:w-[0%] before:-left-2 hover:before:w-[100%] before:transition-all before:duration-300 before:ease-in-out before:bottom-0"
+        >
+          <p className="text-lg text-gray-900 mr-4">الرئيسة</p>
+        </Link>
+        <Link
+          href="/menu"
+          className="relative before:block before:absolute before:bg-color-1 before:h-[2px] before:w-[0%] before:-left-2 hover:before:w-[100%] before:transition-all before:duration-300 before:ease-in-out before:bottom-0"
+        >
           <p className="text-lg text-gray-900 mr-4">القائمة</p>
         </Link>
       </div>
