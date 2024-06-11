@@ -1,12 +1,11 @@
 "use client";
 
 import { Category, Product } from "@prisma/client";
-import Loading from "./Loading";
 
-import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Card from "./Card";
 import CategoriesMenu from "./Carousel";
+import { fi } from "date-fns/locale";
 
 export default function Products({
   products,
@@ -34,9 +33,16 @@ export default function Products({
         <CategoriesMenu
           data={categories}
           setCurrentCategory={setCurrentCategory}
+          currentCategory={currentCategory}
         />
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 place-items-center gap-5">
+      {/* place-items-center */}
+      {filterdProducts.length === 0 && (
+        <div className="flex justify-center items-center h-[90vh]">
+          <h1 className="text-4xl">لا يوجد منتجات</h1>
+        </div>
+      )}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-center gap-5">
         {filterdProducts.map((product: Product) => (
           <Card key={product.id} product={product} />
         ))}

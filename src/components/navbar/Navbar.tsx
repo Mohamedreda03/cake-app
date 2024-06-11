@@ -1,7 +1,7 @@
 import Image from "next/image";
 import CartCounter from "../CartCounter";
 import Link from "next/link";
-import { Menu } from "lucide-react";
+
 import ClientMobileMenu from "../ClientMobileMenu";
 
 export default function Navbar() {
@@ -25,6 +25,12 @@ export default function Navbar() {
           className="relative before:block before:absolute before:bg-color-1 before:h-[2px] before:w-[0%] before:-left-2 hover:before:w-[100%] before:transition-all before:duration-300 before:ease-in-out before:bottom-0"
         >
           <p className="text-lg text-gray-900 mr-4">القائمة</p>
+        </Link>
+        <Link
+          href="/about"
+          className="relative before:block before:absolute before:bg-color-1 before:h-[2px] before:w-[0%] before:-left-2 hover:before:w-[100%] before:transition-all before:duration-300 before:ease-in-out before:bottom-0"
+        >
+          <p className="text-lg text-gray-900 mr-4">عنا</p>
         </Link>
       </div>
       <CartCounter />

@@ -1,18 +1,22 @@
 import { db } from "@/lib/db";
 import Card from "@/components/Card";
+import Products from "@/components/Products";
 
 export default async function Menu() {
-  const categories = await db.category.findMany({
-    include: {
-      products: true,
-    },
-  });
+  // const categories = await db.category.findMany({
+  //   include: {
+  //     products: true,
+  //   },
+  // });
+  const categories = await db.category.findMany();
+
+  const products = await db.product.findMany();
   return (
     <div className="max-w-screen-xl mx-auto p-7">
       <div className="flex items-center justify-center">
         <h1 className="text-5xl border-b-2 border-color-1">الفئات</h1>
       </div>
-      <div className="">
+      {/* <div className="">
         {categories.map((category) => (
           <div key={category.id} className="mt-10">
             <h2 className="text-5xl border-b-2 border-color-3 text-center">
@@ -30,7 +34,8 @@ export default async function Menu() {
             </div>
           </div>
         ))}
-      </div>
+      </div> */}
+      <Products categories={categories} products={products} />
     </div>
   );
 }

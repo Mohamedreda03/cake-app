@@ -57,3 +57,12 @@
     @apply bg-background text-foreground;
   }
 }
+
+.scroll_div {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scroll_div::-webkit-scrollbar {
+  display: none;
+}
