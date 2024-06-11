@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/table";
 
 import { cn } from "@/lib/utils";
-import { Order, ProductOrder } from "@prisma/client";
+import { Order, ProductOrder, SpecialOrder } from "@prisma/client";
 import axios from "axios";
 import { format } from "date-fns";
 import { ar } from "date-fns/locale";
@@ -19,15 +19,15 @@ import { useMutation, useQueryClient } from "react-query";
 
 const inter = Inter({ subsets: ["latin"] });
 
-interface SpecialItem {
-  id: number;
-  quantity: number;
-  description: string;
-}
+// interface SpecialItem {
+//   id: number;
+//   quantity: number;
+//   description: string;
+// }
 
 interface OrderType extends Order {
   products: ProductOrder[];
-  special_items: SpecialItem[];
+  special_items: SpecialOrder[];
 }
 
 interface OrderDataProps {
@@ -210,7 +210,7 @@ export function OrderData({ order }: OrderDataProps) {
               <TableCell className="font-medium text-center">الكمية</TableCell>
               <TableCell className="font-medium text-center">الوصف</TableCell>
             </TableRow>
-            {order.special_items.map((product: SpecialItem) => (
+            {order.special_items.map((product: SpecialOrder) => (
               <TableRow key={product.id}>
                 <TableCell className="text-center">
                   {product.quantity}

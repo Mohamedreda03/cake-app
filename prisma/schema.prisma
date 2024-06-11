@@ -101,7 +101,7 @@ model Order {
   address          String
   phone            String
   products         ProductOrder[]
-  special_items    SpecialItem[]
+  special_items    SpecialOrder[]
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @updatedAt
 }
@@ -136,7 +136,7 @@ enum OrderStatus {
   CANCELLED
 }
 
-model SpecialItem {
+model SpecialOrder {
   id          Int    @id @default(autoincrement())
   description String
   quantity    Int
