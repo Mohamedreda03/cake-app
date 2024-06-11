@@ -23,7 +23,7 @@ export default function Hero() {
             height={200}
             quality={100}
           />
-          <div className="absolute bottom-[35%] w-full h-10 bg-color-2 -z-10"></div>
+          <div className="absolute bottom-[35%] w-full h-16 bg-color-2 -z-10"></div>
         </div>
         <h1 className="text-5xl text-center">مرحبا بكم في بيلا</h1>
       </div>
