@@ -19,13 +19,15 @@ import { useMutation, useQueryClient } from "react-query";
 
 const inter = Inter({ subsets: ["latin"] });
 
+interface SpecialItem {
+  id: string;
+  quantity: number;
+  description: string;
+}
+
 interface OrderType extends Order {
   products: ProductOrder[];
-  special_items: {
-    id: string;
-    quantity: number;
-    description: string;
-  }[];
+  special_items: SpecialItem[];
 }
 
 interface OrderDataProps {
