@@ -24,7 +24,7 @@ import signin from "@/actions/signin";
 
 export default function Login() {
   const [isPanding, startTransition] = useTransition();
-  // const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   // const [successMessage, setSuccessMessage] = useState("");
 
   const form = useForm<SignInFormTypes>({
@@ -37,30 +37,28 @@ export default function Login() {
 
   const onSubmit = (data: SignInFormTypes) => {
     startTransition(() => {
-      signin(data);
-      // .then((data: any) => {
-      //   setErrorMessage(data?.error);
-      //   setSuccessMessage(data?.success);
-      //   console.log(data);
-      // });
+      signin(data).then((data: any) => {
+        setErrorMessage(data?.error);
+        console.log(data);
+      });
     });
   };
 
   return (
     <>
       <div
-        dir="ltr"
-        className="w-[500px] border border-gray-100 rounded-md shadow shadow-gray-200 p-11"
+        dir="rtl"
+        className="w-[500px] border border-gray-100 rounded-md shadow shadow-gray-200 p-11 bg-white"
       >
         <Header
-          title="Sign In"
-          desc="login to your account."
+          title="تسجيل الدخول"
+          desc="سجل الدخول للوصول إلى لوحة التحكم الخاصة بك."
           className="text-center"
         />
         <div className="py-6">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-3" dir="ltr">
                 <FormField
                   control={form.control}
                   name="email"
@@ -97,11 +95,20 @@ export default function Login() {
                   )}
                 />
                 {/* Error and Success message */}
-                {/* {errorMessage && <FormError message={errorMessage} />}
-                {successMessage && <FormSuccess message={successMessage} />} */}
+                {errorMessage && (
+                  <div className="flex items-center justify-center bg-red-50 border border-red-200 py-2 rounded-md">
+                    <p className="text-red-500">{errorMessage}</p>
+                  </div>
+                )}
+                {/* {successMessage && <FormSuccess message={successMessage} />} */}
               </div>
-              <Button disabled={isPanding} type="submit" className="w-full">
-                Sign In
+              <Button
+                variant="main"
+                disabled={isPanding}
+                type="submit"
+                className="w-full"
+              >
+                تسجيل الدخول
               </Button>
             </form>
           </Form>
@@ -117,7 +124,7 @@ export default function Login() {
             href="/sign-up"
             className="text-muted-foreground text-sm underline text-center block w-full mt-5"
           >
-            I don&apos;t have an account.
+            ليس لديك حساب؟ سجل الآن
           </Link>
         </div>
       </div>

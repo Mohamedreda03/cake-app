@@ -50,18 +50,14 @@ export default function Login() {
   return (
     <>
       <div
-        dir="ltr"
-        className="w-[500px] border border-gray-100 rounded-md shadow shadow-gray-200 p-11"
+        dir="rtl"
+        className="w-[500px] border border-gray-100 rounded-md shadow shadow-gray-200 p-11 bg-white"
       >
-        <Header
-          title="Sign Up"
-          desc="create a new account."
-          className="text-center"
-        />
+        <Header title="انشاء حساب جديد" desc="" className="text-center" />
         <div className="py-6">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-3" dir="ltr">
                 <FormField
                   control={form.control}
                   name="name"
@@ -136,8 +132,13 @@ export default function Login() {
                 {/* {errorMessage && <FormError message={errorMessage} />}
                 {successMessage && <FormSuccess message={successMessage} />} */}
               </div>
-              <Button disabled={isPanding} type="submit" className="w-full">
-                Sign Up
+              <Button
+                variant="main"
+                disabled={isPanding}
+                type="submit"
+                className="w-full"
+              >
+                انشاء حساب
               </Button>
             </form>
           </Form>
@@ -154,7 +155,7 @@ export default function Login() {
             href="/sign-in"
             className="text-muted-foreground text-sm underline text-center block w-full mt-5"
           >
-            I already have an account.
+            لديك حساب؟ سجل الدخول
           </Link>
         </div>
       </div>

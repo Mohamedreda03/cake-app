@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 import { SignUpFormTypes, SignUpSchema } from "@/types/schema";
 import { db } from "@/lib/db";
 import { signIn } from "@/auth";
+import { redirect } from "next/navigation";
 
 const signup = async (data: SignUpFormTypes) => {
   const validatedFields = SignUpSchema.safeParse(data);
@@ -33,11 +34,7 @@ const signup = async (data: SignUpFormTypes) => {
     },
   });
 
-  await signIn("credentials", {
-    email,
-    password,
-    redirectTo: "/",
-  });
+  redirect("/sign-in");
 
   return { success: "register successfully." };
 };

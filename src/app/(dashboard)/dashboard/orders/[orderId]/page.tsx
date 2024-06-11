@@ -23,7 +23,7 @@ export default async function UserDetails({
   return (
     <div>
       <Link
-        href="/dashboard/users"
+        href="/dashboard/orders"
         className="px-5 md:px-20 py-5 flex items-center gap-3"
       >
         <Button

@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button";
 import React, { useState } from "react";
 
-import { Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
 import axios from "axios";
 import localFont from "next/font/local";
@@ -17,6 +16,7 @@ const gess = localFont({
   style: "normal",
 });
 
+import { Inter } from "next/font/google";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function CheckOut() {

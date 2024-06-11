@@ -60,6 +60,7 @@ export default function DataTable({ orders }: { orders: Order[] }) {
               <TableHead className="text-center text-lg">اسم المقهى</TableHead>
               <TableHead className="text-center text-lg">رقم الجوال</TableHead>
               <TableHead className="text-center text-lg">حلات الدفع</TableHead>
+              <TableHead className="text-center text-lg">حلات الطلب</TableHead>
               <TableHead className="text-center text-lg">
                 المبلغ الكلي
               </TableHead>
@@ -87,6 +88,12 @@ export default function DataTable({ orders }: { orders: Order[] }) {
                       ? "تم الدفع"
                       : "الدفع عند الاستلام"}
                   </div>
+                </TableCell>
+                <TableCell className="text-center">
+                  {order.status === "PENDING" && "قيد الانتظار"}
+                  {order.status === "PROCESSING" && "قيد التحضير"}
+                  {order.status === "SHIPPED" && "جاري التوصيل"}
+                  {order.status === "DELIVERED" && "تم التوصيل"}
                 </TableCell>
                 <TableCell className="text-center">
                   {order.total} <span className="mr-1">ريال</span>

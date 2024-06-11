@@ -11,7 +11,7 @@ export default function CartCounter() {
   const session = useSession();
   return (
     <div className="flex items-center gap-3">
-      {session.data?.user.role !== "USER" && (
+      {session?.data?.user && session.data?.user.role !== "USER" && (
         <Link href="/dashboard">
           <Button variant="outline">
             لوحة التحكم
@@ -19,6 +19,7 @@ export default function CartCounter() {
           </Button>
         </Link>
       )}
+
       {session.data?.user.role === "USER" && (
         <Button onClick={() => signOut()} variant="outline">
           تسجيل الخروج
