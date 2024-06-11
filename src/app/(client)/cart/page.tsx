@@ -86,7 +86,7 @@ export default function Cart() {
   };
 
   return (
-    <div className="py-8 px-7 max-w-screen-xl mx-auto flex flex-col gap-6 min-h-[600px]">
+    <div className="py-8 px-5 md:px-7 max-w-screen-xl mx-auto flex flex-col gap-6 min-h-[600px]">
       <h1 className="text-center text-5xl font-medium text-primary border-b-2 border-color-1 w-fit">
         السلة
       </h1>

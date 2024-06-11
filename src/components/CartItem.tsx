@@ -42,7 +42,7 @@ const CartItem = ({ item }: { item: CartItemType }) => {
               <div className="z-10 text-lg md:text-2xl mb-2">{item.name}</div>
               <div className="absolute bottom-2 w-full h-4 bg-color-4/40 -z-10"></div>
             </div>
-            <div className="flex flex-col sm:flex-row items-start gap-6 mb-2 text-sm md:text-md">
+            <div className="flex flex-row items-start gap-6 mb-2 text-sm md:text-md">
               <p className=" border-b border-color-1">{item.size} سم</p>
               <span className="h-5 w-0.5 bg-color-1 hidden sm:block" />
               <p className="text-primary border-b border-color-1">
@@ -50,7 +50,7 @@ const CartItem = ({ item }: { item: CartItemType }) => {
               </p>
             </div>
             {/* ////////////// */}
-            <div className="flex justify-between items-center w-40">
+            <div className="flex justify-between items-center w-32 md:w-36">
               <Button onClick={handleDecrement} variant="outline">
                 -
               </Button>
