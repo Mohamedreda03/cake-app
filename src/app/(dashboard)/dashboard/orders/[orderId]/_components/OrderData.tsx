@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 import { Order, ProductOrder } from "@prisma/client";
 import axios from "axios";
 import { format } from "date-fns";
-import ar from "date-fns/locale/ar-SA";
+import { ar } from "date-fns/locale";
 import { Inter } from "next/font/google";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
