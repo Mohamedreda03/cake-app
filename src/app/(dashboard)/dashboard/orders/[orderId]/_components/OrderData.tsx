@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/table";
 
 import { cn } from "@/lib/utils";
-import { Order, ProductOrder, SpecialItem } from "@prisma/client";
+import { Order, ProductOrder } from "@prisma/client";
 import axios from "axios";
 import { format } from "date-fns";
 import { ar } from "date-fns/locale";
@@ -21,7 +21,11 @@ const inter = Inter({ subsets: ["latin"] });
 
 interface OrderType extends Order {
   products: ProductOrder[];
-  special_items: SpecialItem[];
+  special_items: {
+    id: string;
+    quantity: number;
+    description: string;
+  }[];
 }
 
 interface OrderDataProps {
