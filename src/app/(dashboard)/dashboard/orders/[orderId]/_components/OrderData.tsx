@@ -196,30 +196,37 @@ export function OrderData({ order }: { order: OrderType }) {
           </TableBody>
         </Table>
       </div>
-      <div className="mt-10 max-w-screen-md">
-        <h3 className="text-2xl mx-auto w-fit border-b-2 border-color-1 mb-3">
-          طلب الخاص
-        </h3>
-        <Table className="max-w-screen-md border">
-          <TableBody>
-            <TableRow>
-              <TableCell className="font-medium text-center">الكمية</TableCell>
-              <TableCell className="font-medium text-center">الوصف</TableCell>
-            </TableRow>
-            {order.special_items &&
-              order.special_items.map((product: any) => (
-                <TableRow key={product.id}>
-                  <TableCell className="text-center">
-                    {product.quantity}
+      {order.special_items.length > 0 && (
+        <div>
+          <div className="mt-10 max-w-screen-md">
+            <h3 className="text-2xl mx-auto w-fit border-b-2 border-color-1 mb-3">
+              طلب الخاص
+            </h3>
+            <Table className="max-w-screen-md border">
+              <TableBody>
+                <TableRow>
+                  <TableCell className="font-medium text-center">
+                    الكمية
                   </TableCell>
-                  <TableCell className="text-center">
-                    {product.description}
+                  <TableCell className="font-medium text-center">
+                    الوصف
                   </TableCell>
                 </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </div>
+                {order.special_items.map((product: any) => (
+                  <TableRow key={product.id}>
+                    <TableCell className="text-center">
+                      {product.quantity}
+                    </TableCell>
+                    <TableCell className="text-center">
+                      {product.description}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
