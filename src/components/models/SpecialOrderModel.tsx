@@ -19,6 +19,7 @@ import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import axios from "axios";
 import toast from "react-hot-toast";
+import useSpecialProduct from "@/store/specialProduct";
 
 interface SpecialOrderModelProps {
   isOpen: boolean;
@@ -28,10 +29,6 @@ interface SpecialOrderModelProps {
 const SpecialOrderForm = z.object({
   quantity: z.coerce.number().positive().int().min(1),
   description: z.string().min(2),
-  cafe_name: z.string().min(2),
-  order_maker_name: z.string().min(2),
-  phone: z.string().min(7),
-  address: z.string().min(2),
 });
 
 type SpecialOrderType = z.infer<typeof SpecialOrderForm>;
@@ -46,20 +43,20 @@ export default function SpecialOrderModel({
     defaultValues: {
       quantity: 1,
       description: "",
-      cafe_name: "",
-      order_maker_name: "",
-      phone: "",
-      address: "",
     },
   });
 
-  const onSubmit = (data: SpecialOrderType) => {
-    startLoading(async () => {
-      await axios.post("/api/special-orders", data);
+  const specialCart = useSpecialProduct();
 
-      toast.success("تم ارسال الطلب بنجاح");
-      onClose();
-    });
+  const onSubmit = (data: SpecialOrderType) => {
+    // startLoading(async () => {
+    //   await axios.post("/api/special-orders", data);
+    //   toast.success("تم ارسال الطلب بنجاح");
+    //   onClose();
+    // });
+    specialCart.addItem(data);
+    form.reset();
+    onClose();
   };
 
   return (
@@ -75,74 +72,6 @@ export default function SpecialOrderModel({
           >
             <div>
               <div className="flex flex-col gap-3 w-full">
-                <FormField
-                  control={form.control}
-                  name="order_maker_name"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>أسم صاحب الطلب</FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={isLoading}
-                          placeholder="أسم صاحب الطلب"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="cafe_name"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>أسم المقهى</FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={isLoading}
-                          placeholder="أسم المقهى"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="phone"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>رقم الهاتف</FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={isLoading}
-                          placeholder="رقم الهاتف"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="address"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>العنوان</FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={isLoading}
-                          placeholder="العنوان"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
                 <FormField
                   control={form.control}
                   name="quantity"
@@ -180,7 +109,7 @@ export default function SpecialOrderModel({
                 />
 
                 <Button variant="main" type="submit" disabled={isLoading}>
-                  أرسال الطلب
+                  اضف الى السلة
                 </Button>
               </div>
             </div>

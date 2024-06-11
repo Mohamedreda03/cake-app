@@ -7,32 +7,41 @@ import {
   TableFooter,
   TableRow,
 } from "@/components/ui/table";
-import { db } from "@/lib/db";
+
 import { cn } from "@/lib/utils";
-import { Order, ProductOrder } from "@prisma/client";
+import { Order, ProductOrder, SpecialItem } from "@prisma/client";
 import axios from "axios";
 import { format } from "date-fns";
 import { ar } from "date-fns/locale";
 import { Inter } from "next/font/google";
 import { useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export function OrderData({ order }: { order: Order }) {
+interface OrderType extends Order {
+  products: ProductOrder[];
+  special_items: SpecialItem[];
+}
+
+interface OrderDataProps {
+  order: OrderType;
+}
+
+export function OrderData({ order }: OrderDataProps) {
   const queryClient = useQueryClient();
-  const [orderStatus, setOrderStatus] = useState(order.status);
+  const [orderStatus, setOrderStatus] = useState(order?.status);
 
   console.log("order", order);
 
-  const { data: products } = useQuery({
-    queryKey: ["order", order.id],
-    queryFn: async () => {
-      return axios.get(`/api/orders/${order.id}/products`);
-    },
-  });
+  // const { data: products } = useQuery({
+  //   queryKey: ["order", order.id],
+  //   queryFn: async () => {
+  //     return axios.get(`/api/orders/${order.id}/products`);
+  //   },
+  // });
 
-  const { mutate, isLoading } = useMutation({
+  const { mutate } = useMutation({
     mutationFn: async (
       status: "PENDING" | "PROCESSING" | "SHIPPED" | "DELIVERED"
     ) => {
@@ -53,7 +62,7 @@ export function OrderData({ order }: { order: Order }) {
   };
 
   return (
-    <div>
+    <div className="pb-16">
       <div className="mb-5">
         <div className="flex items-center gap-6">
           <p>تعديل حالت الطلب</p>
@@ -166,7 +175,7 @@ export function OrderData({ order }: { order: Order }) {
               <TableCell className="font-medium text-center">الكمية</TableCell>
               <TableCell className="font-medium text-center">السعر</TableCell>
             </TableRow>
-            {products?.data?.data?.map((product: ProductOrder) => (
+            {order.products?.map((product: ProductOrder) => (
               <TableRow key={product.id}>
                 <TableCell className="text-center">
                   <img
@@ -180,6 +189,29 @@ export function OrderData({ order }: { order: Order }) {
                   {product.quantity}
                 </TableCell>
                 <TableCell className="text-center">{product.total}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+      <div className="mt-10 max-w-screen-md">
+        <h3 className="text-2xl mx-auto w-fit border-b-2 border-color-1 mb-3">
+          طلب الخاص
+        </h3>
+        <Table className="max-w-screen-md border">
+          <TableBody>
+            <TableRow>
+              <TableCell className="font-medium text-center">الكمية</TableCell>
+              <TableCell className="font-medium text-center">الوصف</TableCell>
+            </TableRow>
+            {order.special_items.map((product: SpecialItem) => (
+              <TableRow key={product.id}>
+                <TableCell className="text-center">
+                  {product.quantity}
+                </TableCell>
+                <TableCell className="text-center">
+                  {product.description}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

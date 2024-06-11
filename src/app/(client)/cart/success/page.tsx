@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import useCart from "@/store/cartStore";
+import useSpecialProduct from "@/store/specialProduct";
 import axios from "axios";
 import { ArrowLeft, CheckCircle } from "lucide-react";
 import Link from "next/link";
@@ -18,6 +19,7 @@ export default function Success() {
 
 const SuccessPage = () => {
   const cart = useCart();
+  const specialCart = useSpecialProduct();
   const invoiceId = useSearchParams().get("invoice_id");
   useEffect(() => {
     const checkStatus = async () => {
@@ -38,6 +40,7 @@ const SuccessPage = () => {
             if (res.data.status === "paid") {
               window.localStorage.removeItem("payment");
               cart.clearCart();
+              specialCart.clearCart();
               await axios
                 .patch(`/api/orders/${res.data.metadata.order_id}`, {
                   payment_status: "PAID",

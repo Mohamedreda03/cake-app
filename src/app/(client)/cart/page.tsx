@@ -1,10 +1,12 @@
 "use client";
 
 import CartItem from "@/components/CartItem";
+import SpecialCartItem from "@/components/SpecialCartItem";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import useCart, { CartItemType } from "@/store/cartStore";
+import useSpecialProduct, { SpecialProductType } from "@/store/specialProduct";
 import axios from "axios";
 import { LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -18,6 +20,7 @@ export default function Cart() {
   const [orderMakerName, setOrderMakerName] = useState<string>("");
   const router = useRouter();
   const cart = useCart();
+  const specialCart = useSpecialProduct();
   const [paymentOption, setPaymentOption] = useState<boolean>(true);
 
   const total = cart.items.reduce((acc, item) => acc + item.total, 0);
@@ -40,6 +43,7 @@ export default function Cart() {
         phone: phone,
         total: total,
         items: cart.items,
+        special_items: specialCart.items,
       });
 
       await axios
@@ -54,7 +58,7 @@ export default function Cart() {
             "Content-Type": "application/json",
           },
           data: {
-            amount: 10 * 100,
+            amount: total * 100,
             currency: "SAR",
             description: `Payment for order ${orderRes.data.data.id}`,
             success_url: `${process.env.NEXT_PUBLIC_URL!}/cart/success`,
@@ -79,8 +83,10 @@ export default function Cart() {
         phone: phone,
         total: total,
         items: cart.items,
+        special_items: specialCart.items,
       });
       cart.clearCart();
+      specialCart.clearCart();
       router.push("/cart/success");
     }
   };
@@ -96,10 +102,20 @@ export default function Cart() {
         </div>
       ) : (
         <div className="flex flex-col lg:flex-row gap-6">
-          <div className="flex flex-col gap-3 w-full flex-[1.2]">
-            {cart.items.map((data: CartItemType) => (
-              <CartItem key={data.id} item={data} />
-            ))}
+          <div className="flex-[1.2]">
+            <div className="flex flex-col gap-3 w-full">
+              {cart.items.map((data: CartItemType) => (
+                <CartItem key={data.id} item={data} />
+              ))}
+            </div>
+            {specialCart.items.length > 0 && (
+              <div className="flex flex-col gap-3 w-full">
+                <h3 className="text-2xl mt-10">الطلبات الخاصة</h3>
+                {specialCart.items.map((data: SpecialProductType) => {
+                  return <SpecialCartItem key={data.id} item={data} />;
+                })}
+              </div>
+            )}
           </div>
           <div className="w-full flex-[0.8]">
             <Card className="flex flex-col gap-4 p-6">

@@ -5,6 +5,7 @@ import { MoveRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { OrderData } from "./_components/OrderData";
 
+export const dynamic = "force-dynamic";
 export default async function UserDetails({
   params,
 }: {
@@ -13,6 +14,11 @@ export default async function UserDetails({
   const order = await db.order.findFirst({
     where: {
       id: params.orderId,
+    },
+
+    include: {
+      products: true,
+      special_items: true,
     },
   });
 

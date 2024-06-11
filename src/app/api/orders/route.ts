@@ -48,6 +48,14 @@ export async function POST(req: NextRequest) {
         total: body.total,
         status: "PENDING",
         payment_id: body.payment_id || "",
+        special_items: body.special_items && {
+          createMany: {
+            data: body.special_items.map((item: ProductOrder) => ({
+              ...item,
+              id: undefined,
+            })),
+          },
+        },
         products: {
           createMany: {
             data: body.items.map((item: ProductOrder) => ({
