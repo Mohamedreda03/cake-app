@@ -8,7 +8,6 @@ import "react-multi-carousel/lib/styles.css";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Category } from "@prisma/client";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction } from "react";
 
 const CategoriesMenu = ({
@@ -19,15 +18,6 @@ const CategoriesMenu = ({
   setCurrentCategory: Dispatch<SetStateAction<string | null>>;
 }) => {
   const responsive = {
-    superLargeDesktop: {
-      // the naming can be any, depends on you.
-      breakpoint: { max: 4000, min: 3000 },
-      items: 5,
-    },
-    desktop: {
-      breakpoint: { max: 3000, min: 1040 },
-      items: 5,
-    },
     tablet: {
       breakpoint: { max: 1024, min: 900 },
       items: 4,
@@ -37,11 +27,11 @@ const CategoriesMenu = ({
       items: 3,
     },
     mobile: {
-      breakpoint: { max: 630, min: 4000 },
+      breakpoint: { max: 630, min: 500 },
       items: 2,
     },
     mobile1: {
-      breakpoint: { max: 400, min: 0 },
+      breakpoint: { max: 500, min: 0 },
       items: 1,
     },
   };
