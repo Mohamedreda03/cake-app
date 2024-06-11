@@ -3,6 +3,7 @@ import Products from "@/components/Products";
 import Services from "@/components/Services";
 import { db } from "@/lib/db";
 
+export const dynamic = "force-dynamic";
 export default async function Home() {
   const categories = await db.category.findMany();
   const products = await db.product.findMany();

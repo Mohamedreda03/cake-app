@@ -1,13 +1,8 @@
 import { db } from "@/lib/db";
-import Card from "@/components/Card";
 import Products from "@/components/Products";
 
+export const dynamic = "force-dynamic";
 export default async function Menu() {
-  // const categories = await db.category.findMany({
-  //   include: {
-  //     products: true,
-  //   },
-  // });
   const categories = await db.category.findMany();
 
   const products = await db.product.findMany();
