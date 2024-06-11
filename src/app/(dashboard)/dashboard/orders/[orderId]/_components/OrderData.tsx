@@ -14,7 +14,7 @@ import axios from "axios";
 import { format } from "date-fns";
 import { ar } from "date-fns/locale";
 import { Inter } from "next/font/google";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -33,7 +33,6 @@ interface OrderType extends Order {
 export function OrderData({ order }: { order: OrderType }) {
   const queryClient = useQueryClient();
   const [orderStatus, setOrderStatus] = useState(order.status);
-  const [isMounted, setIsMounted] = useState(false);
 
   // console.log("order", order);
 
@@ -63,14 +62,6 @@ export function OrderData({ order }: { order: OrderType }) {
     mutate(status);
     setOrderStatus(status);
   };
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) {
-    return null;
-  }
 
   return (
     <div className="pb-16">
@@ -215,20 +206,17 @@ export function OrderData({ order }: { order: OrderType }) {
               <TableCell className="font-medium text-center">الكمية</TableCell>
               <TableCell className="font-medium text-center">الوصف</TableCell>
             </TableRow>
-            {order.special_items.length === 0 && (
-              <div>
-                {order.special_items.map((product: any) => (
-                  <TableRow key={product.id}>
-                    <TableCell className="text-center">
-                      {product.quantity}
-                    </TableCell>
-                    <TableCell className="text-center">
-                      {product.description}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </div>
-            )}
+            {order.special_items &&
+              order.special_items.map((product: any) => (
+                <TableRow key={product.id}>
+                  <TableCell className="text-center">
+                    {product.quantity}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {product.description}
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </div>
