@@ -133,3 +133,18 @@ enum OrderStatus {
   DELIVERED
   CANCELLED
 }
+
+model SpecialOrder {
+  id               String        @id @default(cuid())
+  cafe_name        String
+  order_maker_name String
+  status           OrderStatus
+  payment_status   PaymentStatus
+  payment_id       String?
+  address          String
+  phone            String
+  description      String
+  quantity         Int
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+}
