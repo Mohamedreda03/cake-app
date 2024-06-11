@@ -1,19 +1,21 @@
-import { db } from "@/lib/db";
+"use client";
+
 import FormData from "./_components/FormData";
 import Loading from "@/components/Loading";
 import Link from "next/link";
 import { MoveRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useParams } from "next/navigation";
+import { useQuery } from "react-query";
+import axios from "axios";
 
-export default async function CategoryDetails({
-  params,
-}: {
-  params: { categoryId: string };
-}) {
-  const category = await db.category.findFirst({
-    where: {
-      id: params.categoryId,
-    },
+export default function CategoryDetails() {
+  const params = useParams();
+
+  const { data: category } = useQuery({
+    queryKey: ["categories", params.categoryId],
+    queryFn: async () =>
+      await axios.get(`/api/categories/${params.categoryId}`),
   });
 
   if (!category) {
@@ -35,7 +37,7 @@ export default async function CategoryDetails({
           الرجوع للخلف
         </Button>
       </Link>
-      <FormData data={category} />
+      <FormData data={category.data.data} />
     </div>
   );
 }

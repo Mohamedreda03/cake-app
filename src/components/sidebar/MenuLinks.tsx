@@ -20,11 +20,6 @@ interface Menu {
 }
 
 const menu: Menu[] = [
-  // {
-  //   name: "الرأيسية",
-  //   path: "/dashboard",
-  //   Icon: Home,
-  // },
   {
     name: "المنتجات",
     path: "/dashboard/products",
@@ -38,6 +33,11 @@ const menu: Menu[] = [
   {
     name: "الطلبات",
     path: "/dashboard/orders",
+    Icon: PackageOpen,
+  },
+  {
+    name: "الطلبات الخاصة",
+    path: "/dashboard/special-orders",
     Icon: PackageOpen,
   },
 ];

@@ -10,7 +10,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { CategoryFormTypes, UserForm } from "@/types/schema";
+import { CategoryFormTypes, CategorySchema, UserForm } from "@/types/schema";
 import { useEffect, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -21,6 +21,7 @@ import uploadImage from "@/actions/upload-image";
 import UploadWidget from "@/components/Cloudinary";
 import Image from "next/image";
 import { set } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const FormData = () => {
   const [image, setImage] = useState<string | null>("");
@@ -29,9 +30,9 @@ const FormData = () => {
   const queryClient = useQueryClient();
 
   const form = useForm<CategoryFormTypes>({
+    resolver: zodResolver(CategorySchema),
     defaultValues: {
       name: "",
-      image: "",
     },
   });
 
@@ -53,37 +54,15 @@ const FormData = () => {
     mutate(formData);
   };
 
-  const handleUploadSuccess = (imageUrl: any) => {
-    form.setValue("image", imageUrl?.info?.secure_url);
-    setImage(imageUrl?.info?.secure_url);
-  };
-
   return (
     <div className="flex gap-6 flex-col md:flex-row">
       <div className="max-w-[900px] w-full px-5 py-10 md:px-20">
-        {image && (
-          <div className="w-full h-[300px] relative">
-            <Image
-              src={form.getValues("image")}
-              height={300}
-              width={300}
-              objectFit="cover"
-              className="rounded-lg"
-              alt="category image"
-            />
-          </div>
-        )}
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-8 w-full"
           >
             <div className="flex flex-col gap-3 w-full">
-              <UploadWidget
-                title="رفع صورة"
-                handleUploadSuccess={handleUploadSuccess}
-              />
-
               <FormField
                 control={form.control}
                 name="name"

@@ -37,7 +37,7 @@ export async function DELETE(
   if (!sesstion) {
     NextResponse.redirect(new URL("/login", req.nextUrl).toString());
   }
-  if (sesstion?.user.role !== "ADMIN") {
+  if (sesstion?.user.role === "USER") {
     return NextResponse.redirect(new URL("/", req.nextUrl).toString());
   }
 
@@ -66,4 +66,25 @@ export async function DELETE(
     { message: "User deleted successfully" },
     { status: 200 }
   );
+}
+
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { categoryId: string } }
+) {
+  const sesstion = await auth();
+  if (!sesstion) {
+    NextResponse.redirect(new URL("/login", req.nextUrl).toString());
+  }
+  if (sesstion?.user.role === "USER") {
+    return NextResponse.redirect(new URL("/", req.nextUrl).toString());
+  }
+
+  const category = await db.category.findFirst({
+    where: {
+      id: params.categoryId,
+    },
+  });
+
+  return NextResponse.json({ data: category }, { status: 200 });
 }

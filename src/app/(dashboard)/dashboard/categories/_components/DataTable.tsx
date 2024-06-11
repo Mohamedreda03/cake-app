@@ -10,9 +10,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Category, User } from "@prisma/client";
+import { Category } from "@prisma/client";
 import axios from "axios";
-import Image from "next/image";
+
 import Link from "next/link";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -20,7 +20,7 @@ import { useMutation, useQueryClient } from "react-query";
 
 interface TableProps extends Category {
   _count: {
-    product: number;
+    products: number;
   };
 }
 
@@ -63,7 +63,6 @@ export default function DataTable({ data }: { data: TableProps[] }) {
         <Table dir="rtl" className="border">
           <TableHeader>
             <TableRow>
-              <TableHead className="text-center text-lg">صورة الفئة</TableHead>
               <TableHead className="text-center text-lg">اسم الفئه</TableHead>
               <TableHead className="text-center text-lg">
                 عدد المنتجات في الفئه
@@ -74,20 +73,11 @@ export default function DataTable({ data }: { data: TableProps[] }) {
           <TableBody>
             {data.map((item) => (
               <TableRow key={item.id}>
-                <TableCell>
-                  <Image
-                    src={item.image}
-                    width={50}
-                    height={50}
-                    alt="product image"
-                    className="mx-auto w-[60px] h-[40px] object-cover"
-                  />
-                </TableCell>
                 <TableCell className="font-medium text-center">
                   {item.name}
                 </TableCell>
                 <TableCell className="font-medium text-center">
-                  {item?._count?.product}
+                  {item?._count?.products}
                 </TableCell>
 
                 <TableCell className="text-center flex gap-3 items-center justify-center">

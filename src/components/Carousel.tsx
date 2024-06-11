@@ -7,9 +7,10 @@ import "react-multi-carousel/lib/styles.css";
 
 import { ChevronLeft, ChevronRight, PlusCircle } from "lucide-react";
 import { Category } from "@prisma/client";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
+import SpecialOrderModel from "./models/SpecialOrderModel";
 
 const CategoriesMenu = ({
   data,
@@ -20,31 +21,14 @@ const CategoriesMenu = ({
   setCurrentCategory: Dispatch<SetStateAction<string | null>>;
   currentCategory: string | null;
 }) => {
-  const responsive = {
-    tablet: {
-      breakpoint: { max: 4000, min: 900 },
-      items: 4,
-    },
-    tablet1: {
-      breakpoint: { max: 900, min: 630 },
-      items: 3,
-    },
-    mobile: {
-      breakpoint: { max: 630, min: 500 },
-      items: 3,
-    },
-    mobile1: {
-      breakpoint: { max: 500, min: 0 },
-      items: 2,
-    },
-  };
-
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <>
+      <SpecialOrderModel isOpen={isOpen} onClose={() => setIsOpen(false)} />
       <div dir="rtl" className="mt-[50px] md:mt-[80px] mb-[70px]">
         <div className="flex gap-2 overflow-x-scroll scroll_div relative">
           <div>
-            <Button variant="secondary">
+            <Button onClick={() => setIsOpen(true)} variant="secondary">
               اضافت طلب خاص
               <PlusCircle size={18} className="mr-1" />
             </Button>

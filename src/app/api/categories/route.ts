@@ -25,9 +25,7 @@ export async function GET(req: NextRequest) {
     },
     include: {
       _count: {
-        select: {
-          products: true,
-        },
+        select: { products: true },
       },
     },
   });
@@ -59,7 +57,6 @@ export async function POST(req: NextRequest) {
   const category = await db.category.create({
     data: {
       name: name,
-      image: image,
     },
   });
 

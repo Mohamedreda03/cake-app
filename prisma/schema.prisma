@@ -70,7 +70,6 @@ enum Role {
 model Category {
   id        String    @id @default(cuid())
   name      String
-  image     String
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   products  Product[]
@@ -83,6 +82,7 @@ model Product {
   size        String
   price       Float
   image       String
+  best_seller Boolean
   categoryId  String
   category    Category @relation(fields: [categoryId], references: [id])
 
@@ -139,8 +139,7 @@ model SpecialOrder {
   cafe_name        String
   order_maker_name String
   status           OrderStatus
-  payment_status   PaymentStatus
-  payment_id       String?
+  payment_status   PaymentStatus @default(PENDING)
   address          String
   phone            String
   description      String
