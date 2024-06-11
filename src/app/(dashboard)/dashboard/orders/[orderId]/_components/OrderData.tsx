@@ -30,13 +30,9 @@ interface OrderType extends Order {
   special_items: SpecialOrder[];
 }
 
-interface OrderDataProps {
-  order: OrderType;
-}
-
-export function OrderData({ order }: OrderDataProps) {
+export function OrderData({ order }: { order: OrderType }) {
   const queryClient = useQueryClient();
-  const [orderStatus, setOrderStatus] = useState(order?.status);
+  const [orderStatus, setOrderStatus] = useState(order.status);
 
   // console.log("order", order);
 
