@@ -18,7 +18,7 @@ export default function Navbar() {
           href="/"
           className="relative before:block before:absolute before:bg-color-1 before:h-[2px] before:w-[0%] before:-left-2 hover:before:w-[100%] before:transition-all before:duration-300 before:ease-in-out before:bottom-0"
         >
-          <p className="text-lg text-gray-900 mr-4">الرئيسة</p>
+          <p className="text-lg text-gray-900 mr-4">الرئيسية</p>
         </Link>
         <Link
           href="/menu"

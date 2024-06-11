@@ -23,6 +23,12 @@ export default function Footer() {
             className="mt-4 text-center text-sm text-gray-500 lg:mt-0 lg:text-right"
           >
             Copyright &copy; 2022. All rights reserved.
+            <Link
+              href="/dashboard/products"
+              className="ml-3 underline text-blue-600"
+            >
+              Dashboard
+            </Link>
           </p>
         </div>
       </div>

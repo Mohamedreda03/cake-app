@@ -1,5 +1,6 @@
 import Hero from "@/components/Hero";
 import Products from "@/components/Products";
+import Services from "@/components/Services";
 import { db } from "@/lib/db";
 
 export default async function Home() {
@@ -8,7 +9,8 @@ export default async function Home() {
   return (
     <div className="max-w-screen-xl mx-auto p-7">
       <Hero />
-      {/* <Products products={products} categories={categories} /> */}
+      <Services />
+      <Products products={products} categories={categories} />
     </div>
   );
 }

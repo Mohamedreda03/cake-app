@@ -21,7 +21,7 @@ interface Menu {
 
 const menu: Menu[] = [
   {
-    name: "الرأيسية",
+    name: "الرئيسية",
     path: "/",
   },
   {
