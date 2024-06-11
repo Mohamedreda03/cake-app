@@ -12,7 +12,8 @@ export default function DashboardNavbar() {
         <div className="px-5 flex items-center justify-between">
           <div>
             <MobileNavbar />
-            <Link href="/">
+
+            <Link href="/" className="hidden md:block">
               <Button variant="outline">
                 الانتقال للمتجر
                 <ArrowLeftIcon size={15} className="mr-1" />

@@ -17,9 +17,11 @@ import {
   Users,
   Home,
   Menu,
+  ArrowLeftIcon,
 } from "lucide-react";
 import { Session } from "next-auth";
 import { cn } from "@/lib/utils";
+import { Button } from "../ui/button";
 
 interface Menu {
   name: string;
@@ -100,6 +102,12 @@ export default function MobileNavbar() {
                 </div>
               </Link>
             </SheetClose>
+            <Link href="/" className="">
+              <Button variant="outline" className="w-full">
+                الانتقال للمتجر
+                <ArrowLeftIcon size={15} className="mr-1" />
+              </Button>
+            </Link>
           </div>
         </div>
       </SheetContent>

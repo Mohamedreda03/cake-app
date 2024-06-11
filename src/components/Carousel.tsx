@@ -58,10 +58,10 @@ const CategoriesMenu = ({
           autoPlay={true}
           rtl={true}
           customRightArrow={
-            <ChevronRight className="bg-color-4/45 h-12 w-12 text-black/40 absolute top-[40%] right-0 hover:text-black/80 hover:bg-color-4/80 transition-all rounded-full p-2 cursor-pointer" />
+            <ChevronLeft className="bg-color-4/45 h-12 w-12 text-black/40 absolute top-[40%] left-0 hover:text-black/80 hover:bg-color-4/80 transition-all rounded-full p-2 cursor-pointer" />
           }
           customLeftArrow={
-            <ChevronLeft className="bg-color-4/45 h-12 w-12 text-black/40 absolute top-[40%] hover:text-black/80 hover:bg-color-4/80 transition-all rounded-full p-2 cursor-pointer" />
+            <ChevronRight className="bg-color-4/45 h-12 w-12 text-black/40 absolute top-[40%] right-0 hover:text-black/80 hover:bg-color-4/80 transition-all rounded-full p-2 cursor-pointer" />
           }
         >
           <div
