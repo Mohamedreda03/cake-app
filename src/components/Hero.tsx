@@ -5,7 +5,7 @@ export default function Hero() {
     <div
       className="relative flex flex-col h-[600px] justify-center items-center w-full text-white"
       style={{
-        backgroundImage: "url('/hero-4.jpg')",
+        backgroundImage: "url('/hero-6.jpg')",
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
