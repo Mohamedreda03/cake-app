@@ -18,7 +18,6 @@ const CategoriesMenu = ({
   data: Category[];
   setCurrentCategory: Dispatch<SetStateAction<string | null>>;
 }) => {
-  const router = useRouter();
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -66,14 +65,14 @@ const CategoriesMenu = ({
         >
           <div
             onClick={() => setCurrentCategory(null)}
-            className="aspect-square border p-3 rounded-2xl hover:bg-color-1/35 transition-all cursor-pointer"
+            className="h-[300px] border p-3 rounded-2xl hover:bg-color-1/35 transition-all cursor-pointer"
           >
             <Image
               src="/all-cakes.jpg"
               width={200}
               height={200}
               alt="category image"
-              className="w-full h-[150px] rounded-xl object-cover"
+              className="w-full h-[220px] md:h-[150px] rounded-xl object-cover"
             />
             <div className="relative flex h-[50px] items-center justify-center text-2xl w-fit mx-auto">
               الكل
@@ -84,14 +83,14 @@ const CategoriesMenu = ({
             <div
               key={category.id}
               onClick={() => setCurrentCategory(category.id)}
-              className="aspect-square border p-3 rounded-2xl hover:bg-color-1/35 transition-all cursor-pointer"
+              className="h-[300px] border p-3 rounded-2xl hover:bg-color-1/35 transition-all cursor-pointer"
             >
               <Image
                 src={category.image}
                 width={200}
                 height={200}
                 alt="category image"
-                className="w-full h-[150px] rounded-xl object-cover"
+                className="w-full h-[220px] md:h-[150px] rounded-xl object-cover"
               />
               <div className="relative flex h-[50px] items-center justify-center text-2xl w-fit mx-auto">
                 {category.name}

@@ -30,7 +30,7 @@ export default function Products({
 
   return (
     <>
-      <div className="h-[400px]">
+      <div className="mb-4">
         <CategoriesMenu
           data={categories}
           setCurrentCategory={setCurrentCategory}
