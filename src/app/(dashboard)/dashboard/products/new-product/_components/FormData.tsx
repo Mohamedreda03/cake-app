@@ -28,9 +28,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { Category } from "@prisma/client";
 import UploadWidget from "@/components/Cloudinary";
 import Image from "next/image";
+import SizeModel from "@/components/models/SizeModel";
 
 const FormData = ({ categories }: { categories: Category[] }) => {
   const [image, setImage] = useState<string | null>("");
+  const [isOpenSizeModel, setOpenSizeModel] = useState(false);
+  const [sizes, setSizes] = useState<{ size: string; price: number }[]>([]);
   const [isLoading, startLoading] = useTransition();
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -74,160 +77,199 @@ const FormData = ({ categories }: { categories: Category[] }) => {
   };
 
   return (
-    <div className="flex gap-6 flex-col md:flex-row">
-      <div className="max-w-[900px] w-full px-5 py-10 md:px-20">
-        {image && (
-          <div>
-            <Image
-              src={image}
-              height={300}
-              width={300}
-              objectFit="cover"
-              className="rounded-lg"
-              alt="product image"
-            />
-          </div>
-        )}
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-10 w-full"
-          >
-            <div className="flex flex-col gap-5 w-full">
-              <UploadWidget
-                title="اضف صورة للمنتج"
-                handleUploadSuccess={handleUploadSuccess}
+    <>
+      <SizeModel
+        isOpen={isOpenSizeModel}
+        onClose={() => setOpenSizeModel(false)}
+        setSizes={setSizes}
+      />
+      <div className="flex gap-6 flex-col md:flex-row">
+        <div className="max-w-[900px] w-full px-5 py-10 md:px-20">
+          {image && (
+            <div>
+              <Image
+                src={image}
+                height={300}
+                width={300}
+                objectFit="cover"
+                className="rounded-lg"
+                alt="product image"
               />
-              <FormField
-                control={form.control}
-                name="name"
-                rules={{ required: "يرجى ادخال اسم المنتج" }}
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>أسم المنتج</FormLabel>
-                    <FormControl>
-                      <Input
-                        className=""
-                        disabled={isLoading}
-                        placeholder="أسم امنتج"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="size"
-                rules={{ required: "يرجى ادخال الحجم" }}
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>الحجم</FormLabel>
-                    <FormControl>
-                      <Input
-                        className=""
-                        disabled={isLoading}
-                        placeholder="الحجم"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="price"
-                rules={{ required: "يرجى ادخال سعر المنتج" }}
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>سعر المنتج</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        disabled={isLoading}
-                        placeholder="السعر"
-                        value={field.value!}
-                        onChange={field.onChange}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="description"
-                rules={{ required: "يرجى ادخال وصف المنتج" }}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>الوصف</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder="قم بكتابة وصف للمنتج"
-                        className="resize-none"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="categoryId"
-                rules={{ required: "يرجى اختيار الفئة" }}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>أختر الفئة</FormLabel>
-                    <Select
-                      dir="rtl"
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
+            </div>
+          )}
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-10 w-full"
+            >
+              <div className="flex flex-col gap-5 w-full">
+                <UploadWidget
+                  title="اضف صورة للمنتج"
+                  handleUploadSuccess={handleUploadSuccess}
+                />
+                <FormField
+                  control={form.control}
+                  name="name"
+                  rules={{ required: "يرجى ادخال اسم المنتج" }}
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>أسم المنتج</FormLabel>
                       <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="فئة المنتج" />
-                        </SelectTrigger>
+                        <Input
+                          className=""
+                          disabled={isLoading}
+                          placeholder="أسم امنتج"
+                          {...field}
+                        />
                       </FormControl>
-                      <SelectContent>
-                        {categories.map((category) => (
-                          <SelectItem key={category.id} value={category.id}>
-                            {category.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="size"
+                  rules={{ required: "يرجى ادخال الحجم" }}
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>الحجم</FormLabel>
+                      <FormControl>
+                        <Input
+                          className=""
+                          disabled={isLoading}
+                          placeholder="الحجم"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="price"
+                  rules={{ required: "يرجى ادخال سعر المنتج" }}
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>سعر المنتج</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          disabled={isLoading}
+                          placeholder="السعر"
+                          value={field.value!}
+                          onChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="description"
+                  rules={{ required: "يرجى ادخال وصف المنتج" }}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>الوصف</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="قم بكتابة وصف للمنتج"
+                          className="resize-none"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="categoryId"
+                  rules={{ required: "يرجى اختيار الفئة" }}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>أختر الفئة</FormLabel>
+                      <Select
+                        dir="rtl"
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="فئة المنتج" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {categories.map((category) => (
+                            <SelectItem key={category.id} value={category.id}>
+                              {category.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
 
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className="flex items-center gap-3">
-              <Button
-                variant="main"
-                disabled={isLoading}
-                type="submit"
-                className="w-full sm:w-[150px] disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isLoading ? "جاري الانشاء..." : "انشاء المنتج"}
-              </Button>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <div>
+                  <div className="border p-5 mb-3 rounded-lg">
+                    {sizes.map((size, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center justify-between gap-3 borer-b"
+                      >
+                        <div className="flex items-center gap-9 text-xl">
+                          <span>{size.size} سم</span>
+                          <span>
+                            {size.price} <span className="mr-1">ريال</span>
+                          </span>
+                        </div>
+                        <span>
+                          <Button
+                            type="button"
+                            onClick={() =>
+                              setSizes((prev) =>
+                                prev.filter((_, i) => i !== index)
+                              )
+                            }
+                          >
+                            حذف
+                          </Button>
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                  <Button type="button" onClick={() => setOpenSizeModel(true)}>
+                    انشاء حجم جديد
+                  </Button>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <Button
+                  variant="main"
+                  disabled={isLoading}
+                  type="submit"
+                  className="w-full sm:w-[150px] disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isLoading ? "جاري الانشاء..." : "انشاء المنتج"}
+                </Button>
 
-              <Button
-                onClick={handleCloase}
-                type="button"
-                variant="outline"
-                disabled={isLoading}
-              >
-                ألغاء
-              </Button>
-            </div>
-          </form>
-        </Form>
+                <Button
+                  onClick={handleCloase}
+                  type="button"
+                  variant="outline"
+                  disabled={isLoading}
+                >
+                  ألغاء
+                </Button>
+              </div>
+            </form>
+          </Form>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
