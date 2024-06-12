@@ -9,7 +9,7 @@ export default function page() {
         </h2>
       </div>
       <div
-        className="text-xl h-[calc(60vh+8px)]"
+        className="text-xl min-h-[calc(60vh+8px)]"
         style={{
           wordSpacing: "3px",
         }}
