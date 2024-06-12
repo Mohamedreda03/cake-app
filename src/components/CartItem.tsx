@@ -27,7 +27,7 @@ const CartItem = ({ item }: { item: CartItemType }) => {
   };
 
   return (
-    <div className="border border-gray-200 p-5 rounded-md">
+    <div className="border bg-white border-gray-200 p-5 rounded-md">
       <div className="flex items-center justify-between">
         <div className="flex items-center">
           <Image

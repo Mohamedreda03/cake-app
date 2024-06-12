@@ -28,7 +28,7 @@ export default function SpecialCartItem({
     }
   };
   return (
-    <div className="border p-5 min-h-[150px] relative rounded-lg">
+    <div className="border p-5 min-h-[150px] relative rounded-lg bg-white">
       {/* ////////////// */}
       <div className="flex justify-between items-center w-32 md:w-36">
         <Button onClick={handleDecrement} variant="outline">
