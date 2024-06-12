@@ -15,7 +15,7 @@ export default function page() {
         }}
       >
         <p>
-          <span className="relative before:block before:absolute before:bg-color-2 before:h-[2px] before:w-[130%] before:-left-0.5 before:bottom-0.5">
+          <span className="relative before:block before:absolute before:bg-color-2 before:h-[2px] before:w-[130%] before:-left-0.5 before:bottom-0">
             بيلا
           </span>{" "}
           هي قصة شغف الأختين نورا ورنا ووالدتهما .. فبشكلها الانيق والمميز
