@@ -24,6 +24,10 @@ export async function GET(req: NextRequest) {
     orderBy: {
       createdAt: "desc",
     },
+    include: {
+      products: true,
+      special_items: true,
+    },
   });
 
   const ordersCount = await db.product.count();
@@ -61,6 +65,7 @@ export async function POST(req: NextRequest) {
             data: body.items.map((item: ProductOrder) => ({
               ...item,
               id: undefined,
+              orderId: undefined,
             })),
           },
         },

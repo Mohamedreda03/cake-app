@@ -11,14 +11,18 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { Order, User } from "@prisma/client";
+import { Order, SpecialItem } from "@prisma/client";
 import axios from "axios";
 import Link from "next/link";
-import { useEffect, useState, useTransition } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { useMutation, useQueryClient } from "react-query";
 
-export default function DataTable({ orders }: { orders: Order[] }) {
+interface OrderType extends Order {
+  special_items: SpecialItem[];
+}
+
+export default function DataTable({ orders }: { orders: OrderType[] }) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedUser, setSelectedUser] = useState<string | null>(null);
 
@@ -68,55 +72,64 @@ export default function DataTable({ orders }: { orders: Order[] }) {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {orders.map((order) => (
-              <TableRow key={order.id}>
-                <TableCell className="font-medium text-center">
-                  {order.order_maker_name}
-                </TableCell>
-                <TableCell className="text-center">{order.cafe_name}</TableCell>
-                <TableCell className="text-center">{order.phone}</TableCell>
-                <TableCell className="text-center">
-                  <div
-                    className={cn({
-                      "text-green-500 bg-green-50 w-fit px-2 py-1 rounded-full mx-auto":
-                        order.payment_status === "PAID",
-                      "text-red-500 bg-red-50 w-fit px-3 py-1 rounded-full mx-auto":
-                        order.payment_status === "PENDING",
-                    })}
-                  >
-                    {order.payment_status === "PAID"
-                      ? "تم الدفع"
-                      : "الدفع عند الاستلام"}
-                  </div>
-                </TableCell>
-                <TableCell className="text-center">
-                  {order.status === "PENDING" && "قيد الانتظار"}
-                  {order.status === "PROCESSING" && "قيد التحضير"}
-                  {order.status === "SHIPPED" && "جاري التوصيل"}
-                  {order.status === "DELIVERED" && "تم التوصيل"}
-                </TableCell>
-                <TableCell className="text-center">
-                  {order.total} <span className="mr-1">ريال</span>
-                </TableCell>
-                <TableCell className="text-center flex gap-3 items-center justify-center">
-                  <Link href={`/dashboard/orders/${order.id}`}>
-                    <Button className="text-sm" variant="secondary">
-                      تفاصيل
+            {orders.map((order) => {
+              return (
+                <TableRow key={order.id}>
+                  <TableCell className="font-medium text-center">
+                    {order.order_maker_name}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {order.cafe_name}
+                  </TableCell>
+                  <TableCell className="text-center">{order.phone}</TableCell>
+                  <TableCell className="text-center">
+                    <div
+                      className={cn({
+                        "text-green-500 bg-green-50 w-fit px-2 py-1 rounded-full mx-auto":
+                          order.payment_status === "PAID",
+                        "text-red-500 bg-red-50 w-fit px-3 py-1 rounded-full mx-auto":
+                          order.payment_status === "PENDING",
+                      })}
+                    >
+                      {order.payment_status === "PAID"
+                        ? "تم الدفع"
+                        : "الدفع عند الاستلام"}
+
+                      {order.special_items &&
+                        order.payment_status === "PAID" &&
+                        order.special_items.length > 0 &&
+                        " + طلب خاص"}
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {order.status === "PENDING" && "قيد الانتظار"}
+                    {order.status === "PROCESSING" && "قيد التحضير"}
+                    {order.status === "SHIPPED" && "جاري التوصيل"}
+                    {order.status === "DELIVERED" && "تم التوصيل"}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {order.total} <span className="mr-1">ريال</span>
+                  </TableCell>
+                  <TableCell className="text-center flex gap-3 items-center justify-center">
+                    <Link href={`/dashboard/orders/${order.id}`}>
+                      <Button className="text-sm" variant="secondary">
+                        تفاصيل
+                      </Button>
+                    </Link>
+                    <Button
+                      onClick={() => {
+                        setSelectedUser(order.id);
+                        setIsOpen(true);
+                      }}
+                      className="text-sm"
+                      variant="destructive"
+                    >
+                      حذف
                     </Button>
-                  </Link>
-                  <Button
-                    onClick={() => {
-                      setSelectedUser(order.id);
-                      setIsOpen(true);
-                    }}
-                    className="text-sm"
-                    variant="destructive"
-                  >
-                    حذف
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
+                  </TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </div>

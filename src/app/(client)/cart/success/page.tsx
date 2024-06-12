@@ -38,7 +38,6 @@ const SuccessPage = () => {
           })
           .then(async (res) => {
             if (res.data.status === "paid") {
-              window.localStorage.removeItem("payment");
               cart.clearCart();
               specialCart.clearCart();
               await axios
@@ -58,7 +57,7 @@ const SuccessPage = () => {
     <div className="max-w-screen-xl mx-auto p-7 flex items-center justify-center flex-col">
       <div className="h-[calc(73vh-5px)] flex items-center flex-col">
         <CheckCircle size={100} className="text-green-500 mt-7" />
-        <h1 className="text-3xl mt-4">تمت عملية الدفع بنجاح</h1>
+        <h1 className="text-3xl mt-4">تمت ارسال الطلب بنجاح</h1>
         <Link href="/" className="mt-4">
           <Button variant="outline">
             <p className="text-blue-500">العودة للرئيسية</p>

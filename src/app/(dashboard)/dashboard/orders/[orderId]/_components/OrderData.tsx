@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/table";
 
 import { cn } from "@/lib/utils";
-import { Order, ProductOrder, SpecialOrder } from "@prisma/client";
+import { Order, ProductOrder, SpecialItem } from "@prisma/client";
 import axios from "axios";
 import { format } from "date-fns";
 import { ar } from "date-fns/locale";
@@ -19,29 +19,14 @@ import { useMutation, useQueryClient } from "react-query";
 
 const inter = Inter({ subsets: ["latin"] });
 
-// interface SpecialItem {
-//   id: number;
-//   quantity: number;
-//   description: string;
-// }
-
 interface OrderType extends Order {
   products: ProductOrder[];
-  special_items: SpecialOrder[];
+  special_items: SpecialItem[];
 }
 
 export function OrderData({ order }: { order: OrderType }) {
   const queryClient = useQueryClient();
   const [orderStatus, setOrderStatus] = useState(order.status);
-
-  // console.log("order", order);
-
-  // const { data: products } = useQuery({
-  //   queryKey: ["order", order.id],
-  //   queryFn: async () => {
-  //     return axios.get(`/api/orders/${order.id}/products`);
-  //   },
-  // });
 
   const { mutate } = useMutation({
     mutationFn: async (
@@ -111,6 +96,10 @@ export function OrderData({ order }: { order: OrderType }) {
                 {order.payment_status === "PAID"
                   ? "تم الدفع"
                   : "الدفع عند الاستلام"}
+                {order.special_items &&
+                  order.payment_status === "PAID" &&
+                  order.special_items.length > 0 &&
+                  " + طلب خاص"}
               </div>
             </TableCell>
           </TableRow>
@@ -176,6 +165,9 @@ export function OrderData({ order }: { order: OrderType }) {
               </TableCell>
               <TableCell className="font-medium text-center">الكمية</TableCell>
               <TableCell className="font-medium text-center">السعر</TableCell>
+              <TableCell className="font-medium text-center">
+                الملاحظات
+              </TableCell>
             </TableRow>
             {order.products?.map((product: ProductOrder) => (
               <TableRow key={product.id}>
@@ -191,6 +183,9 @@ export function OrderData({ order }: { order: OrderType }) {
                   {product.quantity}
                 </TableCell>
                 <TableCell className="text-center">{product.total}</TableCell>
+                {product.note && (
+                  <TableCell className="text-center">{product.note}</TableCell>
+                )}
               </TableRow>
             ))}
           </TableBody>

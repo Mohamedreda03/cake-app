@@ -5,6 +5,7 @@ import { persist, createJSONStorage } from "zustand/middleware";
 export interface CartItemType extends Product {
   quantity: number;
   total: number;
+  note?: string;
 }
 
 interface CartStore {

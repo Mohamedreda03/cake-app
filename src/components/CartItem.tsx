@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Button } from "./ui/button";
 import { Trash2 } from "lucide-react";
-import useCart, { type CartItemType } from "@/store/cartStore";
+import useCart, { CartItemType } from "@/store/cartStore";
 import { useState } from "react";
 
 const CartItem = ({ item }: { item: CartItemType }) => {
@@ -72,6 +72,14 @@ const CartItem = ({ item }: { item: CartItemType }) => {
           </Button>
         </div>
       </div>
+      {item.note && (
+        <div className="border-t mt-2">
+          <h6 className="text-sm mt-2 border-b border-color-3 w-fit mb-1">
+            الملاحظة المضافة
+          </h6>
+          <p>{item.note}</p>
+        </div>
+      )}
     </div>
   );
 };

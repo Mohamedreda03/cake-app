@@ -5,8 +5,9 @@ import SpecialCartItem from "@/components/SpecialCartItem";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import useCart, { CartItemType } from "@/store/cartStore";
+import useCart, { type CartItemType } from "@/store/cartStore";
 import useSpecialProduct, { SpecialProductType } from "@/store/specialProduct";
+import { ProductOrder } from "@prisma/client";
 import axios from "axios";
 import { LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -85,9 +86,9 @@ export default function Cart() {
         items: cart.items,
         special_items: specialCart.items,
       });
+      router.push("/cart/success");
       cart.clearCart();
       specialCart.clearCart();
-      router.push("/cart/success");
     }
   };
 
@@ -96,7 +97,7 @@ export default function Cart() {
       <h1 className="text-center text-5xl font-medium text-primary border-b-2 border-color-1 w-fit">
         السلة
       </h1>
-      {cart.items.length < 1 ? (
+      {cart.items.length < 1 && specialCart.items.length < 1 ? (
         <div className="text-center text-lg text-muted-foreground">
           السلة فارغة
         </div>

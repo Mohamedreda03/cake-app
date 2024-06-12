@@ -32,7 +32,6 @@ export default function Users() {
         <h1 className="text-3xl font-medium border-b-2 border-color-1">
           الطلبات
         </h1>
-        <div></div>
       </div>
       <DataTable orders={orders?.data?.data} />
       <PaginationButtons
