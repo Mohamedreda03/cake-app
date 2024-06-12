@@ -1,4 +1,11 @@
-import React from "react";
+import { Metadata } from "next";
+
+
+export const metadata: Metadata = {
+  title: "قصتنا المبهره",
+  description:
+    "بيلا سويت هو محل تجاري أنيق يقدم أجمل وألذ الأصناف المميزة والمبتكرة من الحلويات والموالح تمتلكه وتديره مؤسسة الحلويات الجميلة التجارية.",
+}
 
 export default function page() {
   return (
