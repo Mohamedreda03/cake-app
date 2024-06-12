@@ -26,6 +26,7 @@ export default function RootLayout({
     <html lang="ar" dir="rtl">
       <body className={gess.className}>
         <link rel="icon" href="/logo-tap.webp" sizes="any" />
+        <meta name="google-site-verification" content="google-site-verification: google405966e63aec60bb.html" />
         <Providers>{children}</Providers>
       </body>
     </html>
