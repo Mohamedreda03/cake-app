@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
   if (!sesstion) {
     NextResponse.redirect(new URL("/login", req.nextUrl).toString());
   }
-  if (sesstion?.user.role !== "ADMIN") {
+  if (sesstion?.user.role === "USER") {
     return NextResponse.redirect(new URL("/", req.nextUrl).toString());
   }
 

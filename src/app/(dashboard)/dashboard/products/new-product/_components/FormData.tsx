@@ -29,6 +29,7 @@ import { Category } from "@prisma/client";
 import UploadWidget from "@/components/Cloudinary";
 import Image from "next/image";
 import SizeModel from "@/components/models/SizeModel";
+import { cn } from "@/lib/utils";
 
 const FormData = ({ categories }: { categories: Category[] }) => {
   const [image, setImage] = useState<string | null>("");
@@ -218,17 +219,39 @@ const FormData = ({ categories }: { categories: Category[] }) => {
                     {sizes.map((size, index) => (
                       <div
                         key={index}
-                        className="flex items-center justify-between gap-3 borer-b"
+                        className={cn(
+                          "flex items-center justify-between gap-3 p-3",
+                          {
+                            "border-b border-gray-200":
+                              index !== sizes.length - 1,
+                          }
+                        )}
                       >
                         <div className="flex items-center gap-9 text-xl">
                           <span>{size.size} سم</span>
+                          <span> : </span>
                           <span>
                             {size.price} <span className="mr-1">ريال</span>
                           </span>
                         </div>
-                        <span>
+                        <span className="flex items-center justify-center gap-4">
                           <Button
                             type="button"
+                            variant="outline"
+                            onClick={() => {
+                              setOpenSizeModel(true);
+                              form.setValue("size", size.size);
+                              form.setValue("price", size.price);
+                              setSizes((prev) =>
+                                prev.filter((_, i) => i !== index)
+                              );
+                            }}
+                          >
+                            تعديل
+                          </Button>
+                          <Button
+                            type="button"
+                            variant="destructive"
                             onClick={() =>
                               setSizes((prev) =>
                                 prev.filter((_, i) => i !== index)
