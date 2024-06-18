@@ -74,11 +74,7 @@ export default function DataTable({ data }: { data: Product[] }) {
                   />
                 </TableCell>
                 <TableCell className="text-center">{item.name}</TableCell>
-                <TableCell className="text-center">{item.size}</TableCell>
-                <TableCell className="text-center">
-                  {item.price}
-                  <span className="mr-2">ريال</span>
-                </TableCell>
+
                 <TableCell className="text-center flex gap-3 items-center justify-center">
                   <Link href={`/dashboard/products/${item.id}`}>
                     <Button className="text-sm" variant="secondary">
