@@ -25,12 +25,12 @@ export default function Card({ product }: { product: Product }) {
           {product.description}
         </p>
         <div className="flex items-center gap-3">
-          <span className="bg-color-4/70 px-3 py-1.5 text-gray-900 rounded-full">
+          {/* <span className="bg-color-4/70 px-3 py-1.5 text-gray-900 rounded-full">
             {product.price} ريال
           </span>
           <span className="bg-color-4/70 px-3 py-1.5 text-gray-900 rounded-full">
             {product.size} سم
-          </span>
+          </span> */}
         </div>
         <OrderButton product={product} />
       </div>
