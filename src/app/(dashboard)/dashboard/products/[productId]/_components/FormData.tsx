@@ -47,8 +47,6 @@ const FormData = ({
   const form = useForm<ProductFormTypes>({
     defaultValues: {
       name: data.name,
-      size: data.size,
-      price: data.price,
       description: data.description,
       categoryId: data.categoryId,
       best_seller: data.best_seller,
@@ -116,43 +114,7 @@ const FormData = ({
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="size"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>الحجم</FormLabel>
-                    <FormControl>
-                      <Input
-                        className=""
-                        disabled={isLoading}
-                        placeholder="الحجم"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="price"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>سعر المنتج</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        disabled={isLoading}
-                        placeholder="السعر"
-                        value={field.value!}
-                        onChange={field.onChange}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+
               <FormField
                 control={form.control}
                 name="description"
