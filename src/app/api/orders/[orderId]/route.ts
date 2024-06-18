@@ -32,6 +32,18 @@ export async function DELETE(
     return NextResponse.redirect(new URL("/", req.nextUrl).toString());
   }
 
+  await db.productOrder.deleteMany({
+    where: {
+      orderId: params.orderId,
+    },
+  });
+
+  await db.specialItem.deleteMany({
+    where: {
+      orderId: params.orderId,
+    },
+  });
+
   await db.order.delete({
     where: {
       id: params.orderId,

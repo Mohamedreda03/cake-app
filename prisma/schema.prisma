@@ -79,10 +79,9 @@ model Product {
   id          String   @id @default(cuid())
   name        String
   description String
-  size        String
-  price       Float
   image       String
   best_seller Boolean  @default(false)
+  sizes       Size[]
   categoryId  String
   category    Category @relation(fields: [categoryId], references: [id])
 
@@ -90,11 +89,22 @@ model Product {
   updatedAt DateTime @updatedAt
 }
 
+model Size {
+  id        String   @id @default(cuid())
+  size      String
+  price     Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+}
+
 model Order {
   id               String         @id @default(cuid())
   cafe_name        String
   order_maker_name String
-  total            Int
+  total            Float
   status           OrderStatus
   payment_status   PaymentStatus
   payment_id       String?
@@ -114,7 +124,7 @@ model ProductOrder {
   price       Float
   image       String
   quantity    Int
-  total       Int
+  total       Float
   note        String?
   best_seller Boolean
   categoryId  String
@@ -127,9 +137,11 @@ model ProductOrder {
 enum PaymentStatus {
   PENDING
   PAID
+  FAILED
 }
 
 enum OrderStatus {
+  FAILED
   PENDING
   PROCESSING
   SHIPPED

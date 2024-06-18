@@ -35,7 +35,7 @@ export default function PaginationButtons({
   return (
     <>
       {pageCount > 1 && (
-        <div className="flex justify-center flex-row-reverse gap-4">
+        <div className="flex justify-center flex-row-reverse gap-4  mb-16">
           <button
             onClick={handlePrev}
             disabled={currentPage === 1}

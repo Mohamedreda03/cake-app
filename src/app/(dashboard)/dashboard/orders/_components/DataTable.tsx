@@ -19,7 +19,9 @@ import toast from "react-hot-toast";
 import { useMutation, useQueryClient } from "react-query";
 
 interface OrderType extends Order {
-  special_items: SpecialItem[];
+  _count: {
+    special_items: number;
+  };
 }
 
 export default function DataTable({ orders }: { orders: OrderType[] }) {
@@ -95,9 +97,9 @@ export default function DataTable({ orders }: { orders: OrderType[] }) {
                         ? "تم الدفع"
                         : "الدفع عند الاستلام"}
 
-                      {order.special_items &&
+                      {order._count.special_items &&
                         order.payment_status === "PAID" &&
-                        order.special_items.length > 0 &&
+                        order._count.special_items > 0 &&
                         " + طلب خاص"}
                     </div>
                   </TableCell>

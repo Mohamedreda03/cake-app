@@ -65,9 +65,7 @@ export type CategoryFormTypes = z.infer<typeof CategorySchema>;
 export const ProductSchema = z.object({
   name: z.string().min(2),
   description: z.string().min(2).max(100),
-  price: z.coerce.number().positive().int().min(1),
   categoryId: z.string().min(2),
-  size: z.string().min(1),
   image: z.any(),
   best_seller: z.boolean(),
 });

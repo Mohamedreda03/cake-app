@@ -1,6 +1,16 @@
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
+import { Product, Size } from "@prisma/client";
+import { create } from "domain";
 import { NextRequest, NextResponse } from "next/server";
+
+interface ProductTypres extends Product {
+  sizes: {
+    size: string;
+    price: number;
+    id: number;
+  }[];
+}
 
 export async function GET(req: NextRequest) {
   const sesstion = await auth();
@@ -23,6 +33,9 @@ export async function GET(req: NextRequest) {
     orderBy: {
       createdAt: "desc",
     },
+    include: {
+      sizes: true,
+    },
   });
 
   const productsCount = await db.product.count();
@@ -34,7 +47,7 @@ export async function GET(req: NextRequest) {
 // /////////////////////////////////////////////////////////////////////////////
 
 export async function POST(req: NextRequest) {
-  const body = await req.json();
+  const body: ProductTypres = await req.json();
   const sesstion = await auth();
   if (!sesstion) {
     NextResponse.redirect(new URL("/login", req.nextUrl).toString());
@@ -47,12 +60,9 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  body.price = Number(body.price);
-
   if (
     !body.name ||
-    !body.price ||
-    !body.size ||
+    body.sizes.length < 1 ||
     !body.categoryId ||
     !body.image ||
     !body.description
@@ -67,6 +77,14 @@ export async function POST(req: NextRequest) {
     const product = await db.product.create({
       data: {
         ...body,
+        sizes: {
+          createMany: {
+            data: body.sizes.map((size) => ({
+              ...size,
+              id: undefined,
+            })),
+          },
+        },
       },
     });
 

@@ -25,12 +25,14 @@ export async function GET(req: NextRequest) {
       createdAt: "desc",
     },
     include: {
-      products: true,
-      special_items: true,
+      _count: {
+        select: { special_items: true },
+      },
     },
   });
 
-  const ordersCount = await db.product.count();
+  const ordersCount = await db.order.count();
+
   const pageCount = Math.ceil(ordersCount / Number(size));
 
   return NextResponse.json({ data: orders, count: pageCount });
@@ -48,9 +50,9 @@ export async function POST(req: NextRequest) {
         order_maker_name: body.order_maker_name,
         address: body.address,
         phone: body.phone,
-        payment_status: "PENDING",
+        payment_status: body.payment_status || "PENDING",
         total: body.total,
-        status: "PENDING",
+        status: body.status || "PENDING",
         payment_id: body.payment_id || "",
         special_items: body.special_items && {
           createMany: {

@@ -11,13 +11,13 @@ import { ProductOrder } from "@prisma/client";
 import axios from "axios";
 import { LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, useTransition } from "react";
 import toast from "react-hot-toast";
 
 export default function Cart() {
   const [address, setAddress] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
-  const [cageName, setCafeName] = useState<string>("");
+  const [cafeName, setCafeName] = useState<string>("");
   const [orderMakerName, setOrderMakerName] = useState<string>("");
   const router = useRouter();
   const cart = useCart();
@@ -25,71 +25,66 @@ export default function Cart() {
   const [paymentOption, setPaymentOption] = useState<boolean>(true);
 
   const total = cart.items.reduce((acc, item) => acc + item.total, 0);
-
-  const isPending = false;
+  const [isPending, startPending] = useTransition();
 
   const handleCheckout = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!cageName || !orderMakerName || !address || !phone) {
+    if (!cafeName || !orderMakerName || !address || !phone) {
       toast.error("الرجاء ملء جميع الحقول");
       return;
     }
 
-    if (paymentOption) {
-      const orderRes = await axios.post("/api/orders", {
-        cafe_name: cageName,
-        order_maker_name: orderMakerName,
-        address: address,
-        phone: phone,
-        total: total,
-        items: cart.items,
-        special_items: specialCart.items,
-      });
-
-      await axios
-        .request({
-          url: "https://api.moyasar.com/v1/invoices",
-          method: "POST",
-          auth: {
-            username: process.env.NEXT_PUBLIC_MOYASAR_API_KEY!,
-            password: "",
-          },
-          headers: {
-            "Content-Type": "application/json",
-          },
-          data: {
-            amount: total * 100,
-            currency: "SAR",
-            description: `Payment for order ${orderRes.data.data.id}`,
-            success_url: `${process.env.NEXT_PUBLIC_URL!}/cart/success`,
-            metadata: {
-              order_id: orderRes.data.data.id,
+    startPending(async () => {
+      if (paymentOption) {
+        await axios
+          .request({
+            url: "https://api.moyasar.com/v1/invoices",
+            method: "POST",
+            auth: {
+              username: process.env.NEXT_PUBLIC_MOYASAR_API_KEY!,
+              password: "",
             },
-          },
-        })
-        .then(async (res) => {
-          await axios.patch(`/api/orders/${orderRes.data.data.id}`, {
-            payment_id: res.data.id,
-          });
-
-          window.location.href = res.data.url;
-        })
-        .catch((err) => console.log(err));
-    } else {
-      await axios.post("/api/orders", {
-        cafe_name: cageName,
-        order_maker_name: orderMakerName,
-        address: address,
-        phone: phone,
-        total: total,
-        items: cart.items,
-        special_items: specialCart.items,
-      });
-      router.push("/cart/success");
-      cart.clearCart();
-      specialCart.clearCart();
-    }
+            headers: {
+              "Content-Type": "application/json",
+            },
+            data: {
+              amount: total * 100,
+              currency: "SAR",
+              description: `cafe_name: ${cafeName}\n, order_maker_name: ${orderMakerName}\n, address: ${address}\n, phone: ${phone}\n, total: ${total}`,
+              success_url: `${process.env.NEXT_PUBLIC_URL!}/cart/success`,
+              metadata: {
+                cafe_name: cafeName,
+                order_maker_name: orderMakerName,
+                address: address,
+                phone: phone,
+                total: total,
+                items: cart.items,
+                special_items: specialCart.items,
+              },
+            },
+          })
+          .then(async (res) => {
+            router.replace(res.data.url);
+          })
+          .catch((err) => console.log(err));
+      } else {
+        await axios.post("/api/orders", {
+          cafe_name: cafeName,
+          order_maker_name: orderMakerName,
+          address: address,
+          phone: phone,
+          total: total,
+          items: cart.items,
+          special_items: specialCart.items,
+          status: "PENDING",
+          payment_status: "PENDING",
+        });
+        router.push("/cart/success");
+        cart.clearCart();
+        specialCart.clearCart();
+      }
+    });
   };
 
   return (
@@ -164,7 +159,8 @@ export default function Cart() {
                       <input
                         type="text"
                         onChange={(e) => setCafeName(e.target.value)}
-                        value={cageName}
+                        value={cafeName}
+                        disabled={isPending}
                         className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                         placeholder="اسم المقهى"
                         required
@@ -178,6 +174,7 @@ export default function Cart() {
                         type="text"
                         onChange={(e) => setOrderMakerName(e.target.value)}
                         value={orderMakerName}
+                        disabled={isPending}
                         className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                         placeholder="اسم اصاحب الطلب"
                         required
@@ -191,6 +188,7 @@ export default function Cart() {
                         type="text"
                         onChange={(e) => setAddress(e.target.value)}
                         value={address}
+                        disabled={isPending}
                         className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                         placeholder="العنوان كاملاً"
                         required
@@ -204,13 +202,18 @@ export default function Cart() {
                         type="text"
                         onChange={(e) => setPhone(e.target.value)}
                         value={phone}
+                        disabled={isPending}
                         className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                         placeholder="رقم الهاتف"
                         required
                       />
                     </div>
                   </div>
-                  <Button variant="main" className="rounded-full w-full mt-5">
+                  <Button
+                    disabled={isPending}
+                    variant="main"
+                    className="rounded-full w-full mt-5 flex items-center justify-center gap-2"
+                  >
                     <LoaderCircle
                       className={`w-5 h-5 animate-spin mr-2 ${
                         isPending ? "block" : "hidden"

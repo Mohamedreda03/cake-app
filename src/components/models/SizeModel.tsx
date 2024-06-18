@@ -2,7 +2,13 @@
 
 import Alert from "./Alert";
 import { Button } from "../ui/button";
-import { Dispatch, SetStateAction, useState, useTransition } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+  useTransition,
+} from "react";
 
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -20,11 +26,16 @@ import { Input } from "../ui/input";
 interface SizeModelProps {
   isOpen: boolean;
   onClose: () => void;
+  currentSize: { size: string; price: number; id: number } | null;
+  setCurrentSize: Dispatch<
+    SetStateAction<{ size: string; price: number; id: number } | null>
+  >;
   setSizes: Dispatch<
     SetStateAction<
       {
         size: string;
         price: number;
+        id: number;
       }[]
     >
   >;
@@ -41,6 +52,8 @@ export default function SizeModel({
   isOpen,
   onClose,
   setSizes,
+  currentSize,
+  setCurrentSize,
 }: SizeModelProps) {
   const [isLoading, startLoading] = useTransition();
 
@@ -52,11 +65,31 @@ export default function SizeModel({
     },
   });
 
+  useEffect(() => {
+    form.reset({
+      size: currentSize?.size || "",
+      price: currentSize?.price || 0,
+    });
+  }, [currentSize]);
+
   const addSize = (size: string, price: number) => {
-    setSizes((prev) => [...prev, { size, price }]);
+    setSizes((prev) => [...prev, { size, price, id: prev.length + 1 }]);
+  };
+
+  const updateSize = (id: number, size: string, price: number) => {
+    setSizes((prev) =>
+      prev.map((item) => (item.id === id ? { size, price, id } : item))
+    );
   };
 
   const onSubmit = async (data: { size: string; price: number }) => {
+    if (currentSize) {
+      updateSize(currentSize.id, data.size, data.price);
+      form.reset();
+      onClose();
+      setCurrentSize(null);
+      return;
+    }
     startLoading(() => {
       addSize(data.size, data.price);
       form.reset();
@@ -67,7 +100,7 @@ export default function SizeModel({
   return (
     <Alert title="" isOpen={isOpen} onClose={onClose}>
       <h3 className="flex items-center justify-center text-2xl mb-4">
-        أنشاءحجم جديد
+        {currentSize ? "تعديل الحجم" : "أنشاء حجم جديد"}
       </h3>
       <div dir="rtl" className="">
         <Form {...form}>
@@ -113,7 +146,7 @@ export default function SizeModel({
                 />
 
                 <Button variant="main" type="submit" disabled={isLoading}>
-                  اضافة الحجم
+                  {currentSize ? "تعديل الحجم" : "أنشاء حجم جديد"}
                 </Button>
               </div>
             </div>

@@ -30,11 +30,20 @@ import UploadWidget from "@/components/Cloudinary";
 import Image from "next/image";
 import SizeModel from "@/components/models/SizeModel";
 import { cn } from "@/lib/utils";
+import UpdateSizeModel from "@/components/models/UpdateSizeModel";
 
 const FormData = ({ categories }: { categories: Category[] }) => {
   const [image, setImage] = useState<string | null>("");
   const [isOpenSizeModel, setOpenSizeModel] = useState(false);
-  const [sizes, setSizes] = useState<{ size: string; price: number }[]>([]);
+  const [isOpenUpdateSizeModel, setOpenUpdateSizeModel] = useState(false);
+  const [sizes, setSizes] = useState<
+    { size: string; price: number; id: number }[]
+  >([]);
+  const [currentSize, setCurrentSize] = useState<{
+    size: string;
+    price: number;
+    id: number;
+  } | null>(null);
   const [isLoading, startLoading] = useTransition();
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -42,8 +51,7 @@ const FormData = ({ categories }: { categories: Category[] }) => {
   const form = useForm<ProductFormTypes>({
     defaultValues: {
       name: "",
-      size: "",
-      price: 0,
+
       categoryId: "",
       description: "",
       image: "",
@@ -65,7 +73,7 @@ const FormData = ({ categories }: { categories: Category[] }) => {
   });
 
   const onSubmit = async (formData: ProductFormTypes) => {
-    mutate(formData);
+    mutate({ ...formData, sizes });
   };
 
   const handleCloase = () => {
@@ -83,7 +91,10 @@ const FormData = ({ categories }: { categories: Category[] }) => {
         isOpen={isOpenSizeModel}
         onClose={() => setOpenSizeModel(false)}
         setSizes={setSizes}
+        currentSize={currentSize}
+        setCurrentSize={setCurrentSize}
       />
+
       <div className="flex gap-6 flex-col md:flex-row">
         <div className="max-w-[900px] w-full px-5 py-10 md:px-20">
           {image && (
@@ -127,45 +138,7 @@ const FormData = ({ categories }: { categories: Category[] }) => {
                     </FormItem>
                   )}
                 />
-                <FormField
-                  control={form.control}
-                  name="size"
-                  rules={{ required: "يرجى ادخال الحجم" }}
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>الحجم</FormLabel>
-                      <FormControl>
-                        <Input
-                          className=""
-                          disabled={isLoading}
-                          placeholder="الحجم"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="price"
-                  rules={{ required: "يرجى ادخال سعر المنتج" }}
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>سعر المنتج</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          disabled={isLoading}
-                          placeholder="السعر"
-                          value={field.value!}
-                          onChange={field.onChange}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+
                 <FormField
                   control={form.control}
                   name="description"
@@ -239,12 +212,9 @@ const FormData = ({ categories }: { categories: Category[] }) => {
                             type="button"
                             variant="outline"
                             onClick={() => {
+                              setCurrentSize(size);
+
                               setOpenSizeModel(true);
-                              form.setValue("size", size.size);
-                              form.setValue("price", size.price);
-                              setSizes((prev) =>
-                                prev.filter((_, i) => i !== index)
-                              );
                             }}
                           >
                             تعديل
@@ -264,7 +234,13 @@ const FormData = ({ categories }: { categories: Category[] }) => {
                       </div>
                     ))}
                   </div>
-                  <Button type="button" onClick={() => setOpenSizeModel(true)}>
+                  <Button
+                    type="button"
+                    onClick={() => {
+                      setCurrentSize(null);
+                      setOpenSizeModel(true);
+                    }}
+                  >
                     انشاء حجم جديد
                   </Button>
                 </div>

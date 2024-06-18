@@ -37,7 +37,7 @@ export default function Users() {
       <PaginationButtons
         currentPage={Number(pageNumber)}
         pageCount={orders?.data?.count}
-        url="users"
+        url="orders"
         pageSize={Number(pageSize)}
       />
     </div>

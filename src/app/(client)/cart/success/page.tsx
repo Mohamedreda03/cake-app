@@ -1,13 +1,15 @@
 "use client";
 
+import Loading from "@/components/Loading";
 import { Button } from "@/components/ui/button";
 import useCart from "@/store/cartStore";
 import useSpecialProduct from "@/store/specialProduct";
 import axios from "axios";
 import { ArrowLeft, CheckCircle } from "lucide-react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import { Suspense, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useTransition } from "react";
+import toast from "react-hot-toast";
 
 export default function Success() {
   return (
@@ -21,9 +23,13 @@ const SuccessPage = () => {
   const cart = useCart();
   const specialCart = useSpecialProduct();
   const invoiceId = useSearchParams().get("invoice_id");
+  const router = useRouter();
+
   useEffect(() => {
     const checkStatus = async () => {
       if (invoiceId) {
+        console.log(cart.items);
+
         await axios
           .request({
             url: `https://api.moyasar.com/v1/invoices/${invoiceId}`,
@@ -38,14 +44,26 @@ const SuccessPage = () => {
           })
           .then(async (res) => {
             if (res.data.status === "paid") {
-              cart.clearCart();
-              specialCart.clearCart();
+              console.log(cart.items);
+
               await axios
-                .patch(`/api/orders/${res.data.metadata.order_id}`, {
+                .post("/api/orders", {
+                  cafe_name: res.data.metadata.cafe_name,
+                  order_maker_name: res.data.metadata.order_maker_name,
+                  address: res.data.metadata.address,
+                  phone: res.data.metadata.phone,
+                  total: res.data.metadata.total,
+                  items: res.data.metadata.items,
+                  special_items: res.data.metadata.special_items,
+                  status: "PENDING",
                   payment_status: "PAID",
+                  payment_id: res.data.id,
                 })
-                .then((res) => console.log(res.data))
-                .catch((err) => console.log(err));
+                .then((resOrd) => {
+                  cart.clearCart();
+                  specialCart.clearCart();
+                  toast.success("تم ارسال الطلب بنجاح");
+                });
             }
           })
           .catch((err) => console.log(err));
@@ -53,6 +71,7 @@ const SuccessPage = () => {
     };
     checkStatus();
   }, [invoiceId]);
+
   return (
     <div className="max-w-screen-xl mx-auto p-7 flex items-center justify-center flex-col">
       <div className="h-[calc(73vh-5px)] flex items-center flex-col">
