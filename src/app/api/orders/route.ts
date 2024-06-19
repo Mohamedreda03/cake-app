@@ -1,7 +1,9 @@
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
-import { ProductOrder } from "@prisma/client";
+import { CartItemType } from "@/store/cartStore";
+import { ProductOrder, SpecialItem } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
+import { spec } from "node:test/reporters";
 
 export async function GET(req: NextRequest) {
   const sesstion = await auth();
@@ -56,18 +58,23 @@ export async function POST(req: NextRequest) {
         payment_id: body.payment_id || "",
         special_items: body.special_items && {
           createMany: {
-            data: body.special_items.map((item: ProductOrder) => ({
+            data: body.special_items.map((item: SpecialItem) => ({
               ...item,
+
               id: undefined,
             })),
           },
         },
         products: {
           createMany: {
-            data: body.items.map((item: ProductOrder) => ({
+            data: body.items.map((item: CartItemType) => ({
               ...item,
               id: undefined,
               orderId: undefined,
+              sizes: undefined,
+              special_id: undefined,
+              size: item.size.size,
+              price: item.size.price,
             })),
           },
         },

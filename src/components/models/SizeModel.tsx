@@ -22,10 +22,15 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
+import { useMutation, useQueryClient } from "react-query";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { useParams, useRouter } from "next/navigation";
 
 interface SizeModelProps {
   isOpen: boolean;
   onClose: () => void;
+  type: "add" | "edit";
   currentSize: { size: string; price: number; id: number } | null;
   setCurrentSize: Dispatch<
     SetStateAction<{ size: string; price: number; id: number } | null>
@@ -52,10 +57,36 @@ export default function SizeModel({
   isOpen,
   onClose,
   setSizes,
+  type,
   currentSize,
   setCurrentSize,
 }: SizeModelProps) {
   const [isLoading, startLoading] = useTransition();
+  const params = useParams();
+  const router = useRouter();
+
+  const queryClient = useQueryClient();
+
+  const { mutate, isLoading: isLoadingCreateSize } = useMutation({
+    mutationFn: async (data: any) => {
+      await axios.post("/api/sizes", data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries("sizes");
+      toast.success("تم اضافة الحجم بنجاح");
+    },
+  });
+
+  const { mutate: updateSizeMutation, isLoading: isLoadingUpdateSize } =
+    useMutation({
+      mutationFn: async (data: any) => {
+        await axios.patch(`/api/sizes/${currentSize?.id}`, data);
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries("sizes");
+        toast.success("تم تعديل الحجم بنجاح");
+      },
+    });
 
   const form = useForm<SpecialOrderType>({
     resolver: zodResolver(SpecialOrderForm),
@@ -73,13 +104,23 @@ export default function SizeModel({
   }, [currentSize]);
 
   const addSize = (size: string, price: number) => {
-    setSizes((prev) => [...prev, { size, price, id: prev.length + 1 }]);
+    if (type === "add") {
+      setSizes((prev) => [...prev, { size, price, id: prev.length + 1 }]);
+    } else if (type === "edit") {
+      mutate({ size, price, productId: params.productId });
+      router.refresh();
+    }
   };
 
   const updateSize = (id: number, size: string, price: number) => {
-    setSizes((prev) =>
-      prev.map((item) => (item.id === id ? { size, price, id } : item))
-    );
+    if (type === "add") {
+      setSizes((prev) =>
+        prev.map((item) => (item.id === id ? { size, price, id } : item))
+      );
+    } else if (type === "edit") {
+      updateSizeMutation({ size, price, productId: params.productId });
+      router.refresh();
+    }
   };
 
   const onSubmit = async (data: { size: string; price: number }) => {
@@ -118,7 +159,11 @@ export default function SizeModel({
                       <FormLabel>الحجم</FormLabel>
                       <FormControl>
                         <Input
-                          disabled={isLoading}
+                          disabled={
+                            isLoading ||
+                            isLoadingCreateSize ||
+                            isLoadingUpdateSize
+                          }
                           placeholder="الحجم"
                           {...field}
                         />
@@ -135,7 +180,11 @@ export default function SizeModel({
                       <FormLabel>السعر</FormLabel>
                       <FormControl>
                         <Input
-                          disabled={isLoading}
+                          disabled={
+                            isLoading ||
+                            isLoadingCreateSize ||
+                            isLoadingUpdateSize
+                          }
                           placeholder="السعر"
                           {...field}
                         />
@@ -145,7 +194,13 @@ export default function SizeModel({
                   )}
                 />
 
-                <Button variant="main" type="submit" disabled={isLoading}>
+                <Button
+                  variant="main"
+                  type="submit"
+                  disabled={
+                    isLoading || isLoadingCreateSize || isLoadingUpdateSize
+                  }
+                >
                   {currentSize ? "تعديل الحجم" : "أنشاء حجم جديد"}
                 </Button>
               </div>

@@ -26,16 +26,12 @@ import { useMutation, useQueryClient } from "react-query";
 import { useRouter } from "next/navigation";
 import { Textarea } from "@/components/ui/textarea";
 import { Category } from "@prisma/client";
-import UploadWidget from "@/components/Cloudinary";
-import Image from "next/image";
 import SizeModel from "@/components/models/SizeModel";
 import { cn } from "@/lib/utils";
-import UpdateSizeModel from "@/components/models/UpdateSizeModel";
+import ImageUpload from "@/components/ImageUpload";
 
 const FormData = ({ categories }: { categories: Category[] }) => {
-  const [image, setImage] = useState<string | null>("");
   const [isOpenSizeModel, setOpenSizeModel] = useState(false);
-  const [isOpenUpdateSizeModel, setOpenUpdateSizeModel] = useState(false);
   const [sizes, setSizes] = useState<
     { size: string; price: number; id: number }[]
   >([]);
@@ -44,21 +40,20 @@ const FormData = ({ categories }: { categories: Category[] }) => {
     price: number;
     id: number;
   } | null>(null);
-  const [isLoading, startLoading] = useTransition();
+
   const router = useRouter();
   const queryClient = useQueryClient();
 
   const form = useForm<ProductFormTypes>({
     defaultValues: {
       name: "",
-
       categoryId: "",
       description: "",
       image: "",
     },
   });
 
-  const { mutate } = useMutation({
+  const { mutate, isLoading } = useMutation({
     mutationFn: async (data: any) => {
       await axios.post("/api/products", data);
     },
@@ -80,11 +75,6 @@ const FormData = ({ categories }: { categories: Category[] }) => {
     router.push("/dashboard/products");
   };
 
-  const handleUploadSuccess = (imageUrl: any) => {
-    form.setValue("image", imageUrl?.info?.secure_url);
-    setImage(imageUrl?.info?.secure_url);
-  };
-
   return (
     <>
       <SizeModel
@@ -93,32 +83,37 @@ const FormData = ({ categories }: { categories: Category[] }) => {
         setSizes={setSizes}
         currentSize={currentSize}
         setCurrentSize={setCurrentSize}
+        type="add"
       />
 
       <div className="flex gap-6 flex-col md:flex-row">
         <div className="max-w-[900px] w-full px-5 py-10 md:px-20">
-          {image && (
-            <div>
-              <Image
-                src={image}
-                height={300}
-                width={300}
-                objectFit="cover"
-                className="rounded-lg"
-                alt="product image"
-              />
-            </div>
-          )}
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
               className="space-y-10 w-full"
             >
               <div className="flex flex-col gap-5 w-full">
-                <UploadWidget
-                  title="اضف صورة للمنتج"
-                  handleUploadSuccess={handleUploadSuccess}
+                <FormField
+                  control={form.control}
+                  name="image"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>صورة المنتج</FormLabel>
+                      <FormControl>
+                        <ImageUpload
+                          value={field.value ? [field.value] : []}
+                          disabled={isLoading}
+                          onChange={(url) => field.onChange(url)}
+                          onRemove={() => field.onChange("")}
+                        />
+                      </FormControl>
+
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
+
                 <FormField
                   control={form.control}
                   name="name"
@@ -148,6 +143,7 @@ const FormData = ({ categories }: { categories: Category[] }) => {
                       <FormLabel>الوصف</FormLabel>
                       <FormControl>
                         <Textarea
+                          disabled={isLoading}
                           placeholder="قم بكتابة وصف للمنتج"
                           className="resize-none"
                           {...field}
@@ -168,6 +164,7 @@ const FormData = ({ categories }: { categories: Category[] }) => {
                         dir="rtl"
                         onValueChange={field.onChange}
                         defaultValue={field.value}
+                        disabled={isLoading}
                       >
                         <FormControl>
                           <SelectTrigger>

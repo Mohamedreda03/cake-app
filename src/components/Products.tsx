@@ -1,20 +1,23 @@
 "use client";
 
-import { Category, Product } from "@prisma/client";
+import { Category, Product, Size } from "@prisma/client";
 
 import { useEffect, useState } from "react";
 import Card from "./Card";
 import CategoriesMenu from "./Carousel";
 
+type ProductWithSize = Product & { sizes: Size[] };
+
 export default function Products({
   products,
   categories,
 }: {
-  products: Product[];
+  products: ProductWithSize[];
   categories: Category[];
 }) {
   const [currentCategory, setCurrentCategory] = useState<string | null>(null);
-  const [filterdProducts, setFilterdProducts] = useState<Product[]>(products);
+  const [filterdProducts, setFilterdProducts] =
+    useState<ProductWithSize[]>(products);
 
   useEffect(() => {
     if (currentCategory && currentCategory !== "best_seller") {
@@ -46,7 +49,7 @@ export default function Products({
         </div>
       )}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-center gap-5">
-        {filterdProducts.map((product: Product) => (
+        {filterdProducts.map((product: ProductWithSize) => (
           <Card key={product.id} product={product} />
         ))}
       </div>

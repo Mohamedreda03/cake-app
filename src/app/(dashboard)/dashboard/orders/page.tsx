@@ -6,9 +6,8 @@ import axios from "axios";
 import Loading from "@/components/Loading";
 import { useSearchParams } from "next/navigation";
 import PaginationButtons from "@/components/pagination-buttons";
-import { useState } from "react";
 
-export default function Users() {
+export default function Orders() {
   const searchParams = useSearchParams();
   const pageSize = searchParams.get("size") || 10;
   const pageNumber = searchParams.get("page") || 1;

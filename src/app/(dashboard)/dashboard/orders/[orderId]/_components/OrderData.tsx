@@ -28,6 +28,8 @@ export function OrderData({ order }: { order: OrderType }) {
   const queryClient = useQueryClient();
   const [orderStatus, setOrderStatus] = useState(order.status);
 
+  console.log(order);
+
   const { mutate } = useMutation({
     mutationFn: async (
       status: "PENDING" | "PROCESSING" | "SHIPPED" | "DELIVERED"

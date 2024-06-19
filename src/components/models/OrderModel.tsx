@@ -1,16 +1,24 @@
 import Alert from "./Alert";
 import { Button } from "../ui/button";
 import { useEffect, useState } from "react";
-import { Product } from "@prisma/client";
+import { Product, Size } from "@prisma/client";
 import Image from "next/image";
 import useCart from "@/store/cartStore";
 import { Textarea } from "../ui/textarea";
 import { Label } from "../ui/label";
 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 interface DeleteAlertProps {
   isOpen: boolean;
   onClose: () => void;
-  product: Product;
+  product: Product & { sizes: Size[] };
 }
 
 export default function OrderModel({
@@ -20,10 +28,14 @@ export default function OrderModel({
 }: DeleteAlertProps) {
   const [quantity, setQuantity] = useState<number>(1);
   const [note, setNote] = useState<string | undefined>();
+  console.log(product.sizes);
+  const [currentSize, setCurrentSize] = useState<Size | null>(
+    product?.sizes.length > 0 ? product.sizes[0] : null
+  );
 
   const cart = useCart();
 
-  const total = product.price * quantity;
+  const total = currentSize?.price! * quantity;
 
   const handleIncrement = () => {
     setQuantity((prev) => prev + 1);
@@ -38,6 +50,8 @@ export default function OrderModel({
   const handleAddToCart = () => {
     cart.addItem({
       ...product,
+      size: currentSize!,
+      special_id: `${product.id}-${currentSize?.id}`,
       quantity,
       total,
       note,
@@ -64,15 +78,46 @@ export default function OrderModel({
                   </p>
                   <div className="text-xl border-y border-color-4  w-full md:w-fit flex items-center justify-around px-2">
                     <span>
-                      {product.price} <span className="mr-1">ريال</span>
+                      {currentSize?.price} <span className="mr-1">ريال</span>
                     </span>
                     <span className="h-3 w-[1px] hidden md:block md:mx-4 bg-color-4" />
-                    <span className="text-lg mr-auto">{product.size} سم</span>
+                    <span className="text-lg mr-auto">
+                      {currentSize?.size} سم
+                    </span>
                   </div>
                 </div>
               </div>
 
-              <div className="my-5 w-40 flex flex-col items-center md:block mx-auto md:mx-0">
+              <div className="mt-5">
+                <Select
+                  dir="rtl"
+                  onValueChange={(value) => {
+                    setCurrentSize(
+                      product.sizes.find((size) => size.size === value) || null
+                    );
+                  }}
+                  defaultValue={currentSize?.size}
+                >
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="اختر الحجم" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {product.sizes.map((size) => (
+                      <SelectItem key={size.id} value={size.size}>
+                        <div>
+                          <span>{size.size} سم</span>
+                          <span className="mx-2">|</span>
+                          <span className="text-muted-foreground text-sm">
+                            {size.price} ريال
+                          </span>
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="mb-5 mt-3 w-40 flex flex-col items-center md:block mx-auto md:mx-0">
                 <p className="text-sm text-gray-500 mb-2">الكمية</p>
                 <div className="flex justify-between items-center w-40">
                   <Button onClick={handleDecrement} variant="outline">

@@ -1,8 +1,12 @@
-import { Product } from "@prisma/client";
+import { Product, Size } from "@prisma/client";
 import Image from "next/image";
 import OrderButton from "./OrderButton";
 
-export default function Card({ product }: { product: Product }) {
+export default function Card({
+  product,
+}: {
+  product: Product & { sizes: Size[] };
+}) {
   return (
     <div
       className="flex flex-col items-center gap-1 rounded-xl border border-color-3 w-full md:max-w-[300px] overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 ease-in-out"
@@ -25,12 +29,8 @@ export default function Card({ product }: { product: Product }) {
           {product.description}
         </p>
         <div className="flex items-center gap-3">
-          {/* <span className="bg-color-4/70 px-3 py-1.5 text-gray-900 rounded-full">
-            {product.price} ريال
-          </span>
-          <span className="bg-color-4/70 px-3 py-1.5 text-gray-900 rounded-full">
-            {product.size} سم
-          </span> */}
+          {/* <p className="text-lg font-semibold">{product.price} EGP</p>
+          <p className="text-muted-foreground text-sm">/ {product.unit}</p> */}
         </div>
         <OrderButton product={product} />
       </div>

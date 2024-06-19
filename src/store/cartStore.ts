@@ -1,18 +1,20 @@
-import { Product } from "@prisma/client";
+import { Product, Size } from "@prisma/client";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
 export interface CartItemType extends Product {
+  special_id: string;
   quantity: number;
   total: number;
   note?: string;
+  size: Size;
 }
 
 interface CartStore {
   items: CartItemType[];
   addItem: (item: CartItemType) => void;
-  updateItemQuantity: (id: string, quantity: number) => void;
-  removeItem: (id: string) => void;
+  updateItemQuantity: (special_id: string, quantity: number) => void;
+  removeItem: (special_id: string) => void;
   clearCart: () => void;
 }
 
@@ -22,12 +24,23 @@ const useCart = create(
       items: [],
       addItem: (item) => {
         set((state) => {
-          const existingItem = state.items.find((i) => i.id === item.id);
+          const existingItem = state.items.find(
+            (i) => i.special_id === item.special_id
+          );
 
           if (existingItem) {
+            if (existingItem.size.id !== item.size.id) {
+              return {
+                items: [
+                  ...state.items,
+                  { ...item, quantity: item.quantity, total: item.total },
+                ],
+              };
+            }
+
             return {
               items: state.items.map((i) =>
-                i.id === item.id
+                i.special_id === item.special_id
                   ? {
                       ...i,
                       quantity: i.quantity + item.quantity,
@@ -46,21 +59,21 @@ const useCart = create(
           }
         });
       },
-      updateItemQuantity: (id, quantity) =>
+      updateItemQuantity: (special_id, quantity) =>
         set((state) => ({
           items: state.items.map((item) =>
-            item.id === id
+            item.special_id === special_id
               ? {
                   ...item,
                   quantity,
-                  total: item.price * quantity,
+                  total: item.size.price * quantity,
                 }
               : item
           ),
         })),
-      removeItem: (id) =>
+      removeItem: (special_id) =>
         set((state) => ({
-          items: state.items.filter((item) => item.id !== id),
+          items: state.items.filter((item) => item.special_id !== special_id),
         })),
       clearCart: () =>
         set(() => ({

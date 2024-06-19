@@ -1,11 +1,15 @@
 "use client";
 
-import { Product } from "@prisma/client";
+import { Product, Size } from "@prisma/client";
 import { Button } from "./ui/button";
 import OrderModel from "./models/OrderModel";
 import { useState } from "react";
 
-export default function OrderButton({ product }: { product: Product }) {
+export default function OrderButton({
+  product,
+}: {
+  product: Product & { sizes: Size[] };
+}) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (

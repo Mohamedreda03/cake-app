@@ -7,7 +7,6 @@ import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import useCart, { type CartItemType } from "@/store/cartStore";
 import useSpecialProduct, { SpecialProductType } from "@/store/specialProduct";
-import { ProductOrder } from "@prisma/client";
 import axios from "axios";
 import { LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -25,6 +24,9 @@ export default function Cart() {
   const [paymentOption, setPaymentOption] = useState<boolean>(true);
 
   const total = cart.items.reduce((acc, item) => acc + item.total, 0);
+
+  console.log(cart.items);
+
   const [isPending, startPending] = useTransition();
 
   const handleCheckout = async (e: FormEvent<HTMLFormElement>) => {
@@ -100,8 +102,8 @@ export default function Cart() {
         <div className="flex flex-col lg:flex-row gap-6">
           <div className="flex-[1.2]">
             <div className="flex flex-col gap-3 w-full">
-              {cart.items.map((data: CartItemType) => (
-                <CartItem key={data.id} item={data} />
+              {cart.items.map((data: CartItemType, i) => (
+                <CartItem key={i} item={data} />
               ))}
             </div>
             {specialCart.items.length > 0 && (

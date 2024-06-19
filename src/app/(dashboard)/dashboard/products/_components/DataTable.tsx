@@ -56,8 +56,7 @@ export default function DataTable({ data }: { data: Product[] }) {
             <TableRow>
               <TableHead className="text-center text-lg">صورة المنتج</TableHead>
               <TableHead className="text-center text-lg">أسم المنتج</TableHead>
-              <TableHead className="text-center text-lg">الحجم</TableHead>
-              <TableHead className="text-center text-lg">السعر</TableHead>
+
               <TableHead className="text-center text-lg"></TableHead>
             </TableRow>
           </TableHeader>
