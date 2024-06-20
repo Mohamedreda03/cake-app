@@ -13,6 +13,33 @@ import { useRouter } from "next/navigation";
 import { FormEvent, useState, useTransition } from "react";
 import toast from "react-hot-toast";
 
+/**
+    id: string;
+    name: string;
+    description: string;
+    image: string;
+    quantity: number;
+    total: number;
+    note?: string;
+    size: Size;
+ */
+
+function filterCartItems(items: CartItemType[]) {
+  return items.map((item) => ({
+    // id: item.id,
+    name: item.name,
+    description: item.description,
+    image: item.image,
+    size: {
+      size: item.size.size,
+      price: item.size.price,
+    },
+    quantity: item.quantity,
+    total: item.total,
+    note: item.note,
+  }));
+}
+
 export default function Cart() {
   const [address, setAddress] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
@@ -25,17 +52,20 @@ export default function Cart() {
 
   const total = cart.items.reduce((acc, item) => acc + item.total, 0);
 
-  console.log(cart.items);
-
   const [isPending, startPending] = useTransition();
 
   const handleCheckout = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    const items = filterCartItems(cart.items);
+    console.log(items);
+
     if (!cafeName || !orderMakerName || !address || !phone) {
       toast.error("الرجاء ملء جميع الحقول");
       return;
     }
+
+    console.log(cart.items);
 
     startPending(async () => {
       if (paymentOption) {
@@ -53,7 +83,7 @@ export default function Cart() {
             data: {
               amount: total * 100,
               currency: "SAR",
-              description: `cafe_name: ${cafeName}\n, order_maker_name: ${orderMakerName}\n, address: ${address}\n, phone: ${phone}\n, total: ${total}`,
+              description: `cafe_name: ${cafeName}\n order_maker_name: ${orderMakerName}\n address: ${address}\n phone: ${phone}\n total: ${total}`,
               success_url: `${process.env.NEXT_PUBLIC_URL!}/cart/success`,
               metadata: {
                 cafe_name: cafeName,
@@ -61,7 +91,7 @@ export default function Cart() {
                 address: address,
                 phone: phone,
                 total: total,
-                items: cart.items,
+                items: items,
                 special_items: specialCart.items,
               },
             },

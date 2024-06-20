@@ -60,7 +60,6 @@ export async function POST(req: NextRequest) {
           createMany: {
             data: body.special_items.map((item: SpecialItem) => ({
               ...item,
-
               id: undefined,
             })),
           },
@@ -75,6 +74,8 @@ export async function POST(req: NextRequest) {
               special_id: undefined,
               size: item.size.size,
               price: item.size.price,
+              best_seller: undefined,
+              categoryId: undefined,
             })),
           },
         },

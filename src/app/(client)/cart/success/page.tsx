@@ -23,13 +23,10 @@ const SuccessPage = () => {
   const cart = useCart();
   const specialCart = useSpecialProduct();
   const invoiceId = useSearchParams().get("invoice_id");
-  const router = useRouter();
 
   useEffect(() => {
     const checkStatus = async () => {
       if (invoiceId) {
-        console.log(cart.items);
-
         await axios
           .request({
             url: `https://api.moyasar.com/v1/invoices/${invoiceId}`,
@@ -44,8 +41,6 @@ const SuccessPage = () => {
           })
           .then(async (res) => {
             if (res.data.status === "paid") {
-              console.log(cart.items);
-
               await axios
                 .post("/api/orders", {
                   cafe_name: res.data.metadata.cafe_name,
