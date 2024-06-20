@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import axios from "axios";
 
 export default function Test() {
@@ -24,5 +25,9 @@ export default function Test() {
         console.log(res.data);
       });
   };
-  return <div>Test</div>;
+  return (
+    <div>
+      <Button onClick={testWebhook}>Test Webhook</Button>
+    </div>
+  );
 }
