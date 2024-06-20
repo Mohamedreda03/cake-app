@@ -47,7 +47,7 @@ const CategoriesMenu = ({
               onClick={() => setCurrentCategory("best_seller")}
               variant={currentCategory === "best_seller" ? "main" : "secondary"}
             >
-              الكثر مبيعا
+              الأكثر مبيعا
             </Button>
           </div>
           {data.map((category) => (
