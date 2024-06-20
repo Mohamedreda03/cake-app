@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Billa Sweet",
+  title: "بيلا سويت",
   description:
     "بيلا سويت هو محل تجاري أنيق يقدم أجمل وألذ الأصناف المميزة والمبتكرة من الحلويات والموالح تمتلكه وتديره مؤسسة الحلويات الجميلة التجارية.",
 };

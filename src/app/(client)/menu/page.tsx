@@ -2,7 +2,7 @@ import { db } from "@/lib/db";
 import Products from "@/components/Products";
 
 export const metadata = {
-  title: "Billa Sweet",
+  title: "Billa Sweet cart",
   description:
     "بيلا سويت هو محل تجاري أنيق يقدم أجمل وألذ الأصناف المميزة والمبتكرة من الحلويات والموالح تمتلكه وتديره مؤسسة الحلويات الجميلة التجارية.",
 };

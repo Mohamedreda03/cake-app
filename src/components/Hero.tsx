@@ -26,6 +26,10 @@ export default function Hero() {
           <div className="absolute bottom-[35%] w-full h-16 bg-color-2 -z-10"></div>
         </div>
         <h1 className="text-5xl text-center">مرحبا بكم في بيلا</h1>
+        <p className="text-lg max-w-[700px] text-center">
+          بيلا سويت هو محل تجاري أنيق يقدم أجمل وألذ الأصناف المميزة والمبتكرة
+          من الحلويات والموالح تمتلكه وتديره مؤسسة الحلويات الجميلة التجارية.
+        </p>
       </div>
     </div>
   );
