@@ -69,6 +69,11 @@ export async function GET(
     where: {
       id: params.orderId,
     },
+    include: {
+      _count: {
+        select: { special_items: true },
+      },
+    },
   });
 
   return NextResponse.json({ data: order });

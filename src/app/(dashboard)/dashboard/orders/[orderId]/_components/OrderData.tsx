@@ -24,7 +24,11 @@ interface OrderType extends Order {
   special_items: SpecialItem[];
 }
 
-export function OrderData({ order }: { order: OrderType }) {
+export function OrderData({
+  order,
+}: {
+  order: OrderType & { _count: { special_items: number } };
+}) {
   const queryClient = useQueryClient();
   const [orderStatus, setOrderStatus] = useState(order.status);
 
@@ -92,15 +96,19 @@ export function OrderData({ order }: { order: OrderType }) {
                   "text-green-500 bg-green-50 w-fit px-2 py-1 rounded-full":
                     order.payment_status === "PAID",
                   "text-red-500 bg-red-50 w-fit px-3 py-1 rounded-full":
+                    order.payment_status === "FAILED",
+
+                  "text-gray-900 bg-slate-200 w-fit px-3 py-1 rounded-full":
                     order.payment_status === "PENDING",
                 })}
               >
-                {order.payment_status === "PAID"
-                  ? "تم الدفع"
-                  : "الدفع عند الاستلام"}
-                {order.special_items &&
+                {order.payment_status === "PAID" && "تم الدفع"}
+                {order.payment_status === "PENDING" && "الدفع عند الاستلام"}
+                {order.payment_status === "FAILED" && "فشل الدفع والغي الطلب"}
+
+                {order._count.special_items &&
                   order.payment_status === "PAID" &&
-                  order.special_items.length > 0 &&
+                  order._count.special_items > 0 &&
                   " + طلب خاص"}
               </div>
             </TableCell>
@@ -166,6 +174,7 @@ export function OrderData({ order }: { order: OrderType }) {
                 اسم المنتج
               </TableCell>
               <TableCell className="font-medium text-center">الكمية</TableCell>
+              <TableCell className="font-medium text-center">الحجم</TableCell>
               <TableCell className="font-medium text-center">السعر</TableCell>
               <TableCell className="font-medium text-center">
                 الملاحظات
@@ -184,7 +193,10 @@ export function OrderData({ order }: { order: OrderType }) {
                 <TableCell className="text-center">
                   {product.quantity}
                 </TableCell>
-                <TableCell className="text-center">{product.total}</TableCell>
+                <TableCell className="text-center">{product.size} سم</TableCell>
+                <TableCell className="text-center">
+                  {product.total} ريال
+                </TableCell>
                 {product.note && (
                   <TableCell className="text-center">{product.note}</TableCell>
                 )}

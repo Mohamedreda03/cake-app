@@ -90,12 +90,17 @@ export default function DataTable({ orders }: { orders: OrderType[] }) {
                         "text-green-500 bg-green-50 w-fit px-2 py-1 rounded-full mx-auto":
                           order.payment_status === "PAID",
                         "text-red-500 bg-red-50 w-fit px-3 py-1 rounded-full mx-auto":
+                          order.payment_status === "FAILED",
+
+                        "text-gray-900 bg-slate-200 w-fit px-3 py-1 rounded-full mx-auto":
                           order.payment_status === "PENDING",
                       })}
                     >
-                      {order.payment_status === "PAID"
-                        ? "تم الدفع"
-                        : "الدفع عند الاستلام"}
+                      {order.payment_status === "PAID" && "تم الدفع"}
+                      {order.payment_status === "PENDING" &&
+                        "الدفع عند الاستلام"}
+                      {order.payment_status === "FAILED" &&
+                        "فشل الدفع والغي الطلب"}
 
                       {order._count.special_items &&
                         order.payment_status === "PAID" &&

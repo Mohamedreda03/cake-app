@@ -42,14 +42,7 @@ const SuccessPage = () => {
           .then(async (res) => {
             if (res.data.status === "paid") {
               await axios
-                .post("/api/orders", {
-                  cafe_name: res.data.metadata.cafe_name,
-                  order_maker_name: res.data.metadata.order_maker_name,
-                  address: res.data.metadata.address,
-                  phone: res.data.metadata.phone,
-                  total: res.data.metadata.total,
-                  items: res.data.metadata.items,
-                  special_items: res.data.metadata.special_items,
+                .patch(`/api/orders/${res.data.metadata.orderId}`, {
                   status: "PENDING",
                   payment_status: "PAID",
                   payment_id: res.data.id,

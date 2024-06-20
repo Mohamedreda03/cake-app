@@ -19,6 +19,9 @@ export default async function UserDetails({
     include: {
       products: true,
       special_items: true,
+      _count: {
+        select: { special_items: true },
+      },
     },
   });
 
