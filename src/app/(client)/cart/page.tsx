@@ -102,7 +102,7 @@ export default function Cart() {
           })
           .catch((err) => console.log(err));
       } else {
-        await axios
+        const order = await axios
           .post("/api/orders", {
             cafe_name: cafeName,
             order_maker_name: orderMakerName,
