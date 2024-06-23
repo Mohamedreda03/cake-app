@@ -1,8 +1,8 @@
 import Footer from "@/components/Footer";
 import Navbar from "@/components/navbar/Navbar";
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 
 export default function layout({ children }: { children: React.ReactNode }) {
   return (
