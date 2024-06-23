@@ -57,15 +57,10 @@ export default function Cart() {
   const handleCheckout = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // const items = filterCartItems(cart.items);
-    // console.log(items);
-
     if (!cafeName || !orderMakerName || !address || !phone) {
       toast.error("الرجاء ملء جميع الحقول");
       return;
     }
-
-    // console.log(cart.items);
 
     startPending(async () => {
       if (paymentOption) {
@@ -107,17 +102,23 @@ export default function Cart() {
           })
           .catch((err) => console.log(err));
       } else {
-        await axios.post("/api/orders", {
-          cafe_name: cafeName,
-          order_maker_name: orderMakerName,
-          address: address,
-          phone: phone,
-          total: total,
-          items: cart.items,
-          special_items: specialCart.items,
-          status: "PENDING",
-          payment_status: "PENDING",
-        });
+        await axios
+          .post("/api/orders", {
+            cafe_name: cafeName,
+            order_maker_name: orderMakerName,
+            address: address,
+            phone: phone,
+            total: total,
+            items: cart.items,
+            special_items: specialCart.items,
+            status: "PENDING",
+            payment_status: "PENDING",
+          })
+          .then(() => toast.success("تم ارسال الطلب بنجاح"))
+          .catch((error) => {
+            toast.error("حدث خطأ ما");
+            console.log(error);
+          });
         router.push("/cart/success");
         cart.clearCart();
         specialCart.clearCart();
