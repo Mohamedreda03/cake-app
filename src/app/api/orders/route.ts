@@ -66,14 +66,9 @@ export async function POST(req: NextRequest) {
           createMany: {
             data: body.items.map((item: CartItemType) => ({
               ...item,
-              id: undefined,
-              orderId: undefined,
-              sizes: undefined,
               special_id: undefined,
-              size: item.size.size,
-              price: item.size.price,
-              best_seller: undefined,
-              categoryId: undefined,
+              size: item.size,
+              price: item.price,
             })),
           },
         },

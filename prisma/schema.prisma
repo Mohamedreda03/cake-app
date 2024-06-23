@@ -126,8 +126,6 @@ model ProductOrder {
   quantity    Int
   total       Float
   note        String?
-  best_seller Boolean
-  categoryId  String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   orderId     String?

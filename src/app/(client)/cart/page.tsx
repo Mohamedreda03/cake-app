@@ -102,7 +102,7 @@ export default function Cart() {
           })
           .catch((err) => console.log(err));
       } else {
-        const order = await axios
+        await axios
           .post("/api/orders", {
             cafe_name: cafeName,
             order_maker_name: orderMakerName,
@@ -111,8 +111,6 @@ export default function Cart() {
             total: total,
             items: cart.items,
             special_items: specialCart.items,
-            status: "PENDING",
-            payment_status: "PENDING",
           })
           .then(() => toast.success("تم ارسال الطلب بنجاح"))
           .catch((error) => {

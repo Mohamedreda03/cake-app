@@ -1,13 +1,18 @@
-import { Product, Size } from "@prisma/client";
+import { Product, ProductOrder, Size } from "@prisma/client";
+import { number } from "zod";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
-export interface CartItemType extends Product {
+export interface CartItemType {
   special_id: string;
+  name: string;
+  description: string;
+  size: string;
+  price: number;
+  image: string;
   quantity: number;
   total: number;
   note?: string;
-  size: Size;
 }
 
 interface CartStore {
@@ -29,11 +34,16 @@ const useCart = create(
           );
 
           if (existingItem) {
-            if (existingItem.size.id !== item.size.id) {
+            if (existingItem.size !== item.size) {
               return {
                 items: [
                   ...state.items,
-                  { ...item, quantity: item.quantity, total: item.total },
+                  {
+                    ...item,
+                    quantity: item.quantity,
+                    total: item.total,
+                    sizes: undefined,
+                  },
                 ],
               };
             }
@@ -66,7 +76,7 @@ const useCart = create(
               ? {
                   ...item,
                   quantity,
-                  total: item.size.price * quantity,
+                  total: item.price * quantity,
                 }
               : item
           ),
@@ -83,13 +93,5 @@ const useCart = create(
     { name: "cart-storage", storage: createJSONStorage(() => localStorage) }
   )
 );
-
-// const useCart = create(
-//   devtools(
-//     persist(cartStore, {
-//       name: "cart",
-//     })
-//   )
-// );
 
 export default useCart;

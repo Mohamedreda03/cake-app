@@ -1,6 +1,5 @@
 "use client";
 
-import Loading from "@/components/Loading";
 import { Button } from "@/components/ui/button";
 import useCart from "@/store/cartStore";
 import useSpecialProduct from "@/store/specialProduct";
@@ -23,6 +22,7 @@ const SuccessPage = () => {
   const cart = useCart();
   const specialCart = useSpecialProduct();
   const invoiceId = useSearchParams().get("invoice_id");
+  const router = useRouter();
 
   useEffect(() => {
     const checkStatus = async () => {
@@ -47,10 +47,11 @@ const SuccessPage = () => {
                   payment_status: "PAID",
                   payment_id: res.data.id,
                 })
-                .then((resOrd) => {
+                .then(() => {
                   cart.clearCart();
                   specialCart.clearCart();
                   toast.success("تم ارسال الطلب بنجاح");
+                  router.push("/cart/success");
                 });
             }
           })

@@ -49,12 +49,15 @@ export default function OrderModel({
 
   const handleAddToCart = () => {
     cart.addItem({
-      ...product,
-      size: currentSize!,
+      size: currentSize?.size!,
       special_id: `${product.id}-${currentSize?.id}`,
       quantity,
       total,
-      note,
+      note: note || "",
+      name: product.name,
+      image: product.image,
+      description: product.description,
+      price: currentSize?.price!,
     });
     onClose();
   };
