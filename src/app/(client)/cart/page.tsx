@@ -13,13 +13,6 @@ import { useRouter } from "next/navigation";
 import { FormEvent, useState, useTransition } from "react";
 import toast from "react-hot-toast";
 
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "السلة - بيلا سويت",
-  description: "السلة الخاصة بك في بيلا سويت",
-};
-
 export default function Cart() {
   const [address, setAddress] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
