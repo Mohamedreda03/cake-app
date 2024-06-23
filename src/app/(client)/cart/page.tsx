@@ -117,7 +117,7 @@ export default function Cart() {
           .then(() => toast.success("تم ارسال الطلب بنجاح"))
           .catch((error) => {
             toast.error("حدث خطأ ما");
-            console.log(error);
+            console.error("ERROR ORDER: => ", error);
           });
         router.push("/cart/success");
         cart.clearCart();
