@@ -28,7 +28,7 @@ export default function OrderModel({
 }: DeleteAlertProps) {
   const [quantity, setQuantity] = useState<number>(1);
   const [note, setNote] = useState<string | undefined>();
-  console.log(product.sizes);
+
   const [currentSize, setCurrentSize] = useState<Size | null>(
     product?.sizes.length > 0 ? product.sizes[0] : null
   );

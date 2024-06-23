@@ -14,7 +14,7 @@ export const createProduct = async (data: any) => {
     return { error: "you should be admin." };
   }
 
-  console.log(data);
+  // console.log(data);
 
   // const product = await db.product.create({
   //   data,

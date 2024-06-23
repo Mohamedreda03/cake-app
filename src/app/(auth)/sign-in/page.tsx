@@ -39,7 +39,6 @@ export default function Login() {
     startTransition(() => {
       signin(data).then((data: any) => {
         setErrorMessage(data?.error);
-        console.log(data);
       });
     });
   };

@@ -40,8 +40,6 @@ const signin = async (data: SignInFormTypes) => {
       redirectTo: "/dashboard/products",
     });
 
-    console.log(res);
-
     return { success: "تم تسجيل الدخول بنجاج" };
   } catch (error) {
     if (error instanceof AuthError) {
