@@ -1,6 +1,5 @@
 import Footer from "@/components/Footer";
 import Navbar from "@/components/navbar/Navbar";
-import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -15,7 +14,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
       >
         <Image
           src="/icons/whatsapp.svg"
-          alt="logo"
+          alt="whatsapp"
           width={150}
           height={150}
           className="h-14 w-14 md:h-16 md:w-16 p-3 rounded-full bg-green-500 hover:bg-green-600 transition-all cursor-pointer"
