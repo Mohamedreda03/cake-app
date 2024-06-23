@@ -1,9 +1,8 @@
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { CartItemType } from "@/store/cartStore";
-import { ProductOrder, SpecialItem } from "@prisma/client";
+import { SpecialItem } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
-import { spec } from "node:test/reporters";
 
 export async function GET(req: NextRequest) {
   const sesstion = await auth();
@@ -43,9 +42,8 @@ export async function GET(req: NextRequest) {
 // /////////////////////////////////////////////////////////////////////////////
 
 export async function POST(req: NextRequest) {
-  const body = await req.json();
-
   try {
+    const body = await req.json();
     const order = await db.order.create({
       data: {
         cafe_name: body.cafe_name,
