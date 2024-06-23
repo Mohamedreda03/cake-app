@@ -7,12 +7,11 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { cn } from "@/lib/utils";
-import { MouseEvent, useEffect, useRef } from "react";
 
 interface AlertProps {
   title: string;
   description?: string;
+  className?: string;
   isOpen: boolean;
   onClose: () => void;
   children?: React.ReactNode;
@@ -21,6 +20,7 @@ interface AlertProps {
 export default function Alert({
   title,
   description,
+  className,
   children,
   isOpen,
   onClose,
@@ -33,7 +33,7 @@ export default function Alert({
 
   return (
     <Dialog open={isOpen} onOpenChange={onChange}>
-      <DialogContent>
+      <DialogContent className={className}>
         <DialogHeader>
           <DialogTitle dir="rtl" className="text-start mt-6">
             {title}

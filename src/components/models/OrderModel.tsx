@@ -63,7 +63,12 @@ export default function OrderModel({
   };
 
   return (
-    <Alert title={""} isOpen={isOpen} onClose={onClose}>
+    <Alert
+      title={""}
+      className="max-w-[600px] w-full md:px-10"
+      isOpen={isOpen}
+      onClose={onClose}
+    >
       <div dir="rtl" className="">
         <div className="flex flex-col">
           <div className="flex flex-col-reverse md:flex-row">
@@ -76,10 +81,10 @@ export default function OrderModel({
                     </div>
                     <div className="absolute bottom-2 w-full h-4 bg-color-4/40 -z-10"></div>
                   </div>
-                  <p className="text-muted-foreground mb-2">
+                  <p className="text-muted-foreground mb-2 text-md">
                     {product.description}
                   </p>
-                  <div className="text-xl border-y border-color-4  w-full md:w-fit flex items-center justify-around px-2">
+                  <div className="text-xl border-y border-color-4  w-full md:w-fit flex items-center justify-around p-2">
                     <span>
                       {currentSize?.price} <span className="mr-1">ريال</span>
                     </span>
@@ -101,7 +106,7 @@ export default function OrderModel({
                   }}
                   defaultValue={currentSize?.size}
                 >
-                  <SelectTrigger className="w-[180px]">
+                  <SelectTrigger className="w-full md:w-[200px]">
                     <SelectValue placeholder="اختر الحجم" />
                   </SelectTrigger>
                   <SelectContent>
@@ -109,7 +114,7 @@ export default function OrderModel({
                       <SelectItem key={size.id} value={size.size}>
                         <div>
                           <span>{size.size} سم</span>
-                          <span className="mx-2">|</span>
+                          <span className="mx-3">|</span>
                           <span className="text-muted-foreground text-sm">
                             {size.price} ريال
                           </span>
@@ -123,11 +128,19 @@ export default function OrderModel({
               <div className="mb-5 mt-3 w-40 flex flex-col items-center md:block mx-auto md:mx-0">
                 <p className="text-sm text-gray-500 mb-2">الكمية</p>
                 <div className="flex justify-between items-center w-40">
-                  <Button onClick={handleDecrement} variant="outline">
+                  <Button
+                    onClick={handleDecrement}
+                    size="icon"
+                    variant="outline"
+                  >
                     -
                   </Button>
-                  <p>{quantity}</p>
-                  <Button onClick={handleIncrement} variant="outline">
+                  <p className="text-2xl">{quantity}</p>
+                  <Button
+                    onClick={handleIncrement}
+                    size="icon"
+                    variant="outline"
+                  >
                     +
                   </Button>
                 </div>
@@ -142,7 +155,7 @@ export default function OrderModel({
                 className="rounded-lg w-full h-[300px] md:w-[200px] md:h-[150px] object-cover"
               />
               <div>
-                <div className="flex justify-between border-y border-color-4 mt-2">
+                <div className="flex justify-between border-y border-color-4 mt-5 p-2 text-lg">
                   <p>المجموع</p>
                   <p className="text-xl w-fit mr-3">
                     {total} <span className="mr-1">ريال</span>
