@@ -37,13 +37,12 @@ export default function DataTable({ orders }: { orders: OrderType[] }) {
     onSuccess: () => {
       queryClient.invalidateQueries("orders");
       toast.success("تم حذف الطلب بنجاح");
+      setIsOpen(false);
     },
   });
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
     mutate();
-
-    setIsOpen(false);
   };
 
   return (
