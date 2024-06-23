@@ -1,7 +1,5 @@
 "use client";
 
-import { cn } from "@/lib/utils";
-import { usePathname } from "next/navigation";
 import { Session } from "next-auth";
 import Image from "next/image";
 import MenuLinks from "./MenuLinks";
@@ -23,7 +21,7 @@ export default function Sidebar({ session }: { session: Session }) {
         </div>
         <MenuLinks session={session} />
       </div>
-      <div className="mt-auto mb-2 flex items-center justify-center">
+      <div className="mt-auto mb-2 flex flex-col items-center justify-center gap-3">
         <Button onClick={handleSignOut} variant="outline" className="mx-auto">
           تسجيل الخروج
           <ArrowLeft size={18} className="mr-2" />

@@ -30,7 +30,7 @@ export default function Navbar() {
           href="/about"
           className="relative before:block before:absolute before:bg-color-1 before:h-[2px] before:w-[0%] before:-left-2 hover:before:w-[100%] before:transition-all before:duration-300 before:ease-in-out before:bottom-0"
         >
-          <p className="text-lg text-gray-900 mr-4">عنا</p>
+          <p className="text-lg text-gray-900 mr-4">قصتنا</p>
         </Link>
       </div>
       <CartCounter />

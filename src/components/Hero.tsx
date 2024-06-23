@@ -1,4 +1,11 @@
+import { Metadata } from "next";
 import Image from "next/image";
+
+export const metadata: Metadata = {
+  title: "بيلا سويت",
+  description:
+    "بيلا سويت هو محل تجاري أنيق يقدم أجمل وألذ الأصناف المميزة والمبتكرة من الحلويات والموالح تمتلكه وتديره مؤسسة الحلويات الجميلة التجارية.",
+};
 
 export default function Hero() {
   return (
@@ -18,7 +25,7 @@ export default function Hero() {
         <div className="relative">
           <Image
             src="/logo.svg"
-            alt="Logo"
+            alt="بيلا سويت"
             width={200}
             height={200}
             quality={100}

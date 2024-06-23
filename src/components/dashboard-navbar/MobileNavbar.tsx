@@ -6,7 +6,7 @@ import {
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import {
@@ -18,6 +18,7 @@ import {
   Home,
   Menu,
   ArrowLeftIcon,
+  ArrowLeft,
 } from "lucide-react";
 import { Session } from "next-auth";
 import { cn } from "@/lib/utils";
@@ -56,6 +57,12 @@ export default function MobileNavbar() {
   const { data: session } = useSession();
 
   const pathname = usePathname();
+
+  const handleSignOut = () => {
+    signOut({
+      callbackUrl: "/",
+    });
+  };
 
   return (
     <Sheet>
@@ -108,6 +115,14 @@ export default function MobileNavbar() {
                 <ArrowLeftIcon size={15} className="mr-1" />
               </Button>
             </Link>
+            <Button
+              onClick={handleSignOut}
+              variant="outline"
+              className="mx-auto w-full mt-3"
+            >
+              تسجيل الخروج
+              <ArrowLeft size={18} className="mr-2" />
+            </Button>
           </div>
         </div>
       </SheetContent>

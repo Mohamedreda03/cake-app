@@ -16,7 +16,7 @@ export default function Card({
         src={product.image}
         width={200}
         height={200}
-        alt="product image"
+        alt={product.name}
         className="w-full h-[250px] object-cover"
       />
       <div className="p-5 flex flex-col items-center w-full">
