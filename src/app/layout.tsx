@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="ar" dir="rtl">
       <body className={gess.className}>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
+        {/* <link rel="icon" href="/favicon.ico" sizes="any" /> */}
         <Providers>{children}</Providers>
       </body>
     </html>
