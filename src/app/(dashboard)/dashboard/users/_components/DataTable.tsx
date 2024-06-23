@@ -30,13 +30,12 @@ export default function DataTable({ users }: { users: User[] }) {
     onSuccess: () => {
       queryClient.invalidateQueries("users");
       toast.success("تم حذف المستخدم بنجاح");
+      setIsOpen(false);
     },
   });
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
     mutate();
-
-    setIsOpen(false);
   };
 
   return (

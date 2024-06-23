@@ -37,16 +37,15 @@ export default function DataTable({ data }: { data: TableProps[] }) {
     onSuccess: () => {
       queryClient.invalidateQueries("categories");
       toast.success("تم حذف الفئه بنجاح");
+      setIsOpen(false);
     },
     onError: () => {
       toast.error("لا يمكن حذف الفئه لانها تحتوي علي منتجات");
     },
   });
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
     mutate();
-
-    setIsOpen(false);
   };
 
   return (

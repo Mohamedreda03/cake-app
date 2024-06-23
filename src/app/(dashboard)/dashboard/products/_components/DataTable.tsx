@@ -31,13 +31,12 @@ export default function DataTable({ data }: { data: Product[] }) {
     onSuccess: () => {
       queryClient.invalidateQueries("products");
       toast.success("تم حذف المنتج بنجاح");
+      setIsOpen(false);
     },
   });
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
     mutate();
-
-    setIsOpen(false);
   };
 
   return (
