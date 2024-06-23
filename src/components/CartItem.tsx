@@ -14,14 +14,14 @@ const CartItem = ({ item }: { item: CartItemType }) => {
 
   const handleIncrement = () => {
     setQuantity((prev) => prev + 1);
-    setCurrentPrice((prev) => prev + item.size.price);
+    setCurrentPrice((prev) => prev + item.price);
     cart.updateItemQuantity(item.special_id, item.quantity + 1);
   };
 
   const handleDecrement = () => {
     if (quantity > 1) {
       setQuantity((prev) => prev - 1);
-      setCurrentPrice((prev) => prev - item.size.price);
+      setCurrentPrice((prev) => prev - item.price);
       cart.updateItemQuantity(item.special_id, item.quantity - 1);
     }
   };
@@ -43,7 +43,7 @@ const CartItem = ({ item }: { item: CartItemType }) => {
               <div className="absolute bottom-2 w-full h-4 bg-color-4/40 -z-10"></div>
             </div>
             <div className="flex flex-row items-start gap-6 mb-2 text-sm md:text-md">
-              <p className=" border-b border-color-1">{item.size.size} سم</p>
+              <p className=" border-b border-color-1">{item.size} سم</p>
               <span className="h-5 w-0.5 bg-color-1 hidden sm:block" />
               <p className="text-primary border-b border-color-1">
                 {currentPrice} ريال
