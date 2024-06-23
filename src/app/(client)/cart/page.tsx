@@ -13,32 +13,12 @@ import { useRouter } from "next/navigation";
 import { FormEvent, useState, useTransition } from "react";
 import toast from "react-hot-toast";
 
-/**
-    id: string;
-    name: string;
-    description: string;
-    image: string;
-    quantity: number;
-    total: number;
-    note?: string;
-    size: Size;
- */
+import { Metadata } from "next";
 
-// function filterCartItems(items: CartItemType[]) {
-//   return items.map((item) => ({
-//     // id: item.id,
-//     name: item.name,
-//     description: item.description,
-//     image: item.image,
-//     size: {
-//       size: item.size.size,
-//       price: item.size.price,
-//     },
-//     quantity: item.quantity,
-//     total: item.total,
-//     note: item.note,
-//   }));
-// }
+export const metadata: Metadata = {
+  title: "السلة - بيلا سويت",
+  description: "السلة الخاصة بك في بيلا سويت",
+};
 
 export default function Cart() {
   const [address, setAddress] = useState<string>("");

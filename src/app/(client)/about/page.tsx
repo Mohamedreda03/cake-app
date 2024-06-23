@@ -1,7 +1,8 @@
 import { Metadata } from "next";
+import Head from "next/head";
 
 export const metadata: Metadata = {
-  title: "قصتنا المبهره",
+  title: "قصتنا المبهره - بيلا سويت",
   description: `هي قصة شغف الأختين نورا ورنا ووالدتهما .. فبشكلها الانيق والمميز
           وطعمها الساحر وادراكهم بأن الحلويات اللذيذة هي سرّ السعادة في الحفلات
           والمناسبات والاجتماعات العائلية ابتسامه وتصنع السعادة للناس .. فقررو
@@ -11,6 +12,26 @@ export const metadata: Metadata = {
 export default function page() {
   return (
     <div className="max-w-screen-xl mx-auto p-5 md:p-7">
+      <Head>
+        <meta
+          name="description"
+          content="هي قصة شغف الأختين نورا ورنا ووالدتهما .. فبشكلها الانيق والمميز
+          وطعمها الساحر وادراكهم بأن الحلويات اللذيذة هي سرّ السعادة في الحفلات
+          والمناسبات والاجتماعات العائلية ابتسامه وتصنع السعادة للناس .. فقررو
+          انشاء مشروعهم المنزلي الصغير."
+        />
+        <meta property="og:title" content="قصتنا المبهره - بيلا سويت" />
+        <meta
+          property="og:description"
+          content="بيلا سويت هو محل تجاري أنيق يقدم أجمل وألذ الأصناف المميزة والمبتكرة من الحلويات والموالح تمتلكه وتديره مؤسسة الحلويات الجميلة التجارية."
+        />
+        <meta property="og:image" content="/logo.svg" />
+        <meta
+          name="twitter:card"
+          content="الدمّام حي الريان ٢-١١ مساءً ✨للطلب بنفس اليوم (فقط اتصال) 0507177844 ✨لطلب حجوزات مستقبليه: منسقه الطلبات 0502842888 ✨للاقتراحات 0505187012.
+"
+        />
+      </Head>
       <div className="flex items-center justify-center mt-5 mb-10">
         <h2 className="text-5xl border-b-2 border-color-1 w-fit">
           قصتنا المبهره
