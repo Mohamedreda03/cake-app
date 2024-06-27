@@ -1,11 +1,8 @@
 "use client";
 
-import Carousel from "react-multi-carousel";
-import "react-multi-carousel/lib/styles.css";
-// import ProductCard from "./ProductCard";
-// import { featchDataFromApi } from "../utils/api";
+// import "react-multi-carousel/lib/styles.css";
 
-import { ChevronLeft, ChevronRight, PlusCircle } from "lucide-react";
+import { PlusCircle } from "lucide-react";
 import { Category } from "@prisma/client";
 import { Dispatch, SetStateAction, useState } from "react";
 import { cn } from "@/lib/utils";
@@ -50,7 +47,7 @@ const CategoriesMenu = ({
               الأكثر مبيعا
             </Button>
           </div>
-          {data.map((category) => (
+          {data?.map((category) => (
             <div key={category.id}>
               <Button
                 key={category.id}

@@ -94,6 +94,7 @@ const FormData = ({
 
   const onSubmit = (formData: ProductFormTypes) => {
     mutate(formData);
+    console.log(formData);
   };
 
   const onDeleteSize = async () => {

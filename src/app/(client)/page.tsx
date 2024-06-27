@@ -18,18 +18,11 @@ export const metadata: Metadata = {
   },
 };
 
-export const dynamic = "force-dynamic";
-export default async function Home() {
-  const categories = await db.category.findMany();
-  const products = await db.product.findMany({
-    include: {
-      sizes: true,
-    },
-  });
+export default function Home() {
   return (
     <div className="max-w-screen-xl mx-auto p-5 md:p-7">
       <Hero />
-      <Products products={products} categories={categories} />
+      <Products />
     </div>
   );
 }

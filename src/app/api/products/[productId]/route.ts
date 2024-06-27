@@ -21,7 +21,15 @@ export async function PATCH(
       id: params.productId,
     },
     data: {
-      ...body,
+      name: body.name,
+      description: body.description,
+      category: {
+        connect: {
+          id: body.categoryId,
+        },
+      },
+      best_seller: body.best_seller,
+      image: body.image,
     },
   });
 
