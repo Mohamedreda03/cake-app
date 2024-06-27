@@ -7,25 +7,15 @@ import Card from "./Card";
 import CategoriesMenu from "./Carousel";
 import axios from "axios";
 import { useQuery } from "react-query";
+import Loading from "./Loading";
 
 type ProductWithSize = Product & { sizes: Size[] };
 
 export default function Products() {
-  // const [products, setProducts] = useState<ProductWithSize[]>([]);
-  // const [categories, setCategories] = useState<Category[]>([]);
   const [currentCategory, setCurrentCategory] = useState<string | null>(null);
   const [filterdProducts, setFilterdProducts] = useState<ProductWithSize[]>([]);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     await axios.get("/api/menu").then((res) => {
-  //       setProducts(res.data.products);
-  //       setCategories(res.data.categories);
-  //     });
-  //   })();
-  // }, []);
-
-  const { data } = useQuery("products", async () => {
+  const { data, isLoading } = useQuery("products", async () => {
     const res = await axios.get("/api/menu");
     return res.data;
   });
@@ -45,6 +35,8 @@ export default function Products() {
       setFilterdProducts(data?.products);
     }
   }, [currentCategory, data?.products]);
+
+  if (isLoading) return <Loading />;
 
   return (
     <>
