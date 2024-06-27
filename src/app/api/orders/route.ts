@@ -44,6 +44,20 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
+
+    const oldOrder = await db.order.findFirst({
+      where: {
+        payment_id: body.payment_id,
+      },
+    });
+
+    if (oldOrder) {
+      return NextResponse.json(
+        { error: "order already exists" },
+        { status: 400 }
+      );
+    }
+
     const order = await db.order.create({
       data: {
         cafe_name: body.cafe_name,
