@@ -21,6 +21,7 @@ import Link from "next/link";
 import { useState, useTransition } from "react";
 import { SignInFormTypes, SignInSchema } from "@/types/schema";
 import signin from "@/actions/signin";
+import { Metadata } from "next";
 
 export default function Login() {
   const [isPanding, startTransition] = useTransition();
