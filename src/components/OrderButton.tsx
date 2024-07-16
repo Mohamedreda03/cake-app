@@ -4,6 +4,7 @@ import { Product, Size } from "@prisma/client";
 import { Button } from "./ui/button";
 import OrderModel from "./models/OrderModel";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 export default function OrderButton({
   product,
@@ -11,6 +12,7 @@ export default function OrderButton({
   product: Product & { sizes: Size[] };
 }) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const t = useTranslations("More");
 
   return (
     <>
@@ -24,7 +26,7 @@ export default function OrderButton({
         className="mt-3 rounded-full w-full"
         variant="main"
       >
-        أضف إلى السلة
+        {t("add_to_cart")}
       </Button>
     </>
   );

@@ -1,11 +1,14 @@
+"use client";
+
 import Alert from "./Alert";
 import { Button } from "../ui/button";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Product, Size } from "@prisma/client";
 import Image from "next/image";
 import useCart from "@/store/cartStore";
 import { Textarea } from "../ui/textarea";
 import { Label } from "../ui/label";
+import "./model.css";
 
 import {
   Select,
@@ -14,6 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useLocale, useTranslations } from "next-intl";
 
 interface DeleteAlertProps {
   isOpen: boolean;
@@ -28,6 +32,8 @@ export default function OrderModel({
 }: DeleteAlertProps) {
   const [quantity, setQuantity] = useState<number>(1);
   const [note, setNote] = useState<string | undefined>();
+  const t = useTranslations("More");
+  const locale = useLocale();
 
   const [currentSize, setCurrentSize] = useState<Size | null>(
     product?.sizes.length > 0 ? product.sizes[0] : null
@@ -65,11 +71,11 @@ export default function OrderModel({
   return (
     <Alert
       title={""}
-      className="max-w-[600px] w-full md:px-10 overflow-y-scroll h-full"
+      className="max-w-[600px] w-full md:px-10 overflow-y-scroll h-full md:h-auto"
       isOpen={isOpen}
       onClose={onClose}
     >
-      <div dir="rtl" className="">
+      <div dir={locale === "ar" ? "rtl" : "ltr"} className="">
         <div className="flex flex-col">
           <div className="flex flex-col-reverse md:flex-row">
             <div className="md:flex-[1.3]">
@@ -86,11 +92,17 @@ export default function OrderModel({
                   </p>
                   <div className="text-xl border-y border-color-4  w-full md:w-fit flex items-center justify-around p-2">
                     <span>
-                      {currentSize?.price} <span className="mr-1">ريال</span>
+                      {currentSize?.price}{" "}
+                      <span className="mr-1 text-muted-foreground text-sm">
+                        {t("curancy")}
+                      </span>
                     </span>
                     <span className="h-3 w-[1px] hidden md:block md:mx-4 bg-color-4" />
                     <span className="text-lg mr-auto">
-                      {currentSize?.size} سم
+                      {currentSize?.size}{" "}
+                      <span className="text-muted-foreground text-sm">
+                        {t("size")}
+                      </span>
                     </span>
                   </div>
                 </div>
@@ -98,7 +110,7 @@ export default function OrderModel({
 
               <div className="mt-5">
                 <Select
-                  dir="rtl"
+                  dir={locale === "ar" ? "rtl" : "ltr"}
                   onValueChange={(value) => {
                     setCurrentSize(
                       product.sizes.find((size) => size.size === value) || null
@@ -107,16 +119,24 @@ export default function OrderModel({
                   defaultValue={currentSize?.size}
                 >
                   <SelectTrigger className="w-full md:w-[200px]">
-                    <SelectValue placeholder="اختر الحجم" />
+                    <SelectValue placeholder={t("select_size")} />
                   </SelectTrigger>
                   <SelectContent>
                     {product.sizes.map((size) => (
                       <SelectItem key={size.id} value={size.size}>
                         <div>
-                          <span>{size.size} سم</span>
+                          <span className="text-lg">
+                            {size.size}{" "}
+                            <span className="text-muted-foreground text-sm">
+                              {t("size")}
+                            </span>
+                          </span>
                           <span className="mx-3">|</span>
-                          <span className="text-muted-foreground text-sm">
-                            {size.price} ريال
+                          <span className="text-lg">
+                            {size.price}{" "}
+                            <span className="text-muted-foreground text-sm">
+                              {t("curancy")}
+                            </span>
                           </span>
                         </div>
                       </SelectItem>
@@ -126,7 +146,7 @@ export default function OrderModel({
               </div>
 
               <div className="mb-5 mt-3 w-40 flex flex-col items-center md:block mx-auto md:mx-0">
-                <p className="text-sm text-gray-500 mb-2">الكمية</p>
+                <p className="text-sm text-gray-500 mb-2">{t("quantity")}</p>
                 <div className="flex justify-between items-center w-40">
                   <Button
                     onClick={handleDecrement}
@@ -156,28 +176,31 @@ export default function OrderModel({
               />
               <div>
                 <div className="flex justify-between border-y border-color-4 mt-5 p-2 text-lg">
-                  <p>المجموع</p>
+                  <p>{t("total")}</p>
                   <p className="text-xl w-fit mr-3">
-                    {total} <span className="mr-1">ريال</span>
+                    {total}{" "}
+                    <span className="mr-1 text-sm text-muted-foreground">
+                      {t("curancy")}
+                    </span>
                   </p>
                 </div>
               </div>
             </div>
           </div>
           <div className="mb-4">
-            <Label>اضف ملاحظة</Label>
+            <Label>{t("add_note")}</Label>
             <Textarea
-              placeholder="اضف ملاحظة على الطلب"
+              className="mt-2"
               onChange={(e) => setNote(e.target.value)}
             />
           </div>
         </div>
         <div className="flex justify-end gap-2">
           <Button onClick={onClose} variant="outline">
-            إلغاء
+            {t("cancel")}
           </Button>
           <Button onClick={handleAddToCart} variant="main">
-            أضف إلى السلة
+            {t("add_to_cart")}
           </Button>
         </div>
       </div>

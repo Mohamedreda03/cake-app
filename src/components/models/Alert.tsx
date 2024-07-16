@@ -36,11 +36,9 @@ function Alert({
     <Dialog open={isOpen} onOpenChange={onChange}>
       <DialogContent className={className}>
         <DialogHeader>
-          <DialogTitle dir="rtl" className="text-start mt-6">
-            {title}
-          </DialogTitle>
+          <DialogTitle className="text-start mt-6">{title}</DialogTitle>
           {description && (
-            <DialogDescription dir="rtl" className="text-start mt-4">
+            <DialogDescription className="text-start mt-4">
               {description}
             </DialogDescription>
           )}

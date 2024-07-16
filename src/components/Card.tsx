@@ -25,10 +25,7 @@ function Card({ product }: { product: Product & { sizes: Size[] } }) {
         <p className="text-muted-foreground text-sm text-center line-clamp-1 mb-2">
           {product.description}
         </p>
-        <div className="flex items-center gap-3">
-          {/* <p className="text-lg font-semibold">{product.price} EGP</p>
-          <p className="text-muted-foreground text-sm">/ {product.unit}</p> */}
-        </div>
+        <div className="flex items-center gap-3"></div>
         <OrderButton product={product} />
       </div>
     </div>

@@ -11,6 +11,26 @@
     "dashboard": "Dashboard",
     "Billa_Factory": "Billa Factory"
   },
+  "Order_Data": {
+    "title": "Order",
+    "name": "Name",
+    "phone": "Phone",
+    "email": "Email",
+    "address": "Address",
+    "order": "Order",
+    "order_placeholder": "Enter your order here",
+    "submit": "Submit"
+  },
+  "More": {
+    "curancy": "SAR",
+    "total": "Total",
+    "add_note": "Add Note",
+    "size": "Cm",
+    "quantity": "Quantity",
+    "add_to_cart": "Add to Cart",
+    "select_size": "Select Size",
+    "cancel": "Cancel"
+  },
   "HomePage": {
     "hero_title": "Welcome to Billa",
     "hero_subtitle": "At Bella, we have a special production line for cafes, companies and factories that follows your requests to the fullest with precision and care and is fully prepared to produce the required cakes with all professionalism and high quality.",
@@ -28,6 +48,10 @@
   },
   "MenuPage": {
     "title": "Menu"
+  },
+  "Billa_Factory": {
+    "title": "Billa Factory",
+    "subtitle": "At Bella, we have an integrated work team characterized by high efficiency and experience, and we have the best equipment and tools so that we can provide our customers with the best distinctive and luxurious products, as we are accustomed to them. We are keen to ensure the ease and speed of the product’s arrival to our customers, as we have a refrigerated and equipped transport fleet, so that the product arrives fresh and of good quality. High quality from the factory to our stores or our distinguished customers with ease and ease."
   },
   "Footer": {
     "call_us": "Call Us",
