@@ -1,12 +1,9 @@
 import { Product, Size } from "@prisma/client";
 import Image from "next/image";
 import OrderButton from "./OrderButton";
+import { memo } from "react";
 
-export default function Card({
-  product,
-}: {
-  product: Product & { sizes: Size[] };
-}) {
+function Card({ product }: { product: Product & { sizes: Size[] } }) {
   return (
     <div
       className="flex flex-col items-center gap-1 rounded-xl border border-color-3 w-full md:max-w-[300px] overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 ease-in-out"
@@ -37,3 +34,5 @@ export default function Card({
     </div>
   );
 }
+
+export default memo(Card);

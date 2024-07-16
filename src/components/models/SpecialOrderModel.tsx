@@ -2,7 +2,7 @@
 
 import Alert from "./Alert";
 import { Button } from "../ui/button";
-import { useTransition } from "react";
+import { memo, useTransition } from "react";
 
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -17,8 +17,6 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
-import axios from "axios";
-import toast from "react-hot-toast";
 import useSpecialProduct from "@/store/specialProduct";
 
 interface SpecialOrderModelProps {
@@ -33,10 +31,7 @@ const SpecialOrderForm = z.object({
 
 type SpecialOrderType = z.infer<typeof SpecialOrderForm>;
 
-export default function SpecialOrderModel({
-  isOpen,
-  onClose,
-}: SpecialOrderModelProps) {
+function SpecialOrderModel({ isOpen, onClose }: SpecialOrderModelProps) {
   const [isLoading, startLoading] = useTransition();
   const form = useForm<SpecialOrderType>({
     resolver: zodResolver(SpecialOrderForm),
@@ -49,11 +44,6 @@ export default function SpecialOrderModel({
   const specialCart = useSpecialProduct();
 
   const onSubmit = (data: SpecialOrderType) => {
-    // startLoading(async () => {
-    //   await axios.post("/api/special-orders", data);
-    //   toast.success("تم ارسال الطلب بنجاح");
-    //   onClose();
-    // });
     specialCart.addItem(data);
     form.reset();
     onClose();
@@ -119,3 +109,5 @@ export default function SpecialOrderModel({
     </Alert>
   );
 }
+
+export default memo(SpecialOrderModel);

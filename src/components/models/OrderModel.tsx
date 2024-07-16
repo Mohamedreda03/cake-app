@@ -65,7 +65,7 @@ export default function OrderModel({
   return (
     <Alert
       title={""}
-      className="max-w-[600px] w-full md:px-10"
+      className="max-w-[600px] w-full md:px-10 overflow-y-scroll h-full"
       isOpen={isOpen}
       onClose={onClose}
     >

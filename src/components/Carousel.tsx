@@ -4,10 +4,10 @@
 
 import { PlusCircle } from "lucide-react";
 import { Category } from "@prisma/client";
-import { Dispatch, SetStateAction, useState } from "react";
-import { cn } from "@/lib/utils";
+import { Dispatch, SetStateAction, useCallback, useState } from "react";
 import { Button } from "./ui/button";
 import SpecialOrderModel from "./models/SpecialOrderModel";
+import { useTranslations } from "next-intl";
 
 const CategoriesMenu = ({
   data,
@@ -19,15 +19,20 @@ const CategoriesMenu = ({
   currentCategory: string | null;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const t = useTranslations("HomePage");
+
+  const onClose = useCallback(() => {
+    setIsOpen(false);
+  }, []);
   return (
     <>
-      <SpecialOrderModel isOpen={isOpen} onClose={() => setIsOpen(false)} />
-      <div dir="rtl" className="mt-[50px] md:mt-[80px] mb-[70px]">
+      <SpecialOrderModel isOpen={isOpen} onClose={onClose} />
+      <div className="mt-[50px] md:mt-[80px] mb-[70px]">
         <div className="flex gap-2 overflow-x-scroll scroll_div relative">
           <div>
             <Button onClick={() => setIsOpen(true)} variant="secondary">
-              اضافت طلب خاص
-              <PlusCircle size={18} className="mr-1" />
+              {t("add_special_order")}
+              <PlusCircle size={18} className="mx-1" />
             </Button>
           </div>
           <span className="w-[1px] bg-color-1"></span>
@@ -36,7 +41,7 @@ const CategoriesMenu = ({
               onClick={() => setCurrentCategory(null)}
               variant={currentCategory === null ? "main" : "secondary"}
             >
-              الكل
+              {t("all_products")}
             </Button>
           </div>
           <div>
@@ -44,7 +49,7 @@ const CategoriesMenu = ({
               onClick={() => setCurrentCategory("best_seller")}
               variant={currentCategory === "best_seller" ? "main" : "secondary"}
             >
-              الأكثر مبيعا
+              {t("best_selling")}
             </Button>
           </div>
           {data?.map((category) => (

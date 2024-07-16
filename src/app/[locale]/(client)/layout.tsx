@@ -3,7 +3,13 @@ import Navbar from "@/components/navbar/Navbar";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function layout({ children }: { children: React.ReactNode }) {
+export default function layout({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
+  params: { locale: string };
+}) {
   return (
     <div className="bg-color-3/20">
       <Navbar />
@@ -20,7 +26,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
           className="h-14 w-14 md:h-16 md:w-16 p-3 rounded-full bg-green-500 hover:bg-green-600 transition-all cursor-pointer"
         />
       </Link>
-      <Footer />
+      <Footer locale={params.locale} />
     </div>
   );
 }

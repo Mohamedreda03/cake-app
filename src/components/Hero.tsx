@@ -1,7 +1,9 @@
-import { Metadata } from "next";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 
-export default function Hero() {
+export default function Hero({ locale }: { locale: string }) {
+  const t = useTranslations("HomePage");
+
   return (
     <div
       className="relative flex flex-col h-[600px] justify-center items-center w-full text-white"
@@ -26,10 +28,9 @@ export default function Hero() {
           />
           <div className="absolute bottom-[35%] w-full h-16 bg-color-2 -z-10"></div>
         </div>
-        <h1 className="text-5xl text-center">مرحبا بكم في بيلا</h1>
+        <h1 className="text-5xl text-center mb-3">{t("hero_title")}</h1>
         <h2 className="text-lg max-w-[700px] text-center">
-          بيلا سويت هو محل تجاري أنيق يقدم أجمل وألذ الأصناف المميزة والمبتكرة
-          من الحلويات والموالح تمتلكه وتديره مؤسسة الحلويات الجميلة التجارية.
+          {t("hero_subtitle")}
         </h2>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import Products from "@/components/Products";
+import { useTranslations } from "next-intl";
 
 export const metadata = {
   title: "Menu",
@@ -8,11 +9,13 @@ export const metadata = {
 
 export const dynamic = "force-dynamic";
 
-export default async function Menu() {
+export default async function Menu({ params }: { params: { locale: string } }) {
   return (
     <div className="max-w-screen-xl mx-auto p-7">
       <div className="flex items-center justify-center">
-        <h1 className="text-5xl border-b-2 border-color-1">الفئات</h1>
+        <h1 className="text-5xl border-b-2 border-color-1">
+          {params.locale === "ar" ? "القائمة" : "Menu"}
+        </h1>
       </div>
 
       <Products />

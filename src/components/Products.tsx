@@ -2,7 +2,7 @@
 
 import { Category, Product, Size } from "@prisma/client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Card from "./Card";
 import CategoriesMenu from "./Carousel";
 import axios from "axios";

@@ -7,6 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { memo } from "react";
 
 interface AlertProps {
   title: string;
@@ -17,7 +18,7 @@ interface AlertProps {
   children?: React.ReactNode;
 }
 
-export default function Alert({
+function Alert({
   title,
   description,
   className,
@@ -49,3 +50,5 @@ export default function Alert({
     </Dialog>
   );
 }
+
+export default memo(Alert);
