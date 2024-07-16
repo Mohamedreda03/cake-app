@@ -10,7 +10,7 @@ export const metadata: Metadata = {
           انشاء مشروعهم المنزلي الصغير.`,
 };
 
-export default function page() {
+export default function StoryPage() {
   const t = useTranslations("StoryPage");
 
   return (
