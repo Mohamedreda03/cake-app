@@ -26,18 +26,29 @@ import { useMutation, useQueryClient } from "react-query";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 interface SizeModelProps {
   isOpen: boolean;
   onClose: () => void;
   type: "add" | "edit";
-  currentSize: { size: string; price: number; id: number } | null;
+  currentSize: {
+    size: string;
+    price: number;
+    id: number;
+  } | null;
   setCurrentSize: Dispatch<
-    SetStateAction<{ size: string; price: number; id: number } | null>
+    SetStateAction<{
+      size: string;
+      price: number;
+      id: number;
+    } | null>
   >;
   setSizes: Dispatch<
     SetStateAction<
       {
+        // size_ar: string;
+        // size_en: string;
         size: string;
         price: number;
         id: number;
@@ -48,6 +59,7 @@ interface SizeModelProps {
 
 const SpecialOrderForm = z.object({
   size: z.string().min(1),
+
   price: z.coerce.number().positive().int().min(1),
 });
 
@@ -61,6 +73,7 @@ export default function SizeModel({
   currentSize,
   setCurrentSize,
 }: SizeModelProps) {
+  const t = useTranslations("Dash_Products");
   const [isLoading, startLoading] = useTransition();
   const params = useParams();
   const router = useRouter();
@@ -73,7 +86,7 @@ export default function SizeModel({
     },
     onSuccess: () => {
       queryClient.invalidateQueries("sizes");
-      toast.success("تم اضافة الحجم بنجاح");
+      toast.success(t("product_size_created_success"));
     },
   });
 
@@ -84,7 +97,7 @@ export default function SizeModel({
       },
       onSuccess: () => {
         queryClient.invalidateQueries("sizes");
-        toast.success("تم تعديل الحجم بنجاح");
+        toast.success(t("product_size_updated_success"));
       },
     });
 
@@ -92,6 +105,7 @@ export default function SizeModel({
     resolver: zodResolver(SpecialOrderForm),
     defaultValues: {
       size: "",
+
       price: 0,
     },
   });
@@ -118,7 +132,11 @@ export default function SizeModel({
         prev.map((item) => (item.id === id ? { size, price, id } : item))
       );
     } else if (type === "edit") {
-      updateSizeMutation({ size, price, productId: params.productId });
+      updateSizeMutation({
+        size,
+        price,
+        productId: params.productId,
+      });
       router.refresh();
     }
   };
@@ -141,9 +159,9 @@ export default function SizeModel({
   return (
     <Alert title="" isOpen={isOpen} onClose={onClose}>
       <h3 className="flex items-center justify-center text-2xl mb-4">
-        {currentSize ? "تعديل الحجم" : "أنشاء حجم جديد"}
+        {currentSize ? t("product_size_edit") : t("product_size")}
       </h3>
-      <div dir="rtl" className="">
+      <div>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -156,7 +174,7 @@ export default function SizeModel({
                   name="size"
                   render={({ field }) => (
                     <FormItem className="w-full">
-                      <FormLabel>الحجم</FormLabel>
+                      <FormLabel>{t("size")}</FormLabel>
                       <FormControl>
                         <Input
                           disabled={
@@ -164,7 +182,7 @@ export default function SizeModel({
                             isLoadingCreateSize ||
                             isLoadingUpdateSize
                           }
-                          placeholder="الحجم"
+                          placeholder={t("size")}
                           {...field}
                         />
                       </FormControl>
@@ -172,12 +190,12 @@ export default function SizeModel({
                     </FormItem>
                   )}
                 />
-                <FormField
+                {/* <FormField
                   control={form.control}
-                  name="price"
+                  name="size_en"
                   render={({ field }) => (
                     <FormItem className="w-full">
-                      <FormLabel>السعر</FormLabel>
+                      <FormLabel>{t("size_en")}</FormLabel>
                       <FormControl>
                         <Input
                           disabled={
@@ -185,7 +203,28 @@ export default function SizeModel({
                             isLoadingCreateSize ||
                             isLoadingUpdateSize
                           }
-                          placeholder="السعر"
+                          placeholder={t("size_en")}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                /> */}
+                <FormField
+                  control={form.control}
+                  name="price"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>{t("price")}</FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={
+                            isLoading ||
+                            isLoadingCreateSize ||
+                            isLoadingUpdateSize
+                          }
+                          placeholder={t("price")}
                           {...field}
                         />
                       </FormControl>
@@ -201,7 +240,7 @@ export default function SizeModel({
                     isLoading || isLoadingCreateSize || isLoadingUpdateSize
                   }
                 >
-                  {currentSize ? "تعديل الحجم" : "أنشاء حجم جديد"}
+                  {currentSize ? t("product_size_edit") : t("product_size")}
                 </Button>
               </div>
             </div>

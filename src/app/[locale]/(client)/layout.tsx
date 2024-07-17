@@ -1,18 +1,8 @@
 import Footer from "@/components/Footer";
 import Navbar from "@/components/navbar/Navbar";
-import { cn } from "@/lib/utils";
-import { Cairo, Inter } from "next/font/google";
+
 import Image from "next/image";
 import Link from "next/link";
-
-const cairo = Cairo({
-  subsets: ["arabic", "latin"],
-  weight: ["300", "400", "500", "600", "700", "800"],
-});
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800"],
-});
 
 export default function layout({
   children,
@@ -22,12 +12,7 @@ export default function layout({
   params: { locale: string };
 }) {
   return (
-    <div
-      className={cn(
-        "bg-color-3/20",
-        params.locale === "ar" ? cairo.className : inter.className
-      )}
-    >
+    <div>
       <Navbar />
       <main>{children}</main>
       <Link

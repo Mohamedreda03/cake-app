@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 import { Link } from "@/hooks/navigation";
 
 import { usePathname } from "next/navigation";
+import LangButton from "./LangButton";
 
 export default function CartCounter() {
   const cart = useCart();
@@ -35,7 +36,6 @@ export default function CartCounter() {
           </Button>
         </Link>
       )}
-
       {session.data?.user.role === "USER" && (
         <Button
           onClick={() => signOut()}
@@ -46,22 +46,13 @@ export default function CartCounter() {
           <ArrowLeftIcon size={15} className="mr-1" />
         </Button>
       )}
-      <Link
-        href={"/"}
-        locale={locale === "ar" ? "en" : "ar"}
-        className={cn(
-          "md:flex items-center hidden",
-          locale === "en" ? "flex-row-reverse" : ""
-        )}
-      >
-        <Button variant="secondary">
-          <Globe
-            size={20}
-            className={cn("text-gray-500", locale === "ar" ? "ml-2" : "mr-2")}
-          />
-          {locale === "ar" ? "English" : "Arabic"}
-        </Button>
-      </Link>
+
+      <LangButton className="md:flex items-center hidden" />
+      {!session.data?.user && (
+        <Link href="/sign-in" className="hidden md:block">
+          <Button variant="outline">{t("sign-in")}</Button>
+        </Link>
+      )}
       <Link href="/cart" className="relative">
         <span className="absolute -top-2 -right-2 flex items-center justify-center text-white rounded-full p-1 bg-color-2 w-5 h-5">
           {cart.items.length + specialCart.items.length}

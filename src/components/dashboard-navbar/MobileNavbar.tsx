@@ -23,6 +23,7 @@ import {
 import { Session } from "next-auth";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
+import { useLocale, useTranslations } from "next-intl";
 
 interface Menu {
   name: string;
@@ -30,33 +31,30 @@ interface Menu {
   Icon: LucideIcon;
 }
 
-const menu: Menu[] = [
-  // {
-  //   name: "الرأيسية",
-  //   path: "/dashboard",
-  //   Icon: Home,
-  // },
-  {
-    name: "المنتجات",
-    path: "/dashboard/products",
-    Icon: Package2,
-  },
-  {
-    name: "الفئات",
-    path: "/dashboard/categories",
-    Icon: LayoutDashboard,
-  },
-  {
-    name: "الطلبات",
-    path: "/dashboard/orders",
-    Icon: PackageOpen,
-  },
-];
-
 export default function MobileNavbar() {
   const { data: session } = useSession();
 
   const pathname = usePathname();
+  const t = useTranslations("Dash_sidebar");
+  const locale = useLocale();
+
+  const menu: Menu[] = [
+    {
+      name: t("products"),
+      path: "/dashboard/products",
+      Icon: Package2,
+    },
+    {
+      name: t("categories"),
+      path: "/dashboard/categories",
+      Icon: LayoutDashboard,
+    },
+    {
+      name: t("orders"),
+      path: "/dashboard/orders",
+      Icon: PackageOpen,
+    },
+  ];
 
   const handleSignOut = () => {
     signOut({
@@ -105,23 +103,32 @@ export default function MobileNavbar() {
                   )}
                 >
                   <Users size={24} />
-                  المستخدمين
+                  {t("users")}
                 </div>
               </Link>
             </SheetClose>
             <Link href="/" className="">
-              <Button variant="outline" className="w-full">
-                الانتقال للمتجر
-                <ArrowLeftIcon size={15} className="mr-1" />
+              <Button
+                variant="outline"
+                className={cn(
+                  "w-full flex items-center justify-center gap-2",
+                  locale === "en" ? "flex-row-reverse" : ""
+                )}
+              >
+                {t("to_store")}
+                <ArrowLeftIcon size={15} />
               </Button>
             </Link>
             <Button
               onClick={handleSignOut}
               variant="outline"
-              className="mx-auto w-full mt-3"
+              className={cn(
+                "w-full flex items-center justify-center gap-2 mt-2",
+                locale === "en" ? "flex-row-reverse" : ""
+              )}
             >
-              تسجيل الخروج
-              <ArrowLeft size={18} className="mr-2" />
+              {t("sign_out")}
+              <ArrowLeft size={18} />
             </Button>
           </div>
         </div>

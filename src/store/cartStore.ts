@@ -5,8 +5,10 @@ import { persist, createJSONStorage } from "zustand/middleware";
 
 export interface CartItemType {
   special_id: string;
-  name: string;
-  description: string;
+  name_ar: string;
+  name_en: string;
+  description_ar: string;
+  description_en: string;
   size: string;
   price: number;
   image: string;

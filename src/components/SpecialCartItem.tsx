@@ -2,6 +2,7 @@ import useSpecialProduct, { SpecialProductType } from "@/store/specialProduct";
 import React, { useState } from "react";
 import { Button } from "./ui/button";
 import { Trash2 } from "lucide-react";
+import { useLocale } from "next-intl";
 
 export default function SpecialCartItem({
   item,
@@ -13,6 +14,7 @@ export default function SpecialCartItem({
   const deleteItemData = (id: number) => {
     specialCart.removeItem(id);
   };
+  const locale = useLocale();
 
   const handleIncrement = () => {
     setQuantity((prev) => prev + 1);
@@ -43,11 +45,15 @@ export default function SpecialCartItem({
       <Button
         onClick={() => deleteItemData(item.id!)}
         variant="outline"
-        className="absolute top-2 left-2"
+        className={
+          locale === "ar" ? "absolute top-2 left-2" : "absolute top-2 right-2"
+        }
       >
         <Trash2 size={20} />
       </Button>
-      <h1 className="mt-3 border-b border-color-1 w-fit">وصف الطلب</h1>
+      <h1 className="mt-3 border-b border-color-1 w-fit">
+        {locale === "ar" ? "وصف الطلب" : "Order Description"}
+      </h1>
       <p className="">{item.description}</p>
     </div>
   );

@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { Session } from "next-auth";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 interface Menu {
   name: string;
@@ -19,26 +20,28 @@ interface Menu {
   Icon: LucideIcon;
 }
 
-const menu: Menu[] = [
-  {
-    name: "المنتجات",
-    path: "/dashboard/products",
-    Icon: Package2,
-  },
-  {
-    name: "الفئات",
-    path: "/dashboard/categories",
-    Icon: LayoutDashboard,
-  },
-  {
-    name: "الطلبات",
-    path: "/dashboard/orders",
-    Icon: PackageOpen,
-  },
-];
-
 export default function MenuLinks({ session }: { session: Session }) {
   const pathname = usePathname();
+  const t = useTranslations("Dash_sidebar");
+
+  const menu: Menu[] = [
+    {
+      name: t("products"),
+      path: "/dashboard/products",
+      Icon: Package2,
+    },
+    {
+      name: t("categories"),
+      path: "/dashboard/categories",
+      Icon: LayoutDashboard,
+    },
+    {
+      name: t("orders"),
+      path: "/dashboard/orders",
+      Icon: PackageOpen,
+    },
+  ];
+
   return (
     <div className="flex flex-col mt-5 text-color-2">
       {menu.map((item) => (
@@ -70,7 +73,7 @@ export default function MenuLinks({ session }: { session: Session }) {
           )}
         >
           <Users size={24} />
-          المستخدمين
+          {t("users")}
         </div>
       </Link>
     </div>

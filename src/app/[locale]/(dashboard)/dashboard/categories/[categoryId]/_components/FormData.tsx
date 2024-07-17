@@ -15,20 +15,27 @@ import { CategoryFormTypes, CategorySchema, UserForm } from "@/types/schema";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { Category } from "@prisma/client";
+import { Category, CategoryTranslation } from "@prisma/client";
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
 
-const FormData = ({ data }: { data: Category }) => {
+interface CategoryData extends Category {
+  translation: CategoryTranslation[];
+}
+
+const FormData = ({ data }: { data: CategoryData }) => {
   const [isMounted, setIsMounted] = useState(false);
+  const t = useTranslations("Dash_Categories");
 
   const queryClient = useQueryClient();
 
   const form = useForm<CategoryFormTypes>({
     resolver: zodResolver(CategorySchema),
     defaultValues: {
-      name: data?.name || "",
+      name_ar: data.translation[0].name || "",
+      name_en: data.translation[1].name || "",
     },
   });
 
@@ -38,7 +45,7 @@ const FormData = ({ data }: { data: Category }) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries("categories");
-      toast.success("تم تحديث الفئة بنجاح");
+      toast.success(t("category_updated_success"));
     },
   });
 
@@ -65,15 +72,33 @@ const FormData = ({ data }: { data: Category }) => {
             <div className="flex flex-col gap-3 w-full">
               <FormField
                 control={form.control}
-                name="name"
+                name="name_ar"
                 render={({ field }) => (
                   <FormItem className="w-full">
-                    <FormLabel>أسم الفئة</FormLabel>
+                    <FormLabel>{t("category_name_ar")}</FormLabel>
                     <FormControl>
                       <Input
                         className="focus:"
                         disabled={isLoading}
-                        placeholder="أسم الفئة"
+                        placeholder={t("category_name_ar")}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="name_en"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>{t("category_name_en")}</FormLabel>
+                    <FormControl>
+                      <Input
+                        className="focus:"
+                        disabled={isLoading}
+                        placeholder={t("category_name_en")}
                         {...field}
                       />
                     </FormControl>

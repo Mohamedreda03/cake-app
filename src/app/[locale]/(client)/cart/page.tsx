@@ -93,20 +93,20 @@ export default function Cart({ params }: { params: { locale: string } }) {
             items: cart.items,
             special_items: specialCart.items,
           })
-          .then(() =>
+          .then(() => {
             toast.success(
               locale === "ar"
                 ? "تم ارسال الطلب بنجاح"
                 : "Order sent successfully"
-            )
-          )
+            );
+            router.push("/cart/success");
+            cart.clearCart();
+            specialCart.clearCart();
+          })
           .catch((error) => {
             toast.error(locale === "ar" ? "حدث خطأ" : "An error occurred");
             console.error("ERROR ORDER: => ", error);
           });
-        router.push("/cart/success");
-        cart.clearCart();
-        specialCart.clearCart();
       }
     });
   };

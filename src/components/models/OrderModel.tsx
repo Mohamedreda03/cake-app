@@ -3,7 +3,7 @@
 import Alert from "./Alert";
 import { Button } from "../ui/button";
 import { useState } from "react";
-import { Product, Size } from "@prisma/client";
+import { Product, ProductTranslation, Size } from "@prisma/client";
 import Image from "next/image";
 import useCart from "@/store/cartStore";
 import { Textarea } from "../ui/textarea";
@@ -22,7 +22,7 @@ import { useLocale, useTranslations } from "next-intl";
 interface DeleteAlertProps {
   isOpen: boolean;
   onClose: () => void;
-  product: Product & { sizes: Size[] };
+  product: Product & { sizes: Size[]; translation: ProductTranslation[] };
 }
 
 export default function OrderModel({
@@ -60,9 +60,11 @@ export default function OrderModel({
       quantity,
       total,
       note: note || "",
-      name: product.name,
+      name_ar: product.translation[0].name,
+      name_en: product.translation[1].name,
       image: product.image,
-      description: product.description,
+      description_ar: product.translation[0].description,
+      description_en: product.translation[1].description,
       price: currentSize?.price!,
     });
     onClose();
@@ -83,12 +85,12 @@ export default function OrderModel({
                 <div className="flex flex-col items-center mx-auto mt-3 md:block md:mx-0 w-full">
                   <div className="relative w-fit">
                     <div className="z-10 text-5xl md:text-4xl mb-2">
-                      {product.name}
+                      {product.translation[0].name}
                     </div>
                     <div className="absolute bottom-2 w-full h-4 bg-color-4/40 -z-10"></div>
                   </div>
                   <p className="text-muted-foreground mb-2 text-md">
-                    {product.description}
+                    {product.translation[0].description}
                   </p>
                   <div className="text-xl border-y border-color-4  w-full md:w-fit flex items-center justify-around p-2">
                     <span>

@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/table";
 import { User } from "@prisma/client";
 import axios from "axios";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useEffect, useState, useTransition } from "react";
 import toast from "react-hot-toast";
@@ -20,6 +21,7 @@ import { useMutation, useQueryClient } from "react-query";
 export default function DataTable({ users }: { users: User[] }) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedUser, setSelectedUser] = useState<string | null>(null);
+  const t = useTranslations("User_Page");
 
   const queryClient = useQueryClient();
 
@@ -29,7 +31,7 @@ export default function DataTable({ users }: { users: User[] }) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries("users");
-      toast.success("تم حذف المستخدم بنجاح");
+      toast.success(t("user_deleted_success"));
       setIsOpen(false);
     },
   });
@@ -45,18 +47,22 @@ export default function DataTable({ users }: { users: User[] }) {
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         onDelete={handleDelete}
-        title="حذف المستخدم"
-        description="هل أنت متأكد من حذف المستخدم؟"
+        title={t("delete_user")}
+        description={t("delete_user_confirm")}
       />
       <div className="px-5 pb-5 md:px-20">
-        <Table dir="rtl" className="border">
+        <Table className="border">
           <TableHeader>
             <TableRow>
               <TableHead className="text-center text-lg">
-                أسم المستخدم
+                {t("user_name")}
               </TableHead>
-              <TableHead className="text-center text-lg">الإيمال</TableHead>
-              <TableHead className="text-center text-lg">الصلاحيه</TableHead>
+              <TableHead className="text-center text-lg">
+                {t("user_email")}
+              </TableHead>
+              <TableHead className="text-center text-lg">
+                {t("user_role")}
+              </TableHead>
               <TableHead className="text-center text-lg"></TableHead>
             </TableRow>
           </TableHeader>
@@ -71,7 +77,7 @@ export default function DataTable({ users }: { users: User[] }) {
                 <TableCell className="text-center flex gap-3 items-center justify-center">
                   <Link href={`/dashboard/users/${user.id}`}>
                     <Button className="text-sm" variant="secondary">
-                      تعديل
+                      {t("edit")}
                     </Button>
                   </Link>
                   <Button
@@ -82,7 +88,7 @@ export default function DataTable({ users }: { users: User[] }) {
                     className="text-sm"
                     variant="destructive"
                   >
-                    حذف
+                    {t("delete")}
                   </Button>
                 </TableCell>
               </TableRow>

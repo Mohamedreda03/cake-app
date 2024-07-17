@@ -10,11 +10,13 @@ import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { User } from "@prisma/client";
+import { useTranslations } from "next-intl";
 
 export default function Users() {
   const searchParams = useSearchParams();
   const pageSize = searchParams.get("size") || 10;
   const pageNumber = searchParams.get("page") || 1;
+  const t = useTranslations("User_Page");
 
   const [search, setSearch] = useState<string>("");
 
@@ -32,23 +34,23 @@ export default function Users() {
   }
 
   const filterUsers = users?.data?.data?.filter((item: any) =>
-    item?.name.includes(search)
+    item?.name?.includes(search)
   );
 
   return (
     <div>
       <div className="px-5 md:px-20 py-10 flex items-center justify-between">
         <h1 className="text-3xl font-medium border-b-2 border-color-1">
-          المستخدمين
+          {t("users")}
         </h1>
         <div></div>
       </div>
       <div className="px-5 md:px-20 pb-3">
-        <Label className="text-lg">بحث</Label>
+        <Label className="text-lg">{t("search")}</Label>
         <Input
           type="text"
           className="max-w-[300px] mt-2"
-          placeholder="ابحث عن مستخدم"
+          placeholder={t("search_for")}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />

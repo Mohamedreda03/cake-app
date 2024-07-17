@@ -14,12 +14,27 @@ export async function PATCH(
     return NextResponse.redirect(new URL("/", req.nextUrl).toString());
   }
   const body = await req.json();
-  await db.category.update({
+
+  const categoryLangs = await db.categoryTranslation.findMany({
     where: {
-      id: params.categoryId,
+      categoryId: params.categoryId,
+    },
+  });
+
+  await db.categoryTranslation.update({
+    where: {
+      id: categoryLangs[0].id,
     },
     data: {
-      ...body,
+      name: body.name_ar,
+    },
+  });
+  await db.categoryTranslation.update({
+    where: {
+      id: categoryLangs[1].id,
+    },
+    data: {
+      name: body.name_en,
     },
   });
 
@@ -56,6 +71,12 @@ export async function DELETE(
     );
   }
 
+  await db.categoryTranslation.deleteMany({
+    where: {
+      categoryId: params.categoryId,
+    },
+  });
+
   await db.category.delete({
     where: {
       id: params.categoryId,
@@ -83,6 +104,9 @@ export async function GET(
   const category = await db.category.findFirst({
     where: {
       id: params.categoryId,
+    },
+    include: {
+      translation: true,
     },
   });
 

@@ -16,6 +16,7 @@ export async function GET(req: NextRequest) {
   const sesstion = await auth();
   const page = req.nextUrl.searchParams.get("page");
   const size = req.nextUrl.searchParams.get("size");
+  const lang = req.nextUrl.searchParams.get("lang");
 
   if (!sesstion) {
     NextResponse.redirect(new URL("/login", req.nextUrl).toString());
@@ -35,6 +36,11 @@ export async function GET(req: NextRequest) {
     },
     include: {
       sizes: true,
+      translation: {
+        where: {
+          language: lang!,
+        },
+      },
     },
   });
 
@@ -47,7 +53,7 @@ export async function GET(req: NextRequest) {
 // /////////////////////////////////////////////////////////////////////////////
 
 export async function POST(req: NextRequest) {
-  const body: ProductTypres = await req.json();
+  const body = await req.json();
   const sesstion = await auth();
   if (!sesstion) {
     NextResponse.redirect(new URL("/login", req.nextUrl).toString());
@@ -60,27 +66,33 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  if (
-    !body.name ||
-    body.sizes.length < 1 ||
-    !body.categoryId ||
-    !body.image ||
-    !body.description
-  ) {
-    return NextResponse.json(
-      { error: "all fields are required" },
-      { status: 400 }
-    );
-  }
-
   try {
     const product = await db.product.create({
       data: {
-        ...body,
+        image: body.image,
+        best_seller: body.best_seller,
+        categoryId: body.categoryId,
+        translation: {
+          createMany: {
+            data: [
+              {
+                name: body.name_ar,
+                language: "ar",
+                description: body.description_ar,
+              },
+              {
+                name: body.name_en,
+                language: "en",
+                description: body.description_en,
+              },
+            ],
+          },
+        },
         sizes: {
           createMany: {
-            data: body.sizes.map((size) => ({
-              ...size,
+            data: body.sizes.map((size: any) => ({
+              price: size.price,
+              size: size.size,
               id: undefined,
             })),
           },

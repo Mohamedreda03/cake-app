@@ -17,20 +17,26 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { ProductFormTypes } from "@/types/schema";
-import { useState, useTransition } from "react";
+import { ProductFormTypes, ProductSchema } from "@/types/schema";
+import { use, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import { useRouter } from "next/navigation";
 import { Textarea } from "@/components/ui/textarea";
-import { Category } from "@prisma/client";
+import { Category, CategoryTranslation } from "@prisma/client";
 import SizeModel from "@/components/models/SizeModel";
 import { cn } from "@/lib/utils";
 import ImageUpload from "@/components/ImageUpload";
+import { useLocale, useTranslations } from "next-intl";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-const FormData = ({ categories }: { categories: Category[] }) => {
+interface CategoryForm extends Category {
+  translation: CategoryTranslation[];
+}
+
+const FormData = ({ categories }: { categories: CategoryForm[] }) => {
   const [isOpenSizeModel, setOpenSizeModel] = useState(false);
   const [sizes, setSizes] = useState<
     { size: string; price: number; id: number }[]
@@ -41,15 +47,21 @@ const FormData = ({ categories }: { categories: Category[] }) => {
     id: number;
   } | null>(null);
 
+  const t = useTranslations("Dash_Products");
+  const locale = useLocale();
   const router = useRouter();
   const queryClient = useQueryClient();
 
   const form = useForm<ProductFormTypes>({
+    resolver: zodResolver(ProductSchema),
     defaultValues: {
-      name: "",
+      name_ar: "",
+      name_en: "",
+      description_ar: "",
+      description_en: "",
       categoryId: "",
-      description: "",
       image: "",
+      best_seller: false,
     },
   });
 
@@ -59,11 +71,11 @@ const FormData = ({ categories }: { categories: Category[] }) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries("products");
-      toast.success("تم انشاء المنتج بنجاح");
+      toast.success(t("product_created_success"));
       router.push("/dashboard/products");
     },
     onError: () => {
-      toast.error("جميع الحقول مطلوبة.");
+      toast.error(t("all_fields_required"));
     },
   });
 
@@ -99,9 +111,10 @@ const FormData = ({ categories }: { categories: Category[] }) => {
                   name="image"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>صورة المنتج</FormLabel>
+                      <FormLabel>{t("product_photo")}</FormLabel>
                       <FormControl>
                         <ImageUpload
+                          label={t("product_photo")}
                           value={field.value ? [field.value] : []}
                           disabled={isLoading}
                           onChange={(url) => field.onChange(url)}
@@ -116,16 +129,31 @@ const FormData = ({ categories }: { categories: Category[] }) => {
 
                 <FormField
                   control={form.control}
-                  name="name"
-                  rules={{ required: "يرجى ادخال اسم المنتج" }}
+                  name="name_ar"
                   render={({ field }) => (
                     <FormItem className="w-full">
-                      <FormLabel>أسم المنتج</FormLabel>
+                      <FormLabel>{t("product_name_ar")}</FormLabel>
                       <FormControl>
                         <Input
-                          className=""
                           disabled={isLoading}
-                          placeholder="أسم امنتج"
+                          placeholder={t("product_name_ar")}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="name_en"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>{t("product_name_en")}</FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={isLoading}
+                          placeholder={t("product_name_en")}
                           {...field}
                         />
                       </FormControl>
@@ -136,15 +164,32 @@ const FormData = ({ categories }: { categories: Category[] }) => {
 
                 <FormField
                   control={form.control}
-                  name="description"
-                  rules={{ required: "يرجى ادخال وصف المنتج" }}
+                  name="description_ar"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>الوصف</FormLabel>
+                      <FormLabel>{t("product_desc_ar")}</FormLabel>
                       <FormControl>
                         <Textarea
                           disabled={isLoading}
-                          placeholder="قم بكتابة وصف للمنتج"
+                          placeholder={t("product_desc_ar")}
+                          className="resize-none"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="description_en"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("product_desc_en")}</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          disabled={isLoading}
+                          placeholder={t("product_desc_en")}
                           className="resize-none"
                           {...field}
                         />
@@ -156,25 +201,23 @@ const FormData = ({ categories }: { categories: Category[] }) => {
                 <FormField
                   control={form.control}
                   name="categoryId"
-                  rules={{ required: "يرجى اختيار الفئة" }}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>أختر الفئة</FormLabel>
+                      <FormLabel>{t("product_category")}</FormLabel>
                       <Select
-                        dir="rtl"
                         onValueChange={field.onChange}
                         defaultValue={field.value}
                         disabled={isLoading}
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="فئة المنتج" />
+                            <SelectValue placeholder={t("product_category")} />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
                           {categories.map((category) => (
                             <SelectItem key={category.id} value={category.id}>
-                              {category.name}
+                              {category.translation[0].name}
                             </SelectItem>
                           ))}
                         </SelectContent>
@@ -198,10 +241,13 @@ const FormData = ({ categories }: { categories: Category[] }) => {
                         )}
                       >
                         <div className="flex items-center gap-9 text-xl">
-                          <span>{size.size} سم</span>
+                          <span>
+                            {size.size} {t("cm")}
+                          </span>
                           <span> : </span>
                           <span>
-                            {size.price} <span className="mr-1">ريال</span>
+                            {size.price}{" "}
+                            <span className="mr-1">{t("curancy")}</span>
                           </span>
                         </div>
                         <span className="flex items-center justify-center gap-4">
@@ -214,7 +260,7 @@ const FormData = ({ categories }: { categories: Category[] }) => {
                               setOpenSizeModel(true);
                             }}
                           >
-                            تعديل
+                            {t("edit")}
                           </Button>
                           <Button
                             type="button"
@@ -225,7 +271,7 @@ const FormData = ({ categories }: { categories: Category[] }) => {
                               )
                             }
                           >
-                            حذف
+                            {t("delete")}
                           </Button>
                         </span>
                       </div>
@@ -238,18 +284,18 @@ const FormData = ({ categories }: { categories: Category[] }) => {
                       setOpenSizeModel(true);
                     }}
                   >
-                    انشاء حجم جديد
+                    {t("product_size")}
                   </Button>
                 </div>
               </div>
               <div className="flex items-center gap-3">
                 <Button
+                  type="submit"
                   variant="main"
                   disabled={isLoading}
-                  type="submit"
-                  className="w-full sm:w-[150px] disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full sm:w-[200px] disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isLoading ? "جاري الانشاء..." : "انشاء المنتج"}
+                  {isLoading ? t("construction_underway") : t("add_product")}
                 </Button>
 
                 <Button
@@ -258,7 +304,7 @@ const FormData = ({ categories }: { categories: Category[] }) => {
                   variant="outline"
                   disabled={isLoading}
                 >
-                  ألغاء
+                  {t("cancel")}
                 </Button>
               </div>
             </form>

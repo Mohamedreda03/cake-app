@@ -15,20 +15,38 @@ export async function PATCH(
   }
   const body = await req.json();
 
-  body.price = parseInt(body.price);
+  const productTrans = await db.productTranslation.findMany({
+    where: {
+      productId: params.productId,
+    },
+  });
+
+  await db.productTranslation.updateMany({
+    where: {
+      id: productTrans[0].id,
+    },
+    data: {
+      name: body.name_ar,
+      description: body.description_ar,
+    },
+  });
+  await db.productTranslation.updateMany({
+    where: {
+      id: productTrans[1].id,
+    },
+    data: {
+      name: body.name_en,
+      description: body.description_en,
+    },
+  });
+
   await db.product.update({
     where: {
       id: params.productId,
     },
     data: {
-      name: body.name,
-      description: body.description,
-      category: {
-        connect: {
-          id: body.categoryId,
-        },
-      },
       best_seller: body.best_seller,
+      categoryId: body.categoryId,
       image: body.image,
     },
   });
@@ -47,6 +65,17 @@ export async function DELETE(
   if (sesstion?.user.role === "USER") {
     return NextResponse.redirect(new URL("/", req.nextUrl).toString());
   }
+
+  await db.productTranslation.deleteMany({
+    where: {
+      productId: params.productId,
+    },
+  });
+  await db.size.deleteMany({
+    where: {
+      productId: params.productId,
+    },
+  });
 
   await db.product.delete({
     where: {

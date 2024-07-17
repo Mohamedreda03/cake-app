@@ -25,6 +25,11 @@ export async function GET(req: NextRequest) {
     orderBy: {
       createdAt: "desc",
     },
+    where: {
+      status: {
+        not: "FAILED",
+      },
+    },
     include: {
       _count: {
         select: { special_items: true },
@@ -45,17 +50,21 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
 
-    const oldOrder = await db.order.findFirst({
-      where: {
-        payment_id: body.payment_id,
-      },
-    });
+    console.log(body.payment_id);
 
-    if (oldOrder) {
-      return NextResponse.json(
-        { error: "order already exists" },
-        { status: 400 }
-      );
+    if (body.payment_id) {
+      const oldOrder = await db.order.findFirst({
+        where: {
+          payment_id: body.payment_id,
+        },
+      });
+
+      if (oldOrder) {
+        return NextResponse.json(
+          { error: "order already exists" },
+          { status: 400 }
+        );
+      }
     }
 
     const order = await db.order.create({

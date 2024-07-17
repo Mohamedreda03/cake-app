@@ -3,14 +3,17 @@
 import FormData from "./_components/FormData";
 import Loading from "@/components/Loading";
 import Link from "next/link";
-import { MoveRight } from "lucide-react";
+import { MoveLeft, MoveRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useParams } from "next/navigation";
 import { useQuery } from "react-query";
 import axios from "axios";
+import { useLocale, useTranslations } from "next-intl";
 
 export default function CategoryDetails() {
   const params = useParams();
+  const locale = useLocale();
+  const t = useTranslations("Dash_Categories");
 
   const { data: category } = useQuery({
     queryKey: ["categories", params.categoryId],
@@ -33,8 +36,9 @@ export default function CategoryDetails() {
           className=" flex items-center gap-3"
           size="sm"
         >
-          <MoveRight size={18} />
-          الرجوع للخلف
+          {locale === "ar" ? <MoveRight size={18} /> : <MoveLeft size={18} />}
+
+          {t("go_back")}
         </Button>
       </Link>
       <FormData data={category.data.data} />

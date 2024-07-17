@@ -1,6 +1,6 @@
 "use client";
 
-import { Product, Size } from "@prisma/client";
+import { Product, ProductTranslation, Size } from "@prisma/client";
 import { Button } from "./ui/button";
 import OrderModel from "./models/OrderModel";
 import { useState } from "react";
@@ -9,7 +9,7 @@ import { useTranslations } from "next-intl";
 export default function OrderButton({
   product,
 }: {
-  product: Product & { sizes: Size[] };
+  product: Product & { sizes: Size[]; translation: ProductTranslation[] };
 }) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const t = useTranslations("More");

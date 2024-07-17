@@ -4,19 +4,30 @@ import MobileNavbar from "./MobileNavbar";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { ArrowLeftIcon } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
+import { cn } from "@/lib/utils";
 
 export default function DashboardNavbar() {
+  const locale = useLocale();
+  const t = useTranslations("Dash_sidebar");
+
   return (
-    <div className="md:pr-56">
+    <div className={locale === "ar" ? "md:pr-56" : "md:pl-56"}>
       <div className="bg-color-3/40 w-full h-[60px] border-b border-color-3">
         <div className="px-5 flex items-center justify-between">
           <div>
             <MobileNavbar />
 
             <Link href="/" className="hidden md:block">
-              <Button variant="outline">
-                الانتقال للمتجر
-                <ArrowLeftIcon size={15} className="mr-1" />
+              <Button
+                variant="outline"
+                className={cn(
+                  "w-full flex items-center justify-center gap-2",
+                  locale === "en" ? "flex-row-reverse" : ""
+                )}
+              >
+                {t("to_store")}
+                <ArrowLeftIcon size={15} />
               </Button>
             </Link>
           </div>

@@ -63,27 +63,50 @@ model VerificationToken {
 
 enum Role {
   ADMIN
-  WRITER
+  CHEF
+  ACCOUNTANT
   USER
 }
 
 model Category {
-  id        String    @id @default(cuid())
-  name      String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  products  Product[]
+  id          String                @id @default(cuid())
+  createdAt   DateTime              @default(now())
+  updatedAt   DateTime              @updatedAt
+  products    Product[]
+  translation CategoryTranslation[]
+}
+
+model CategoryTranslation {
+  id         String   @id @default(cuid())
+  name       String
+  language   String
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Product {
   id          String   @id @default(cuid())
-  name        String
-  description String
   image       String
   best_seller Boolean  @default(false)
   sizes       Size[]
   categoryId  String
   category    Category @relation(fields: [categoryId], references: [id])
+
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @updatedAt
+  translation ProductTranslation[]
+}
+
+model ProductTranslation {
+  id          String  @id @default(cuid())
+  language    String
+  name        String
+  description String
+  productId   String
+  product     Product @relation(fields: [productId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -91,14 +114,26 @@ model Product {
 
 model Size {
   id        String   @id @default(cuid())
-  size      String
   price     Float
+  size      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   productId String
   product   Product @relation(fields: [productId], references: [id])
+  // translation SizeTranslation[]
 }
+
+// model SizeTranslation {
+//   id       String @id @default(cuid())
+//   language String
+//   name     String
+//   sizeId   String
+//   size     Size   @relation(fields: [sizeId], references: [id])
+
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+// }
 
 model Order {
   id               String         @id @default(cuid())
@@ -117,19 +152,21 @@ model Order {
 }
 
 model ProductOrder {
-  id          String   @id @default(cuid())
-  name        String
-  description String
-  size        String
-  price       Float
-  image       String
-  quantity    Int
-  total       Float
-  note        String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  orderId     String?
-  Order       Order?   @relation(fields: [orderId], references: [id])
+  id             String   @id @default(cuid())
+  name_ar        String
+  name_en        String
+  description_ar String
+  description_en String
+  size           String
+  price          Float
+  image          String
+  quantity       Int
+  total          Float
+  note           String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  orderId        String?
+  Order          Order?   @relation(fields: [orderId], references: [id])
 }
 
 enum PaymentStatus {

@@ -25,8 +25,10 @@ import toast from "react-hot-toast";
 import { User } from "@prisma/client";
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
+import { useTranslations } from "next-intl";
 
 const FormData = ({ data }: { data: User }) => {
+  const t = useTranslations("User_Page");
   const [isMounted, setIsMounted] = useState(false);
 
   const queryClient = useQueryClient();
@@ -45,7 +47,7 @@ const FormData = ({ data }: { data: User }) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries("users");
-      toast.success("تم تحديث المستخدم بنجاح");
+      toast.success(t("user_updated_success"));
     },
   });
 
@@ -75,12 +77,12 @@ const FormData = ({ data }: { data: User }) => {
                 name="name"
                 render={({ field }) => (
                   <FormItem className="w-full">
-                    <FormLabel>أسم المستخدم</FormLabel>
+                    <FormLabel>{t("user_name")}</FormLabel>
                     <FormControl>
                       <Input
                         className="focus:"
                         disabled={isLoading}
-                        placeholder="أسم المستخدم"
+                        placeholder={t("user_name")}
                         {...field}
                       />
                     </FormControl>
@@ -94,7 +96,7 @@ const FormData = ({ data }: { data: User }) => {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>ألايمال</FormLabel>
+                    <FormLabel>{t("user_email")}</FormLabel>
                     <FormControl>
                       <Input
                         disabled={true}
@@ -112,21 +114,23 @@ const FormData = ({ data }: { data: User }) => {
                 name="role"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>الصلاحيه</FormLabel>
+                    <FormLabel>{t("user_role")}</FormLabel>
                     <FormControl>
                       <Select
                         disabled={isLoading}
-                        dir="rtl"
                         onValueChange={field.onChange}
                         defaultValue={field.value}
                       >
                         <SelectTrigger className="w-[250px]">
-                          <SelectValue placeholder="اختر الصلاحيه" />
+                          <SelectValue placeholder={t("select_role")} />
                         </SelectTrigger>
                         <SelectContent>
                           <SelectGroup>
                             <SelectItem value="ADMIN">ADMIN</SelectItem>
-                            <SelectItem value="WRITER">WRITER</SelectItem>
+                            <SelectItem value="CHEF">CHEF</SelectItem>
+                            <SelectItem value="ACCOUNTANT">
+                              ACCOUNTANT
+                            </SelectItem>
                             <SelectItem value="USER">USER</SelectItem>
                           </SelectGroup>
                         </SelectContent>
@@ -143,7 +147,7 @@ const FormData = ({ data }: { data: User }) => {
               type="submit"
               className="w-full sm:w-[150px]"
             >
-              {isLoading ? "جاري التحديث..." : "حفظ التغيرات"}
+              {isLoading ? t("updating") : t("save_changes")}
             </Button>
           </form>
         </Form>

@@ -14,6 +14,7 @@ import { Menu, ArrowLeftIcon, Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
 import { useLocale, useTranslations } from "next-intl";
+import LangButton from "./LangButton";
 
 interface Menu {
   name: string;
@@ -88,25 +89,7 @@ export default function ClientMobileMenu() {
               </Link>
             </SheetClose>
 
-            <Link
-              href={"/"}
-              locale={locale === "ar" ? "en" : "ar"}
-              className={cn(
-                "flex items-center w-full",
-                locale === "en" ? "flex-row-reverse" : ""
-              )}
-            >
-              <Button variant="secondary" className="w-full">
-                <Globe
-                  size={20}
-                  className={cn(
-                    "text-gray-500",
-                    locale === "ar" ? "ml-2" : "mr-2"
-                  )}
-                />
-                {locale === "ar" ? "English" : "Arabic"}
-              </Button>
-            </Link>
+            <LangButton className="flex items-center w-full" />
 
             <Button
               variant="outline"

@@ -10,14 +10,24 @@ import { Button } from "@/components/ui/button";
 import { CirclePlus } from "lucide-react";
 import Link from "next/link";
 import { Category } from "@prisma/client";
-import { useState } from "react";
+import { use, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useLocale, useTranslations } from "next-intl";
+
+interface CategoryData extends Category {
+  translation: {
+    name: string;
+    language: string;
+  };
+}
 
 export default function Users() {
   const searchParams = useSearchParams();
   const pageSize = searchParams.get("size") || 10;
   const pageNumber = searchParams.get("page") || 1;
+  const locale = useLocale();
+  const t = useTranslations("Dash_Categories");
 
   const [search, setSearch] = useState<string>("");
 
@@ -25,52 +35,61 @@ export default function Users() {
     queryKey: ["categories", pageNumber, pageSize],
     queryFn: async () => {
       return await axios.get(
-        "/api/categories?page=" + pageNumber + "&size=" + pageSize
+        "/api/categories?lang=" +
+          locale +
+          "&page=" +
+          pageNumber +
+          "&size=" +
+          pageSize
       );
     },
   });
+
+  // console.log(categories);
 
   if (isLoading) {
     return <Loading />;
   }
 
-  const filterCategories = categories?.data?.data?.filter((item: Category) =>
-    item.name.includes(search)
+  const filterCategories = categories?.data?.data?.filter(
+    (item: CategoryData) => item?.translation?.name?.includes(search)
   );
 
   return (
     <div>
       <div className="px-5 md:px-20 py-10 flex items-center justify-between">
         <h1 className="text-3xl font-medium border-b-2 border-color-1">
-          الفئات
+          {t("categories")}
         </h1>
         <div>
           <Link href="/dashboard/categories/new-category">
             <Button
               variant="main"
-              className="text-xl flex items-center justify-center gap-2"
+              className="text-lg flex items-center justify-center gap-2"
             >
-              انشاء فئة
+              {t("create_category")}
               <CirclePlus size={20} />
             </Button>
           </Link>
         </div>
       </div>
       <div className="px-5 md:px-20 pb-3">
-        <Label className="text-lg">بحث</Label>
+        <Label className="text-lg">{t("search")}</Label>
         <Input
           type="text"
           className="max-w-[300px] mt-2"
-          placeholder="ابحث عن فئة"
+          placeholder={t("search")}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
       </div>
-      <DataTable data={filterCategories} />
+      <DataTable
+        data={search.length > 0 ? filterCategories : categories?.data?.data}
+      />
       <PaginationButtons
         currentPage={Number(pageNumber)}
         pageCount={categories?.data?.count}
-        url="users"
+        url="categories"
         pageSize={Number(pageSize)}
       />
     </div>

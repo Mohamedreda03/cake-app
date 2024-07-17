@@ -3,18 +3,22 @@
 // import "react-multi-carousel/lib/styles.css";
 
 import { PlusCircle } from "lucide-react";
-import { Category } from "@prisma/client";
+import { Category, CategoryTranslation } from "@prisma/client";
 import { Dispatch, SetStateAction, useCallback, useState } from "react";
 import { Button } from "./ui/button";
 import SpecialOrderModel from "./models/SpecialOrderModel";
 import { useTranslations } from "next-intl";
+
+interface CategoriesData extends Category {
+  translation: CategoryTranslation[];
+}
 
 const CategoriesMenu = ({
   data,
   setCurrentCategory,
   currentCategory,
 }: {
-  data: Category[];
+  data: CategoriesData[];
   setCurrentCategory: Dispatch<SetStateAction<string | null>>;
   currentCategory: string | null;
 }) => {
@@ -59,7 +63,7 @@ const CategoriesMenu = ({
                 onClick={() => setCurrentCategory(category.id)}
                 variant={currentCategory === category.id ? "main" : "outline"}
               >
-                {category.name}
+                {category.translation[0].name}
               </Button>
             </div>
           ))}

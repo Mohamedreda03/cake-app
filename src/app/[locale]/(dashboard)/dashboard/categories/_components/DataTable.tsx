@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/table";
 import { Category } from "@prisma/client";
 import axios from "axios";
+import { useTranslations } from "next-intl";
 
 import Link from "next/link";
 import { useState } from "react";
@@ -22,13 +23,20 @@ interface TableProps extends Category {
   _count: {
     products: number;
   };
+  translation: {
+    name: string;
+    language: string;
+  }[];
 }
 
 export default function DataTable({ data }: { data: TableProps[] }) {
+  const t = useTranslations("Dash_Categories");
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   const queryClient = useQueryClient();
+
+  console.log(data);
 
   const { mutate, isLoading } = useMutation({
     mutationFn: async () => {
@@ -36,11 +44,11 @@ export default function DataTable({ data }: { data: TableProps[] }) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries("categories");
-      toast.success("تم حذف الفئه بنجاح");
+      toast.success(t("category_deleted_success"));
       setIsOpen(false);
     },
     onError: () => {
-      toast.error("لا يمكن حذف الفئه لانها تحتوي علي منتجات");
+      toast.error(t("cannot_delete_category"));
     },
   });
 
@@ -55,25 +63,27 @@ export default function DataTable({ data }: { data: TableProps[] }) {
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         onDelete={handleDelete}
-        title="حذف الفئه"
-        description="هل أنت متأكد من حذف الفئه؟"
+        title={t("delete_category")}
+        description={t("delete_category_confirm")}
       />
       <div className="px-5 pb-10 md:px-20">
-        <Table dir="rtl" className="border">
+        <Table className="border">
           <TableHeader>
             <TableRow>
-              <TableHead className="text-center text-lg">اسم الفئه</TableHead>
-              <TableHead className="text-center text-lg">
-                عدد المنتجات في الفئه
+              <TableHead className="text-center">
+                {t("category_name")}
               </TableHead>
-              <TableHead className="text-center text-lg"></TableHead>
+              <TableHead className="text-center">
+                {t("number_of_products")}
+              </TableHead>
+              <TableHead className="text-center"></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {data.map((item) => (
               <TableRow key={item.id}>
                 <TableCell className="font-medium text-center">
-                  {item.name}
+                  {item.translation[0].name}
                 </TableCell>
                 <TableCell className="font-medium text-center">
                   {item?._count?.products}
@@ -82,7 +92,7 @@ export default function DataTable({ data }: { data: TableProps[] }) {
                 <TableCell className="text-center flex gap-3 items-center justify-center">
                   <Link href={`/dashboard/categories/${item.id}`}>
                     <Button className="text-sm" variant="secondary">
-                      تعديل
+                      {t("edit")}
                     </Button>
                   </Link>
                   <Button
@@ -93,7 +103,7 @@ export default function DataTable({ data }: { data: TableProps[] }) {
                     className="text-sm"
                     variant="destructive"
                   >
-                    حذف
+                    {t("delete")}
                   </Button>
                 </TableCell>
               </TableRow>

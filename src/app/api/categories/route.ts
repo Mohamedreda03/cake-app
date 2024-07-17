@@ -6,6 +6,7 @@ export async function GET(req: NextRequest) {
   const sesstion = await auth();
   const page = req.nextUrl.searchParams.get("page");
   const size = req.nextUrl.searchParams.get("size");
+  const lang = req.nextUrl.searchParams.get("lang");
 
   if (!sesstion) {
     NextResponse.redirect(new URL("/login", req.nextUrl).toString());
@@ -23,9 +24,15 @@ export async function GET(req: NextRequest) {
     orderBy: {
       createdAt: "desc",
     },
+
     include: {
       _count: {
         select: { products: true },
+      },
+      translation: {
+        where: {
+          language: lang!,
+        },
       },
     },
   });
@@ -49,9 +56,22 @@ export async function POST(req: NextRequest) {
 
   const category = await db.category.create({
     data: {
-      name: body.name,
+      translation: {
+        createMany: {
+          data: [
+            {
+              name: body.name_ar,
+              language: "ar",
+            },
+            {
+              name: body.name_en,
+              language: "en",
+            },
+          ],
+        },
+      },
     },
   });
 
-  return NextResponse.json({ data: "category" });
+  return NextResponse.json({ data: category });
 }

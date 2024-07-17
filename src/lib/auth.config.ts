@@ -20,7 +20,8 @@ declare module "next-auth" {
 
 enum Role {
   ADMIN = "ADMIN",
-  WRITER = "WRITER",
+  CHEF = "CHEF",
+  ACCOUNTANT = "ACCOUNTANT",
   USER = "USER",
 }
 

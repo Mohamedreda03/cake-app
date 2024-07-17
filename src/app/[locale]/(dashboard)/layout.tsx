@@ -3,17 +3,12 @@ import DashboardNavbar from "@/components/dashboard-navbar";
 import Sidebar from "@/components/sidebar";
 import React from "react";
 
-import { Cairo } from "next/font/google";
-
-const cairo = Cairo({
-  weight: ["400", "700"],
-  subsets: ["latin", "arabic"],
-});
-
 export default async function layout({
   children,
+  params: { locale },
 }: {
   children: React.ReactNode;
+  params: { locale: string };
 }) {
   const session = await auth();
 
@@ -39,7 +34,9 @@ export default async function layout({
     <>
       <Sidebar session={session} />
       <DashboardNavbar />
-      <main className="md:pr-56">{children}</main>
+      <main className={locale === "ar" ? "md:pr-56" : "md:pl-56"}>
+        {children}
+      </main>
     </>
   );
 }

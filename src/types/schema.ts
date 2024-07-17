@@ -55,7 +55,8 @@ export type AddressFormTypes = z.infer<typeof AddressSchema>;
 // Categories
 
 export const CategorySchema = z.object({
-  name: z.string().min(2),
+  name_ar: z.string().min(2),
+  name_en: z.string().min(2),
 });
 
 export type CategoryFormTypes = z.infer<typeof CategorySchema>;
@@ -63,8 +64,10 @@ export type CategoryFormTypes = z.infer<typeof CategorySchema>;
 // Products
 
 export const ProductSchema = z.object({
-  name: z.string().min(2),
-  description: z.string().min(2).max(100),
+  name_ar: z.string().min(2),
+  name_en: z.string().min(2),
+  description_ar: z.string().min(2).max(100),
+  description_en: z.string().min(2).max(100),
   categoryId: z.string().min(2),
   image: z.string().min(2),
   best_seller: z.boolean(),

@@ -2,21 +2,36 @@ import { db } from "@/lib/db";
 import FormData from "./_components/FormData";
 import Loading from "@/components/Loading";
 import Link from "next/link";
-import { MoveRight } from "lucide-react";
+import { MoveLeft, MoveRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { getTranslations } from "next-intl/server";
 
 export default async function ProductDetails({
   params,
 }: {
-  params: { productId: string };
+  params: { productId: string; locale: string };
 }) {
+  const t = await getTranslations("Dash_Products");
   const product = await db.product.findFirst({
     where: {
       id: params.productId,
     },
+    include: {
+      translation: true,
+    },
   });
 
-  const categories = await db.category.findMany();
+  const categories = await db.category.findMany({
+    include: {
+      translation: {
+        where: {
+          language: params.locale,
+        },
+      },
+    },
+  });
+
+  console.log(categories);
 
   if (!product) {
     return <Loading />;
@@ -30,11 +45,16 @@ export default async function ProductDetails({
       >
         <Button
           variant="secondary"
-          className=" flex items-center gap-3"
+          className="flex items-center gap-3"
           size="sm"
         >
-          <MoveRight size={18} />
-          الرجوع للخلف
+          {params.locale === "en" ? (
+            <MoveLeft size={18} />
+          ) : (
+            <MoveRight size={18} />
+          )}
+
+          {t("go_back")}
         </Button>
       </Link>
       <FormData data={product} categories={categories} />

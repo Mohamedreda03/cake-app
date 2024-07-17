@@ -10,15 +10,21 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Product } from "@prisma/client";
+import { Product, ProductTranslation } from "@prisma/client";
 import axios from "axios";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useMutation, useQueryClient } from "react-query";
 
-export default function DataTable({ data }: { data: Product[] }) {
+interface ProductData extends Product {
+  translation: ProductTranslation[];
+}
+
+export default function DataTable({ data }: { data: ProductData[] }) {
+  const t = useTranslations("Dash_Products");
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedProduct, setSelectedProduct] = useState<string | null>(null);
 
@@ -30,7 +36,7 @@ export default function DataTable({ data }: { data: Product[] }) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries("products");
-      toast.success("تم حذف المنتج بنجاح");
+      toast.success(t("product_deleted_success"));
       setIsOpen(false);
     },
   });
@@ -46,15 +52,19 @@ export default function DataTable({ data }: { data: Product[] }) {
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         onDelete={handleDelete}
-        title="حذف المنتج"
-        description="هل أنت متأكد من حذف المنتج"
+        title={t("delete_product")}
+        description={t("are_you_sure")}
       />
       <div className="px-5 pb-5 md:px-20">
-        <Table dir="rtl" className="border">
+        <Table className="border">
           <TableHeader>
             <TableRow>
-              <TableHead className="text-center text-lg">صورة المنتج</TableHead>
-              <TableHead className="text-center text-lg">أسم المنتج</TableHead>
+              <TableHead className="text-center text-lg">
+                {t("product_photo")}
+              </TableHead>
+              <TableHead className="text-center text-lg">
+                {t("product_name")}
+              </TableHead>
 
               <TableHead className="text-center text-lg"></TableHead>
             </TableRow>
@@ -71,12 +81,14 @@ export default function DataTable({ data }: { data: Product[] }) {
                     className="mx-auto w-[60px] h-[40px] object-cover"
                   />
                 </TableCell>
-                <TableCell className="text-center">{item.name}</TableCell>
+                <TableCell className="text-center">
+                  {item.translation[0]?.name}
+                </TableCell>
 
                 <TableCell className="text-center flex gap-3 items-center justify-center">
                   <Link href={`/dashboard/products/${item.id}`}>
                     <Button className="text-sm" variant="secondary">
-                      تعديل
+                      {t("edit")}
                     </Button>
                   </Link>
                   <Button
@@ -87,7 +99,7 @@ export default function DataTable({ data }: { data: Product[] }) {
                     className="text-sm"
                     variant="destructive"
                   >
-                    حذف
+                    {t("delete")}
                   </Button>
                 </TableCell>
               </TableRow>

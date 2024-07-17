@@ -25,20 +25,26 @@ import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useParams, useRouter } from "next/navigation";
 import { Textarea } from "@/components/ui/textarea";
-import { Category, Product, Size } from "@prisma/client";
+import { Category, Product, ProductTranslation, Size } from "@prisma/client";
 import { Checkbox } from "@/components/ui/checkbox";
 import ImageUpload from "@/components/ImageUpload";
 import SizeModel from "@/components/models/SizeModel";
 import { cn } from "@/lib/utils";
 import DeleteModel from "@/components/models/DeleteModel";
+import { useTranslations } from "next-intl";
+
+interface ProductData extends Product {
+  translation: ProductTranslation[];
+}
 
 const FormData = ({
   data,
   categories,
 }: {
-  data: Product;
+  data: ProductData;
   categories: Category[];
 }) => {
+  const t = useTranslations("Dash_Products");
   const { productId } = useParams();
   const [isOpenSizeModel, setOpenSizeModel] = useState(false);
   const [isOpenDeleteModel, setOpenDeleteModel] = useState(false);
@@ -55,8 +61,10 @@ const FormData = ({
 
   const form = useForm<ProductFormTypes>({
     defaultValues: {
-      name: data?.name || "",
-      description: data?.description || "",
+      name_ar: data?.translation[0].name || "",
+      name_en: data?.translation[1].name || "",
+      description_ar: data?.translation[0].description || "",
+      description_en: data?.translation[1].description || "",
       categoryId: data?.categoryId || "",
       best_seller: data?.best_seller || false,
       image: data?.image || "",
@@ -69,7 +77,7 @@ const FormData = ({
     },
     onSuccess: () => {
       queryClient.invalidateQueries("products");
-      toast.success("تم تحديث المنتج بنجاح");
+      toast.success(t("product_updated_success"));
     },
   });
 
@@ -79,7 +87,7 @@ const FormData = ({
     },
     onSuccess: () => {
       queryClient.invalidateQueries("sizes");
-      toast.success("تم حذف الحجم بنجاح");
+      toast.success(t("product_deleted_success"));
       setOpenDeleteModel(false);
     },
   });
@@ -117,8 +125,8 @@ const FormData = ({
         isOpen={isOpenDeleteModel}
         onClose={() => setOpenDeleteModel(false)}
         onDelete={onDeleteSize}
-        title="حذف الحجم"
-        description="هل انت متأكد من حذف الحجم"
+        title={t("delete_size")}
+        description={t("delete_size_confirm")}
         isLoading={isDeleteLoading}
       />
 
@@ -135,7 +143,7 @@ const FormData = ({
                   name="image"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>صورة المنتج</FormLabel>
+                      <FormLabel>{t("product_photo")}</FormLabel>
                       <FormControl>
                         <ImageUpload
                           value={field.value ? [field.value] : []}
@@ -152,15 +160,31 @@ const FormData = ({
 
                 <FormField
                   control={form.control}
-                  name="name"
+                  name="name_ar"
                   render={({ field }) => (
                     <FormItem className="w-full">
-                      <FormLabel>أسم المنتج</FormLabel>
+                      <FormLabel>{t("product_name_ar")}</FormLabel>
                       <FormControl>
                         <Input
-                          className=""
                           disabled={isLoading}
-                          placeholder="أسم امنتج"
+                          placeholder={t("product_name_ar")}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="name_en"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>{t("product_name_en")}</FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={isLoading}
+                          placeholder={t("product_name_en")}
                           {...field}
                         />
                       </FormControl>
@@ -171,13 +195,32 @@ const FormData = ({
 
                 <FormField
                   control={form.control}
-                  name="description"
+                  name="description_ar"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>الوصف</FormLabel>
+                      <FormLabel>{t("product_desc_ar")}</FormLabel>
                       <FormControl>
                         <Textarea
-                          placeholder="قم بكتابة وصف للمنتج"
+                          disabled={isLoading}
+                          placeholder={t("product_desc_ar")}
+                          className="resize-none"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="description_en"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("product_desc_en")}</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          disabled={isLoading}
+                          placeholder={t("product_desc_en")}
                           className="resize-none"
                           {...field}
                         />
@@ -217,7 +260,7 @@ const FormData = ({
                               setOpenSizeModel(true);
                             }}
                           >
-                            تعديل
+                            {t("edit")}
                           </Button>
                           <Button
                             type="button"
@@ -227,7 +270,7 @@ const FormData = ({
                               setOpenDeleteModel(true);
                             }}
                           >
-                            حذف
+                            {t("delete")}
                           </Button>
                         </span>
                       </div>
@@ -240,7 +283,7 @@ const FormData = ({
                       setOpenSizeModel(true);
                     }}
                   >
-                    انشاء حجم جديد
+                    {t("product_size")}
                   </Button>
                 </div>
 
@@ -249,21 +292,20 @@ const FormData = ({
                   name="categoryId"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>أختر الفئة</FormLabel>
+                      <FormLabel>{t("select_category")}</FormLabel>
                       <Select
-                        dir="rtl"
                         onValueChange={field.onChange}
                         defaultValue={field.value}
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="فئة المنتج" />
+                            <SelectValue placeholder={t("select_category")} />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          {categories.map((item) => (
+                          {categories.map((item: any) => (
                             <SelectItem key={item.id} value={item.id}>
-                              {item.name}
+                              {item?.translation[0].name}
                             </SelectItem>
                           ))}
                         </SelectContent>
@@ -288,7 +330,7 @@ const FormData = ({
                             />
                           </FormControl>
                           <FormLabel className="text-md">
-                            منتج اكثر مبيعا
+                            {t("best_selling")}
                           </FormLabel>
                         </div>
                       </FormItem>
@@ -303,7 +345,7 @@ const FormData = ({
                   type="submit"
                   className="w-full sm:w-[150px]"
                 >
-                  {isLoading ? "جاري التحديث..." : "تحديث المنتج"}
+                  {isLoading ? t("updating") : t("update_product")}
                 </Button>
               </div>
             </form>
