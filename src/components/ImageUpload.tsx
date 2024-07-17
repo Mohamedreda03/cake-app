@@ -26,6 +26,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
 }) => {
   const [isMounted, setIsMounted] = useState(false);
 
+  const locale = useLocale();
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -37,8 +38,6 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   if (!isMounted) {
     return null;
   }
-
-  const locale = useLocale();
 
   return (
     <div>
