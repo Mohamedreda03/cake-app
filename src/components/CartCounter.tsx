@@ -9,7 +9,7 @@ import useSpecialProduct from "@/store/specialProduct";
 import { useLocale, useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import { Link } from "@/hooks/navigation";
-import NextLink from "next/link";
+
 import { usePathname } from "next/navigation";
 
 export default function CartCounter() {
@@ -23,9 +23,9 @@ export default function CartCounter() {
   // console.log(pathname.split("/")[2]);
 
   return (
-    <div className="flex items-center gap-7 min-w-[150px]">
+    <div className="flex items-center justify-end gap-7 min-w-[150px]">
       {session?.data?.user && session.data?.user.role !== "USER" && (
-        <NextLink href="/dashboard/products" className="hidden md:block">
+        <Link href="/dashboard/products" className="hidden md:block">
           <Button
             variant="outline"
             className={cn(locale === "en" ? "flex flex-row-reverse" : "")}
@@ -33,7 +33,7 @@ export default function CartCounter() {
             {t("dashboard")}
             <ArrowLeftIcon size={15} className="mr-1" />
           </Button>
-        </NextLink>
+        </Link>
       )}
 
       {session.data?.user.role === "USER" && (
@@ -46,12 +46,11 @@ export default function CartCounter() {
           <ArrowLeftIcon size={15} className="mr-1" />
         </Button>
       )}
-
       <Link
         href={"/"}
         locale={locale === "ar" ? "en" : "ar"}
         className={cn(
-          "flex items-center",
+          "md:flex items-center hidden",
           locale === "en" ? "flex-row-reverse" : ""
         )}
       >

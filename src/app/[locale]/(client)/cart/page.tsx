@@ -9,11 +9,13 @@ import useCart, { type CartItemType } from "@/store/cartStore";
 import useSpecialProduct, { SpecialProductType } from "@/store/specialProduct";
 import axios from "axios";
 import { LoaderCircle } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState, useTransition } from "react";
 import toast from "react-hot-toast";
 
-export default function Cart() {
+export default function Cart({ params }: { params: { locale: string } }) {
+  const { locale } = params;
   const [address, setAddress] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
   const [cafeName, setCafeName] = useState<string>("");
@@ -23,6 +25,10 @@ export default function Cart() {
   const specialCart = useSpecialProduct();
   const [paymentOption, setPaymentOption] = useState<boolean>(true);
 
+  const t = useTranslations("CartPage");
+  const tMore = useTranslations("More");
+  const tOrder = useTranslations("Order_Data");
+
   const total = cart.items.reduce((acc, item) => acc + item.total, 0);
 
   const [isPending, startPending] = useTransition();
@@ -31,7 +37,9 @@ export default function Cart() {
     e.preventDefault();
 
     if (!cafeName || !orderMakerName || !address || !phone) {
-      toast.error("الرجاء ملء جميع الحقول");
+      toast.error(
+        locale === "ar" ? "الرجاء ملء جميع الحقول" : "Please fill all fields"
+      );
       return;
     }
 
@@ -85,9 +93,15 @@ export default function Cart() {
             items: cart.items,
             special_items: specialCart.items,
           })
-          .then(() => toast.success("تم ارسال الطلب بنجاح"))
+          .then(() =>
+            toast.success(
+              locale === "ar"
+                ? "تم ارسال الطلب بنجاح"
+                : "Order sent successfully"
+            )
+          )
           .catch((error) => {
-            toast.error("حدث خطأ ما");
+            toast.error(locale === "ar" ? "حدث خطأ" : "An error occurred");
             console.error("ERROR ORDER: => ", error);
           });
         router.push("/cart/success");
@@ -100,11 +114,11 @@ export default function Cart() {
   return (
     <div className="py-8 px-5 md:px-7 max-w-screen-xl mx-auto flex flex-col gap-6 min-h-[600px]">
       <h1 className="text-center text-5xl font-medium text-primary border-b-2 border-color-1 w-fit">
-        السلة
+        {t("title")}
       </h1>
       {cart.items.length < 1 && specialCart.items.length < 1 ? (
         <div className="text-center text-lg text-muted-foreground">
-          السلة فارغة
+          {t("empty_cart")}
         </div>
       ) : (
         <div className="flex flex-col lg:flex-row gap-6">
@@ -116,7 +130,7 @@ export default function Cart() {
             </div>
             {specialCart.items.length > 0 && (
               <div className="flex flex-col gap-3 w-full">
-                <h3 className="text-2xl mt-10">الطلبات الخاصة</h3>
+                <h3 className="text-2xl mt-10">{t("special_order")}</h3>
                 {specialCart.items.map((data: SpecialProductType) => {
                   return <SpecialCartItem key={data.id} item={data} />;
                 })}
@@ -126,22 +140,20 @@ export default function Cart() {
           <div className="w-full flex-[0.8]">
             <Card className="flex flex-col gap-4 p-6">
               <div>
-                <h2 className="text-2xl font-medium">ملخص الطلب</h2>
-                <p className="text-muted-foreground mb-4">
-                  إجمالي سلة التسوق الخاصة بك
-                </p>
+                <h2 className="text-2xl font-medium">{t("order_summary")}</h2>
+                <p className="text-muted-foreground mb-4">{t("desc")}</p>
               </div>
 
               <div className="flex items-center justify-between text-xl font-medium">
-                <span>المبلغ الكلي</span>
+                <span>{t("total")}</span>
                 <span className="border-b-2 text-2xl border-color-1">
-                  {total} ريال
+                  {total} {tMore("curancy")}
                 </span>
               </div>
               <div className="flex flex-col gap-3">
                 <div className="w-full h-[1PX] bg-gray-200" />
                 <div>
-                  <h3 className="text-lg font-medium">اختر طريقة الدفع</h3>
+                  <h3 className="text-lg font-medium">{t("select_payment")}</h3>
                 </div>
                 <div
                   onClick={() => setPaymentOption(true)}
@@ -149,7 +161,7 @@ export default function Cart() {
                     "bg-color-1 text-white": paymentOption,
                   })}
                 >
-                  الدفع الالكتروني
+                  {t("online_payment")}
                 </div>
                 <div
                   onClick={() => setPaymentOption(false)}
@@ -157,14 +169,14 @@ export default function Cart() {
                     "bg-color-1 text-white": !paymentOption,
                   })}
                 >
-                  الدفع عند الاستلام
+                  {t("cash_payment")}
                 </div>
                 <div className="w-full h-[1PX] bg-gray-200" />
                 <form onSubmit={handleCheckout}>
                   <div className="flex flex-col gap-3">
                     <div className="col-span-2 sm:col-span-1">
                       <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-                        اسم المقهى
+                        {tOrder("cafe_name")}
                       </label>
                       <input
                         type="text"
@@ -172,13 +184,13 @@ export default function Cart() {
                         value={cafeName}
                         disabled={isPending}
                         className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
-                        placeholder="اسم المقهى"
+                        placeholder={tOrder("cafe_name")}
                         required
                       />
                     </div>
                     <div className="col-span-2 sm:col-span-1">
                       <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-                        اسم اصاحب الطلب
+                        {tOrder("name")}
                       </label>
                       <input
                         type="text"
@@ -186,13 +198,13 @@ export default function Cart() {
                         value={orderMakerName}
                         disabled={isPending}
                         className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
-                        placeholder="اسم اصاحب الطلب"
+                        placeholder={tOrder("name")}
                         required
                       />
                     </div>
                     <div className="col-span-2 sm:col-span-1">
                       <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-                        العنوان كاملاً
+                        {tOrder("address")}
                       </label>
                       <input
                         type="text"
@@ -200,13 +212,13 @@ export default function Cart() {
                         value={address}
                         disabled={isPending}
                         className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
-                        placeholder="العنوان كاملاً"
+                        placeholder={tOrder("address")}
                         required
                       />
                     </div>
                     <div className="col-span-2 sm:col-span-1">
                       <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-                        رقم الهاتف
+                        {tOrder("phone")}
                       </label>
                       <input
                         type="text"
@@ -214,7 +226,7 @@ export default function Cart() {
                         value={phone}
                         disabled={isPending}
                         className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
-                        placeholder="رقم الهاتف"
+                        placeholder={tOrder("phone")}
                         required
                       />
                     </div>
@@ -229,7 +241,7 @@ export default function Cart() {
                         isPending ? "block" : "hidden"
                       }`}
                     />
-                    اكمال الطلب
+                    {t("checkout")}
                   </Button>
                 </form>
               </div>

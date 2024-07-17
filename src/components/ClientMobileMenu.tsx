@@ -9,35 +9,42 @@ import {
 import { signOut, useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { Menu, ArrowLeftIcon } from "lucide-react";
+import { Menu, ArrowLeftIcon, Globe } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
+import { useLocale, useTranslations } from "next-intl";
 
 interface Menu {
   name: string;
   path: string;
 }
 
-const menu: Menu[] = [
-  {
-    name: "الرئيسية",
-    path: "/",
-  },
-  {
-    name: "القائمة",
-    path: "/menu",
-  },
-  {
-    name: "عنا",
-    path: "/about",
-  },
-];
-
 export default function ClientMobileMenu() {
   const { data: session } = useSession();
 
   const pathname = usePathname();
+  const t = useTranslations("Navigation");
+  const locale = useLocale();
+
+  const menu: Menu[] = [
+    {
+      name: t("home"),
+      path: "/",
+    },
+    {
+      name: t("menu"),
+      path: "/menu",
+    },
+    {
+      name: t("story"),
+      path: "/about",
+    },
+    {
+      name: t("Billa_Factory"),
+      path: "/factory",
+    },
+  ];
 
   return (
     <Sheet>
@@ -76,24 +83,48 @@ export default function ClientMobileMenu() {
                       : "text-color-2"
                   )}
                 >
-                  لوحت التحكم
+                  {t("dashboard")}
                 </div>
               </Link>
             </SheetClose>
 
+            <Link
+              href={"/"}
+              locale={locale === "ar" ? "en" : "ar"}
+              className={cn(
+                "flex items-center w-full",
+                locale === "en" ? "flex-row-reverse" : ""
+              )}
+            >
+              <Button variant="secondary" className="w-full">
+                <Globe
+                  size={20}
+                  className={cn(
+                    "text-gray-500",
+                    locale === "ar" ? "ml-2" : "mr-2"
+                  )}
+                />
+                {locale === "ar" ? "English" : "Arabic"}
+              </Button>
+            </Link>
+
             <Button
               variant="outline"
-              className={cn("w-full mt-3", {
-                hidden: !session?.user,
-              })}
+              className={cn(
+                "w-full mt-3 flex items-center justify-center gap-2",
+                {
+                  hidden: !session?.user,
+                  "flex-row-reverse": locale === "en",
+                }
+              )}
               onClick={() =>
                 signOut({
                   callbackUrl: "/",
                 })
               }
             >
-              تسجيل الخروج
-              <ArrowLeftIcon size={15} className="mr-1" />
+              {t("sign-out")}
+              <ArrowLeftIcon size={15} />
             </Button>
           </div>
         </div>

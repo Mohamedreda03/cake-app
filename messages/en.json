@@ -9,17 +9,15 @@
     "sign-in": "Sign In",
     "sign-up": "Sign Up",
     "dashboard": "Dashboard",
-    "Billa_Factory": "Billa Factory"
+    "Billa_Factory": "Billa Factory",
+    "Customer_Service": "Customer Service"
   },
   "Order_Data": {
-    "title": "Order",
     "name": "Name",
-    "phone": "Phone",
-    "email": "Email",
+    "cafe_name": "Cafe Name",
     "address": "Address",
-    "order": "Order",
-    "order_placeholder": "Enter your order here",
-    "submit": "Submit"
+    "phone": "Phone",
+    "checkout": "Checkout"
   },
   "More": {
     "curancy": "SAR",
@@ -33,32 +31,44 @@
   },
   "HomePage": {
     "hero_title": "Welcome to Billa",
-    "hero_subtitle": "At Bella, we have a special production line for cafes, companies and factories that follows your requests to the fullest with precision and care and is fully prepared to produce the required cakes with all professionalism and high quality.",
+    "hero_subtitle": "At Bella, we have a special production line for cafes, companies, and hotels to meet your requests to the fullest with precision and care, and are fully prepared to produce the required cakes with all professionalism and high quality",
     "add_special_order": "Add Special Order",
     "all_products": "All Products",
     "best_selling": "Best Selling"
   },
   "StoryPage": {
     "title": "Our amazing story",
-    "part1": "Bella is the story of the passion of the sisters Nora and Rana and their mother. With its elegant and distinctive appearance, enchanting taste, and their realization that delicious sweets are the secret to happiness at parties, events, and family gatherings, they decided to start their small home business.",
+    "part1": "Billa is the story of the passion of the sisters Nora and Rana and their mother. With its elegant and distinctive appearance, enchanting taste, and their realization that delicious sweets are the secret to happiness at parties, events, and family gatherings, they decided to start their small home business.",
     "part2": "The story begins in 2010 with their intense passion for sweets, which started from a young age. They began working from home and became known for the most delicious and beautiful varieties. They excelled and gained fame, thanks to God.",
     "part3": "After six years of hard work, with God's blessing, they decided to open their beautiful store, putting all their dreams and hopes into it.",
-    "part4": "Believing that the distinctiveness, uniqueness, beauty, and rich, delicious taste of a piece of confectionery reflect on the guests or homeowners and their overall mood, they decided together to create the most beautiful and delicious sweets and savories. They aimed to bring beauty and happiness to all homes, making it accessible to everyone to increase their joy and beauty. Thus, Bella was born to be the closest and easiest way to acquire the most delicious and beautiful sweets and savories, delivered elegantly to every home without any issues.",
-    "part5": "Now, at the Bella team, we find inspiration in exciting products with creative and eye-catching shapes and unique items. We offer these to you in our store and on our website, continually striving to develop it. Our primary mission is to supply the store with everything new in the world of delicious hospitality with attractive and distinctive ideas to suit your taste."
+    "part4": "Believing that the distinctiveness, uniqueness, beauty, and rich, delicious taste of a piece of confectionery reflect on the guests or homeowners and their overall mood, they decided together to create the most beautiful and delicious sweets and savories. They aimed to bring beauty and happiness to all homes, making it accessible to everyone to increase their joy and beauty. Thus, Billa was born to be the closest and easiest way to acquire the most delicious and beautiful sweets and savories, delivered elegantly to every home without any issues.",
+    "part5": "Now, at the Billa team, we find inspiration in exciting products with creative and eye-catching shapes and unique items. We offer these to you in our store and on our website, continually striving to develop it. Our primary mission is to supply the store with everything new in the world of delicious hospitality with attractive and distinctive ideas to suit your taste."
   },
   "MenuPage": {
     "title": "Menu"
   },
   "Billa_Factory": {
     "title": "Billa Factory",
-    "subtitle": "At Bella, we have an integrated work team characterized by high efficiency and experience, and we have the best equipment and tools so that we can provide our customers with the best distinctive and luxurious products, as we are accustomed to them. We are keen to ensure the ease and speed of the product’s arrival to our customers, as we have a refrigerated and equipped transport fleet, so that the product arrives fresh and of good quality. High quality from the factory to our stores or our distinguished customers with ease and ease."
+    "subtitle": "At Billa, we have an integrated work team characterized by high efficiency and experience, and we have the best equipment and tools so that we can provide our customers with the best distinctive and luxurious products, as we are accustomed to them. We are keen to ensure the ease and speed of the product’s arrival to our customers, as we have a refrigerated and equipped transport fleet, so that the product arrives fresh and of good quality. High quality from the factory to our stores or our distinguished customers with ease and ease."
+  },
+  "CartPage": {
+    "title": "Cart",
+    "empty_cart": "Your cart is empty",
+    "total": "Total",
+    "checkout": "Checkout",
+    "special_order": "Special Order",
+    "desc": "Your total shopping cart",
+    "order_summary": "Order Summary",
+    "select_payment": "Select Payment Method",
+    "online_payment": "Online Payment",
+    "cash_payment": "Cash on Delivery"
   },
   "Footer": {
     "call_us": "Call Us",
     "links": "Important Links",
     "who_we_are": "Who We Are",
-    "who_we_are_desc": "Bella Sweet is an elegant shop that offers the most beautiful and delicious distinctive and innovative varieties of sweets and savory items. It is owned and managed by the Beautiful Sweets Trading Establishment.",
+    "who_we_are_desc": "Billa Sweet is an elegant shop that offers the most beautiful and delicious distinctive and innovative varieties of sweets and savory items. It is owned and managed by the Beautiful Sweets Trading Establishment.",
     "Customer_Service": "Customer Service",
-    "Customer_Service_Desc": "At Bella, we fully believe that our success depends on the satisfaction of our customers. Therefore, our customer service employees are happy to assist you and answer all your inquiries about our products and services through social media programs or by communicating with customer service: "
+    "Customer_Service_Desc": "At Billa, we fully believe that our success depends on the satisfaction of our customers. Therefore, our customer service employees are happy to assist you and answer all your inquiries about our products and services through social media programs or by communicating with customer service: "
   }
 }

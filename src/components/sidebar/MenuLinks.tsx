@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import Link from "next/link";
+import { Link } from "@/hooks/navigation";
 import {
   LucideIcon,
   LayoutDashboard,
@@ -35,11 +35,6 @@ const menu: Menu[] = [
     path: "/dashboard/orders",
     Icon: PackageOpen,
   },
-  // {
-  //   name: "الطلبات الخاصة",
-  //   path: "/dashboard/special-orders",
-  //   Icon: PackageOpen,
-  // },
 ];
 
 export default function MenuLinks({ session }: { session: Session }) {
