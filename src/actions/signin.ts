@@ -30,14 +30,10 @@ const signin = async (data: SignInFormTypes) => {
       return { error: "الباسورد غير صحيح" };
     }
 
-    if (user.role === "USER") {
-      return { error: "ليس لديك الصلاحية للدخول" };
-    }
-
     const res = await signIn("credentials", {
       email,
       password,
-      redirectTo: "/dashboard/products",
+      redirectTo: "/",
     });
 
     return { success: "تم تسجيل الدخول بنجاج" };
