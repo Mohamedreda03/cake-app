@@ -75,110 +75,159 @@ export function OrderData({
           </select>
         </div>
       </div>
-      {session.data?.user.role === "CHEF" ||
-        (session.data?.user.role === "ACCOUNTANT" && (
-          <Table className="max-w-screen-xl border">
-            <TableBody>
-              <TableRow>
-                <TableCell className="font-medium w-[200px]">
-                  {t("order_maker")}
-                </TableCell>
-                <TableCell colSpan={4} className="font-medium">
-                  {order.order_maker_name}
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell className="font-medium w-[200px]">
-                  {t("cafe_name")}
-                </TableCell>
-                <TableCell colSpan={4} className="font-medium">
-                  {order.cafe_name}
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell className="font-medium w-[200px]">
-                  {t("payment_status")}
-                </TableCell>
-                <TableCell colSpan={4} className="text-center">
-                  <div
-                    className={cn({
-                      "text-green-500 bg-green-50 w-fit px-2 py-1 rounded-full":
-                        order.payment_status === "PAID",
-                      "text-red-500 bg-red-50 w-fit px-3 py-1 rounded-full":
-                        order.payment_status === "FAILED",
+      {(session.data?.user.role === "ADMIN" ||
+        session.data?.user.role === "ACCOUNTANT") && (
+        <Table className="max-w-screen-xl border">
+          <TableBody>
+            <TableRow>
+              <TableCell className="font-medium w-[200px]">
+                {t("order_maker")}
+              </TableCell>
+              <TableCell colSpan={4} className="font-medium">
+                {order.order_maker_name}
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="font-medium w-[200px]">
+                {t("cafe_name")}
+              </TableCell>
+              <TableCell colSpan={4} className="font-medium">
+                {order.cafe_name}
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="font-medium w-[200px]">
+                {t("payment_status")}
+              </TableCell>
+              <TableCell colSpan={4} className="text-center">
+                <div
+                  className={cn({
+                    "text-green-500 bg-green-50 w-fit px-2 py-1 rounded-full":
+                      order.payment_status === "PAID",
+                    "text-red-500 bg-red-50 w-fit px-3 py-1 rounded-full":
+                      order.payment_status === "FAILED",
 
-                      "text-gray-900 bg-slate-200 w-fit px-3 py-1 rounded-full":
-                        order.payment_status === "PENDING",
-                    })}
-                  >
-                    {order.payment_status === "PAID" && t("payment_completed")}
-                    {order.payment_status === "PENDING" &&
-                      t("paiement_when_recieving")}
-                    {order.payment_status === "FAILED" && t("payment_failed")}
-
-                    {/* {order._count.special_items &&
-                  order.payment_status === "PAID" &&
-                  order._count.special_items > 0 &&
-                  " + طلب خاص"} */}
-                  </div>
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell className="font-medium w-[200px]">
-                  {t("order_status")}
-                </TableCell>
-                <TableCell colSpan={4} className="font-medium">
-                  {orderStatus === "PENDING" && t("pending")}
-                  {orderStatus === "PROCESSING" && t("in_preparation")}
-                  {orderStatus === "SHIPPED" && t("on_the_way")}
-                  {orderStatus === "DELIVERED" && t("delivered")}
-                </TableCell>
-              </TableRow>
-              <TableRow className={inter.className}>
-                <TableCell className="font-medium w-[200px]">
-                  payment id
-                </TableCell>
-                <TableCell colSpan={4} className="font-medium">
-                  {order.payment_id}
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell className="font-medium w-[200px]">
-                  {t("full_address")}
-                </TableCell>
-                <TableCell colSpan={4} className="font-medium">
-                  {order.address}
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell className="font-medium w-[200px]">
-                  {t("phone_number")}
-                </TableCell>
-                <TableCell colSpan={4} className="font-medium">
-                  {order.phone}
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell className="font-medium w-[200px]">
-                  {t("order_date")}
-                </TableCell>
-                <TableCell colSpan={4} className="font-medium">
-                  {format(new Date(order.createdAt), "hh:mm a, dd MMMM yyyy", {
-                    locale: locale === "ar" ? ar : enUS,
+                    "text-gray-900 bg-slate-200 w-fit px-3 py-1 rounded-full":
+                      order.payment_status === "PENDING",
                   })}
-                </TableCell>
-              </TableRow>
-            </TableBody>
-            <TableFooter>
-              <TableRow>
-                <TableCell>{t("total_price")}</TableCell>
-                <TableCell colSpan={4}>
-                  {order.total} <span className="mr-1">{t("curancy")}</span>
-                </TableCell>
-              </TableRow>
-            </TableFooter>
-          </Table>
-        ))}
+                >
+                  {order.payment_status === "PAID" && t("payment_completed")}
+                  {order.payment_status === "PENDING" &&
+                    t("paiement_when_recieving")}
+                  {order.payment_status === "FAILED" && t("payment_failed")}
+                </div>
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="font-medium w-[200px]">
+                {t("order_status")}
+              </TableCell>
+              <TableCell colSpan={4} className="font-medium">
+                {orderStatus === "PENDING" && t("pending")}
+                {orderStatus === "PROCESSING" && t("in_preparation")}
+                {orderStatus === "SHIPPED" && t("on_the_way")}
+                {orderStatus === "DELIVERED" && t("delivered")}
+              </TableCell>
+            </TableRow>
+            <TableRow className={inter.className}>
+              <TableCell className="font-medium w-[200px]">
+                payment id
+              </TableCell>
+              <TableCell colSpan={4} className="font-medium">
+                {order.payment_id}
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="font-medium w-[200px]">
+                {t("full_address")}
+              </TableCell>
+              <TableCell colSpan={4} className="font-medium">
+                {order.address}
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="font-medium w-[200px]">
+                {t("phone_number")}
+              </TableCell>
+              <TableCell colSpan={4} className="font-medium">
+                {order.phone}
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="font-medium w-[200px]">
+                {t("order_date")}
+              </TableCell>
+              <TableCell colSpan={4} className="font-medium">
+                {format(new Date(order.createdAt), "hh:mm a, dd MMMM yyyy", {
+                  locale: locale === "ar" ? ar : enUS,
+                })}
+              </TableCell>
+            </TableRow>
+          </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TableCell>{t("total_price")}</TableCell>
+              <TableCell colSpan={4}>
+                {order.total} <span className="mr-1">{t("curancy")}</span>
+              </TableCell>
+            </TableRow>
+          </TableFooter>
+        </Table>
+      )}
+      {session.data?.user.role === "CHEF" && (
+        <Table className="max-w-screen-xl border">
+          <TableBody>
+            <TableRow>
+              <TableCell className="font-medium w-[200px]">
+                {t("order_maker")}
+              </TableCell>
+              <TableCell colSpan={4} className="font-medium">
+                {order.order_maker_name}
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="font-medium w-[200px]">
+                {t("cafe_name")}
+              </TableCell>
+              <TableCell colSpan={4} className="font-medium">
+                {order.cafe_name}
+              </TableCell>
+            </TableRow>
+
+            <TableRow>
+              <TableCell className="font-medium w-[200px]">
+                {t("order_status")}
+              </TableCell>
+              <TableCell colSpan={4} className="font-medium">
+                {orderStatus === "PENDING" && t("pending")}
+                {orderStatus === "PROCESSING" && t("in_preparation")}
+                {orderStatus === "SHIPPED" && t("on_the_way")}
+                {orderStatus === "DELIVERED" && t("delivered")}
+              </TableCell>
+            </TableRow>
+
+            <TableRow>
+              <TableCell className="font-medium w-[200px]">
+                {t("full_address")}
+              </TableCell>
+              <TableCell colSpan={4} className="font-medium">
+                {order.address}
+              </TableCell>
+            </TableRow>
+
+            <TableRow>
+              <TableCell className="font-medium w-[200px]">
+                {t("order_date")}
+              </TableCell>
+              <TableCell colSpan={4} className="font-medium">
+                {format(new Date(order.createdAt), "hh:mm a, dd MMMM yyyy", {
+                  locale: locale === "ar" ? ar : enUS,
+                })}
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      )}
       <div className="mt-10 max-w-screen-xl">
         <h3 className="text-2xl mx-auto w-fit border-b-2 border-color-1 mb-3">
           {t("order")}
