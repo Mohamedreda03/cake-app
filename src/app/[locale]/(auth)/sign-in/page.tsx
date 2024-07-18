@@ -22,11 +22,20 @@ import { useState, useTransition } from "react";
 import { SignInFormTypes, SignInSchema } from "@/types/schema";
 import signin from "@/actions/signin";
 import { Metadata } from "next";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export default function Login() {
   const [isPanding, startTransition] = useTransition();
   const [errorMessage, setErrorMessage] = useState("");
-  // const [successMessage, setSuccessMessage] = useState("");
+  const t = useTranslations("Sign_Page");
+  const session = useSession();
+  const router = useRouter();
+
+  if (session.data?.user) {
+    router.push("/");
+  }
 
   const form = useForm<SignInFormTypes>({
     resolver: zodResolver(SignInSchema),
@@ -46,25 +55,18 @@ export default function Login() {
 
   return (
     <>
-      <div
-        dir="rtl"
-        className="w-[500px] border border-gray-100 rounded-md shadow shadow-gray-200 p-11 bg-white"
-      >
-        <Header
-          title="تسجيل الدخول"
-          desc="سجل الدخول للوصول إلى لوحة التحكم الخاصة بك."
-          className="text-center"
-        />
+      <div className="w-[500px] border border-gray-100 rounded-md shadow shadow-gray-200 p-11 bg-white">
+        <Header title={t("sign_in")} desc="" className="text-center" />
         <div className="py-6">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <div className="flex flex-col gap-3" dir="ltr">
+              <div className="flex flex-col gap-3">
                 <FormField
                   control={form.control}
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email</FormLabel>
+                      <FormLabel>{t("email")}</FormLabel>
                       <FormControl>
                         <Input
                           disabled={isPanding}
@@ -81,12 +83,12 @@ export default function Login() {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Password</FormLabel>
+                      <FormLabel>{t("password")}</FormLabel>
                       <FormControl>
                         <Input
                           disabled={isPanding}
                           type="password"
-                          placeholder="password"
+                          placeholder={t("password")}
                           {...field}
                         />
                       </FormControl>
@@ -108,7 +110,7 @@ export default function Login() {
                 type="submit"
                 className="w-full"
               >
-                تسجيل الدخول
+                {t("sign_in")}
               </Button>
             </form>
           </Form>
@@ -124,7 +126,7 @@ export default function Login() {
             href="/sign-up"
             className="text-muted-foreground text-sm underline text-center block w-full mt-5"
           >
-            ليس لديك حساب؟ سجل الآن
+            {t("dont_have_account")}
           </Link>
         </div>
       </div>

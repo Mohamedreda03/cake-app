@@ -215,7 +215,20 @@
     "user_updated_success": "تم تحديث المستخدم بنجاح",
     "order_date": "تاريخ الطلب"
   },
-  "User_Orders_Page": {
-    "orders": "الطلبات"
+  "Sign_Page": {
+    "sign_in": "تسجيل الدخول",
+    "sign_up": "تسجيل جديد",
+    "user_name": "اسم المستخدم",
+    "email": "البريد الالكتروني",
+    "password": "كلمة المرور",
+    "confirm_Password": "تأكيد كلمة المرور",
+    "repite_the_password": "اعد كتابة كلمة المرور",
+    "dont_have_account": "ليس لديك حساب؟ سجل الان",
+    "have_account": "لديك حساب؟ سجل الدخول",
+    "forgot_password": "نسيت كلمة المرور؟",
+    "sign_in_with": "تسجيل الدخول بواسطة",
+    "sign_in_success": "تم تسجيل الدخول بنجاح",
+    "sign_in_failed": "فشل تسجيل الدخول",
+    "sign_in_error": "حدث خطأ ما، يرجى المحاولة مرة أخرى"
   }
 }

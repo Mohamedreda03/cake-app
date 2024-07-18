@@ -21,11 +21,19 @@ import Link from "next/link";
 import { SignUpFormTypes, SignUpSchema } from "@/types/schema";
 import { useState, useTransition } from "react";
 import signup from "@/actions/signup";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export default function Login() {
   const [isPanding, startTransition] = useTransition();
-  // const [errorMessage, setErrorMessage] = useState("");
-  // const [successMessage, setSuccessMessage] = useState("");
+  const t = useTranslations("Sign_Page");
+  const session = useSession();
+  const router = useRouter();
+
+  if (session.data?.user) {
+    router.push("/");
+  }
 
   const form = useForm<SignUpFormTypes>({
     resolver: zodResolver(SignUpSchema),
@@ -49,25 +57,22 @@ export default function Login() {
 
   return (
     <>
-      <div
-        dir="rtl"
-        className="w-[500px] border border-gray-100 rounded-md shadow shadow-gray-200 p-11 bg-white"
-      >
-        <Header title="انشاء حساب جديد" desc="" className="text-center" />
+      <div className="w-[500px] border border-gray-100 rounded-md shadow shadow-gray-200 p-11 bg-white">
+        <Header title={t("sign_up")} desc="" className="text-center" />
         <div className="py-6">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <div className="flex flex-col gap-3" dir="ltr">
+              <div className="flex flex-col gap-3">
                 <FormField
                   control={form.control}
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Username</FormLabel>
+                      <FormLabel>{t("user_name")}</FormLabel>
                       <FormControl>
                         <Input
                           disabled={isPanding}
-                          placeholder="user name"
+                          placeholder={t("user_name")}
                           {...field}
                         />
                       </FormControl>
@@ -80,7 +85,7 @@ export default function Login() {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email</FormLabel>
+                      <FormLabel>{t("email")}</FormLabel>
                       <FormControl>
                         <Input
                           disabled={isPanding}
@@ -97,12 +102,12 @@ export default function Login() {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Password</FormLabel>
+                      <FormLabel>{t("password")}</FormLabel>
                       <FormControl>
                         <Input
                           disabled={isPanding}
                           type="password"
-                          placeholder="password"
+                          placeholder={t("password")}
                           {...field}
                         />
                       </FormControl>
@@ -115,12 +120,12 @@ export default function Login() {
                   name="confirmPassword"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Confirm Password</FormLabel>
+                      <FormLabel>{t("confirm_Password")}</FormLabel>
                       <FormControl>
                         <Input
                           disabled={isPanding}
                           type="password"
-                          placeholder="repite the password"
+                          placeholder={t("repite_the_password")}
                           {...field}
                         />
                       </FormControl>
@@ -138,7 +143,7 @@ export default function Login() {
                 type="submit"
                 className="w-full"
               >
-                انشاء حساب
+                {t("sign_up")}
               </Button>
             </form>
           </Form>
@@ -155,7 +160,7 @@ export default function Login() {
             href="/sign-in"
             className="text-muted-foreground text-sm underline text-center block w-full mt-5"
           >
-            لديك حساب؟ سجل الدخول
+            {t("have_account")}
           </Link>
         </div>
       </div>
