@@ -5,6 +5,7 @@ import useCart from "@/store/cartStore";
 import useSpecialProduct from "@/store/specialProduct";
 import axios from "axios";
 import { ArrowLeft, CheckCircle } from "lucide-react";
+import { useLocale } from "next-intl";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useTransition } from "react";
@@ -23,6 +24,7 @@ const SuccessPage = () => {
   const specialCart = useSpecialProduct();
   const invoiceId = useSearchParams().get("invoice_id");
   const router = useRouter();
+  const locale = useLocale();
 
   useEffect(() => {
     const checkStatus = async () => {
@@ -50,7 +52,11 @@ const SuccessPage = () => {
                 .then(() => {
                   cart.clearCart();
                   specialCart.clearCart();
-                  toast.success("تم ارسال الطلب بنجاح");
+                  toast.success(
+                    locale === "ar"
+                      ? "تم ارسال الطلب بنجاح"
+                      : "Order sent successfully"
+                  );
                   router.push("/cart/success");
                 });
             }
@@ -65,10 +71,14 @@ const SuccessPage = () => {
     <div className="max-w-screen-xl mx-auto p-7 flex items-center justify-center flex-col">
       <div className="h-[calc(73vh-5px)] flex items-center flex-col">
         <CheckCircle size={100} className="text-green-500 mt-7" />
-        <h1 className="text-3xl mt-4">تمت ارسال الطلب بنجاح</h1>
+        <h1 className="text-3xl mt-4">
+          {locale === "ar" ? "تم ارسال الطلب بنجاح" : "Order sent successfully"}
+        </h1>
         <Link href="/" className="mt-4">
           <Button variant="outline">
-            <p className="text-blue-500">العودة للرئيسية</p>
+            <p className="text-blue-500">
+              {locale === "ar" ? "العودة الى الصفحة الرئيسية" : "Back to home"}
+            </p>
             <ArrowLeft size={15} className="text-blue-500 mr-2" />
           </Button>
         </Link>
