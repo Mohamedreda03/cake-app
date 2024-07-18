@@ -157,6 +157,8 @@
     "orders": "الطلبات",
     "search_for": "ابحث عن طلب",
     "search": "بحث",
+    "user_id": "رقم العميل",
+    "user_name": "اسم العميل",
     "order_date": "تاريخ الطلب",
     "order_status": "حالة الطلب",
     "order_total": "المجموع",
@@ -213,7 +215,8 @@
     "save_changes": "حفظ التغييرات",
     "updating": "جاري التحديث",
     "user_updated_success": "تم تحديث المستخدم بنجاح",
-    "order_date": "تاريخ الطلب"
+    "order_date": "تاريخ الطلب",
+    "orders": "الطلبات"
   },
   "Sign_Page": {
     "sign_in": "تسجيل الدخول",

@@ -155,6 +155,8 @@
   "Order_Page": {
     "orders": "Orders",
     "search_for": "Search for an order",
+    "user_id": "User ID",
+    "user_name": "User Name",
     "search": "Search",
     "order_id": "Order ID",
     "order_date": "Order Date",
@@ -215,7 +217,8 @@
     "save_changes": "Save Changes",
     "updating": "Updating",
     "user_updated_success": "User updated successfully",
-    "order_date": "Order Date"
+    "order_date": "Order Date",
+    "orders": "Orders"
   },
   "Sign_Page": {
     "sign_in": "Sign In",

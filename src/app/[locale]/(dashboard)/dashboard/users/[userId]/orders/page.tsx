@@ -11,7 +11,7 @@ export const dynamic = "force-dynamic";
 export default async function Orders({
   params,
 }: {
-  params: { locale: string };
+  params: { locale: string; userId: string };
 }) {
   const t = await getTranslations("Order_Page");
 
@@ -26,9 +26,15 @@ export default async function Orders({
     };
   }
 
+  const user = await db.user.findUnique({
+    where: {
+      id: params.userId,
+    },
+  });
+
   const userOrders = await db.order.findMany({
     where: {
-      userId: session?.user.id,
+      userId: params.userId,
       status: {
         not: "FAILED",
       },
@@ -42,17 +48,25 @@ export default async function Orders({
     },
   });
 
-  console.log(userOrders);
-  // console.log(userOrders[0].products);
+  console.log(user);
 
   return (
     <div className="max-w-screen-xl mx-auto p-7">
       <div className="flex items-center justify-center">
         <h1 className="text-5xl border-b-2 border-color-1">{t("orders")}</h1>
       </div>
+
+      <div className="max-w-screen-sm mx-auto mt-10 text-xl">
+        <p className="flex gap-3">
+          <span>{t("user_id")}</span>: <span>{user?.id}</span>
+        </p>
+        <p className="flex gap-3">
+          <span>{t("user_name")}</span>: <span>{user?.name}</span>
+        </p>
+      </div>
       <div className="max-w-screen-xl mx-auto p-7 min-h-[450px]">
         {userOrders.map((order) => (
-          <>
+          <div key={order.id}>
             <div className="border bg-color-3/10 p-5" key={order.id}>
               <div className="mt-3 max-w-screen-xl">
                 <h3 className="text-2xl mx-auto w-fit border-b-2 border-color-1 mb-3">
@@ -171,7 +185,7 @@ export default async function Orders({
               )}
             </div>
             <div className="h-0.5 w-full bg-slate-200 my-5" />
-          </>
+          </div>
         ))}
       </div>
     </div>

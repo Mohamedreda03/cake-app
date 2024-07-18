@@ -71,7 +71,8 @@ export default function DataTable({ orders }: { orders: OrderType[] }) {
               <TableHead className="text-center text-lg">
                 {t("cafe_name")}
               </TableHead>
-              {session.data?.user.role !== "CHEF" && (
+              {(session.data?.user.role === "ADMIN" ||
+                session.data?.user.role === "ACCOUNTANT") && (
                 <>
                   <TableHead className="text-center text-lg">
                     {t("phone_number")}
@@ -103,39 +104,39 @@ export default function DataTable({ orders }: { orders: OrderType[] }) {
                   <TableCell className="text-center">
                     {order.cafe_name}
                   </TableCell>
-                  {session.data?.user.role === "ADMIN" ||
-                    (session.data?.user.role === "ACCOUNTANT" && (
-                      <>
-                        <TableCell className="text-center">
-                          {order.phone}
-                        </TableCell>
-                        <TableCell className="text-center">
-                          <div
-                            className={cn({
-                              "text-green-500 bg-green-50 w-fit px-2 py-1 rounded-full mx-auto":
-                                order.payment_status === "PAID",
-                              "text-red-500 bg-red-50 w-fit px-3 py-1 rounded-full mx-auto":
-                                order.payment_status === "FAILED",
+                  {(session.data?.user.role === "ADMIN" ||
+                    session.data?.user.role === "ACCOUNTANT") && (
+                    <>
+                      <TableCell className="text-center">
+                        {order.phone}
+                      </TableCell>
+                      <TableCell className="text-center">
+                        <div
+                          className={cn({
+                            "text-green-500 bg-green-50 w-fit px-2 py-1 rounded-full mx-auto":
+                              order.payment_status === "PAID",
+                            "text-red-500 bg-red-50 w-fit px-3 py-1 rounded-full mx-auto":
+                              order.payment_status === "FAILED",
 
-                              "text-gray-900 bg-slate-200 w-fit px-3 py-1 rounded-full mx-auto":
-                                order.payment_status === "PENDING",
-                            })}
-                          >
-                            {order.payment_status === "PAID" &&
-                              t("payment_completed")}
-                            {order.payment_status === "PENDING" &&
-                              t("paiement_when_recieving")}
-                            {order.payment_status === "FAILED" &&
-                              t("payment_failed")}
+                            "text-gray-900 bg-slate-200 w-fit px-3 py-1 rounded-full mx-auto":
+                              order.payment_status === "PENDING",
+                          })}
+                        >
+                          {order.payment_status === "PAID" &&
+                            t("payment_completed")}
+                          {order.payment_status === "PENDING" &&
+                            t("paiement_when_recieving")}
+                          {order.payment_status === "FAILED" &&
+                            t("payment_failed")}
 
-                            {/* {order._count.special_items &&
+                          {/* {order._count.special_items &&
                         order.payment_status === "PAID" &&
                         order._count.special_items > 0 &&
                         "+ " + t("special_order")} */}
-                          </div>
-                        </TableCell>
-                      </>
-                    ))}
+                        </div>
+                      </TableCell>
+                    </>
+                  )}
                   <TableCell className="text-center">
                     {format(
                       new Date(order.createdAt),

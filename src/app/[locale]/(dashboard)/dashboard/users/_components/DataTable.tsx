@@ -75,6 +75,11 @@ export default function DataTable({ users }: { users: User[] }) {
                 <TableCell className="text-center">{user.email}</TableCell>
                 <TableCell className="text-center">{user.role}</TableCell>
                 <TableCell className="text-center flex gap-3 items-center justify-center">
+                  <Link href={`/dashboard/users/${user.id}/orders`}>
+                    <Button className="text-sm" variant="secondary">
+                      {t("orders")}
+                    </Button>
+                  </Link>
                   <Link href={`/dashboard/users/${user.id}`}>
                     <Button className="text-sm" variant="secondary">
                       {t("edit")}
