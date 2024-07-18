@@ -27,7 +27,7 @@ const signin = async (data: SignInFormTypes) => {
     const isMatch = await bcrypt.compare(password, user.password!);
 
     if (!isMatch) {
-      return { error: "الباسورد غير صحيح" };
+      return { error: "The password is incorrect" };
     }
 
     const res = await signIn("credentials", {
@@ -36,7 +36,7 @@ const signin = async (data: SignInFormTypes) => {
       redirectTo: "/",
     });
 
-    return { success: "تم تسجيل الدخول بنجاج" };
+    return { success: "You have been logged in successfully" };
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
