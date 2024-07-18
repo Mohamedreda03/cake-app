@@ -69,6 +69,7 @@ export async function POST(req: NextRequest) {
 
     const order = await db.order.create({
       data: {
+        userId: body.userId,
         cafe_name: body.cafe_name,
         order_maker_name: body.order_maker_name,
         address: body.address,

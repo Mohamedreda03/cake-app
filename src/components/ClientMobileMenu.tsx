@@ -45,6 +45,7 @@ export default function ClientMobileMenu() {
       name: t("Billa_Factory"),
       path: "/factory",
     },
+    { name: t("orders"), path: "/orders" },
   ];
 
   return (

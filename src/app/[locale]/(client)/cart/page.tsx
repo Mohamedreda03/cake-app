@@ -9,6 +9,7 @@ import useCart, { type CartItemType } from "@/store/cartStore";
 import useSpecialProduct, { SpecialProductType } from "@/store/specialProduct";
 import axios from "axios";
 import { LoaderCircle } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState, useTransition } from "react";
@@ -25,6 +26,7 @@ export default function Cart({ params }: { params: { locale: string } }) {
   const specialCart = useSpecialProduct();
   const [paymentOption, setPaymentOption] = useState<boolean>(true);
 
+  const session = useSession();
   const t = useTranslations("CartPage");
   const tMore = useTranslations("More");
   const tOrder = useTranslations("Order_Data");
@@ -46,6 +48,7 @@ export default function Cart({ params }: { params: { locale: string } }) {
     startPending(async () => {
       if (paymentOption) {
         const order = await axios.post("/api/orders", {
+          userId: session.data?.user?.id,
           cafe_name: cafeName,
           order_maker_name: orderMakerName,
           address: address,
@@ -85,6 +88,7 @@ export default function Cart({ params }: { params: { locale: string } }) {
       } else {
         await axios
           .post("/api/orders", {
+            userId: session.data?.user?.id,
             cafe_name: cafeName,
             order_maker_name: orderMakerName,
             address: address,

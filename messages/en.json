@@ -10,7 +10,8 @@
     "sign-up": "Sign Up",
     "dashboard": "Dashboard",
     "Billa_Factory": "Billa Factory",
-    "Customer_Service": "Customer Service"
+    "Customer_Service": "Customer Service",
+    "orders": "Orders"
   },
   "Order_Data": {
     "name": "Name",
@@ -215,5 +216,8 @@
     "updating": "Updating",
     "user_updated_success": "User updated successfully",
     "order_date": "Order Date"
+  },
+  "User_Orders_Page": {
+    "orders": "Orders"
   }
 }

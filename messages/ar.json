@@ -10,7 +10,8 @@
     "sign-up": "تسجيل جديد",
     "dashboard": "لوحة التحكم",
     "Billa_Factory": "مصنع بيلا",
-    "Customer_Service": "خدمة العملاء"
+    "Customer_Service": "خدمة العملاء",
+    "orders": "الطلبات"
   },
   "Order_Data": {
     "name": "اسم صاحب الطلب",
@@ -195,7 +196,8 @@
     "product_total": "المجموع",
     "note": "ملاحظة",
     "order_description": "وصف الطلب",
-    "total_price": "المجموع"
+    "total_price": "المجموع",
+    "order_id": "رقم الطلب"
   },
   "User_Page": {
     "users": "المستخدمين",
@@ -212,5 +214,8 @@
     "updating": "جاري التحديث",
     "user_updated_success": "تم تحديث المستخدم بنجاح",
     "order_date": "تاريخ الطلب"
+  },
+  "User_Orders_Page": {
+    "orders": "الطلبات"
   }
 }
