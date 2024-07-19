@@ -8,7 +8,7 @@ const publicPages = [
   "/",
   "/sign-in",
   "/sign-up",
-  "menu",
+  "/menu",
   "/story",
   "/factory",
   "/cart",
