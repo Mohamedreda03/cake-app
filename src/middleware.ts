@@ -66,4 +66,5 @@ export const config = {
   matcher: [
     "/((?!api|_next/static|_next/image|favicon.ico|hero-6.webp|logo.svg|public|icons).*)",
   ],
+  // matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
 };
