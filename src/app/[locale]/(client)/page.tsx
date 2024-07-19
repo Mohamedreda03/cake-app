@@ -7,7 +7,7 @@ export default function Home({ params }: { params: { locale: string } }) {
 
   return (
     <div className="max-w-screen-xl mx-auto p-5 md:p-7">
-      <Hero locale={locale} />
+      <Hero />
       <Products />
     </div>
   );
