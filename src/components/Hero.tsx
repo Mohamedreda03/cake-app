@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 
-export default function Hero({ locale }: { locale: string }) {
+export default function Hero() {
   const t = useTranslations("HomePage");
 
   return (
@@ -21,10 +21,11 @@ export default function Hero({ locale }: { locale: string }) {
         <div className="relative">
           <Image
             src="/logo.svg"
-            alt="بيلا سويت"
+            alt={t("billa_sweet")}
             width={200}
             height={200}
             quality={100}
+            priority
           />
           <div className="absolute bottom-[35%] w-full h-16 bg-color-2 -z-10"></div>
         </div>

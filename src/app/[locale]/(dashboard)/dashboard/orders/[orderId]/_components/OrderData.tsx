@@ -16,6 +16,7 @@ import { ar, enUS } from "date-fns/locale";
 import { useSession } from "next-auth/react";
 import { useLocale, useTranslations } from "next-intl";
 import { Inter } from "next/font/google";
+import Image from "next/image";
 import { useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 
@@ -260,10 +261,12 @@ export function OrderData({
             {order.products?.map((product: ProductOrder) => (
               <TableRow key={product.id}>
                 <TableCell className="text-center">
-                  <img
+                  <Image
                     src={product.image}
                     alt="product image"
-                    className="mx-auto w-[60px] h-[40px] object-cover"
+                    width={60}
+                    height={40}
+                    className="mx-auto object-cover"
                   />
                 </TableCell>
                 <TableCell className="text-center">{product.name_ar}</TableCell>

@@ -5,6 +5,7 @@ import { ProductOrder } from "@prisma/client";
 import { format } from "date-fns";
 import { ar, enUS } from "date-fns/locale";
 import { getTranslations } from "next-intl/server";
+import Image from "next/image";
 
 export const dynamic = "force-dynamic";
 
@@ -121,10 +122,12 @@ export default async function Orders({
                     {order.products?.map((product: ProductOrder) => (
                       <TableRow key={product.id}>
                         <TableCell className="text-center">
-                          <img
+                          <Image
                             src={product.image}
                             alt="product image"
-                            className="mx-auto w-[60px] h-[40px] object-cover"
+                            width={60}
+                            height={40}
+                            className="mx-auto object-cover"
                           />
                         </TableCell>
                         <TableCell className="text-center">

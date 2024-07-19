@@ -32,11 +32,12 @@
   },
   "HomePage": {
     "hero_title": "Welcome to Billa",
-    "hero_subtitle": "At Bella, we have a special production line for cafes, companies, and hotels to meet your requests to the fullest with precision and care, and are fully prepared to produce the required cakes with all professionalism and high quality",
+    "hero_subtitle": "At Billa, we have a special production line for cafes, companies, and hotels to meet your requests to the fullest with precision and care, and are fully prepared to produce the required cakes with all professionalism and high quality",
     "add_special_order": "Add Special Order",
     "all_products": "All Products",
     "best_selling": "Best Selling",
-    "no_products": "No products found"
+    "no_products": "No products found",
+    "billa_sweet": "Billa Sweet"
   },
   "StoryPage": {
     "title": "Our amazing story",

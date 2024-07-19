@@ -22,9 +22,9 @@ export default function layout({
         <Image
           src="/icons/whatsapp.svg"
           alt="whatsapp"
-          width={150}
-          height={150}
-          className="h-14 w-14 md:h-16 md:w-16 p-3 rounded-full bg-green-500 hover:bg-green-600 transition-all cursor-pointer"
+          width={60}
+          height={60}
+          className="p-3 rounded-full bg-green-500 hover:bg-green-600 transition-all cursor-pointer"
         />
       </Link>
       <Footer locale={params.locale} />
