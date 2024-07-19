@@ -235,5 +235,13 @@
     "sign_in_success": "Sign in successful",
     "sign_in_failed": "Sign in failed",
     "sign_in_error": "An error occurred while signing in"
+  },
+  "Models": {
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "create_special_order": "Create Special Order",
+    "quantity": "Quantity",
+    "description": "Description",
+    "add_to_cart": "Add to Cart"
   }
 }

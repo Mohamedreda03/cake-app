@@ -18,6 +18,7 @@ import {
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import useSpecialProduct from "@/store/specialProduct";
+import { useTranslations } from "next-intl";
 
 interface SpecialOrderModelProps {
   isOpen: boolean;
@@ -33,6 +34,7 @@ type SpecialOrderType = z.infer<typeof SpecialOrderForm>;
 
 function SpecialOrderModel({ isOpen, onClose }: SpecialOrderModelProps) {
   const [isLoading, startLoading] = useTransition();
+  const t = useTranslations("Models");
   const form = useForm<SpecialOrderType>({
     resolver: zodResolver(SpecialOrderForm),
     defaultValues: {
@@ -52,9 +54,9 @@ function SpecialOrderModel({ isOpen, onClose }: SpecialOrderModelProps) {
   return (
     <Alert title="" isOpen={isOpen} onClose={onClose}>
       <h3 className="flex items-center justify-center text-2xl mb-4">
-        أنشاء طلب خاص
+        {t("create_special_order")}
       </h3>
-      <div dir="rtl" className="">
+      <div className="">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -65,14 +67,13 @@ function SpecialOrderModel({ isOpen, onClose }: SpecialOrderModelProps) {
                 <FormField
                   control={form.control}
                   name="quantity"
-                  rules={{ required: "أسم الفئة مطلوب" }}
                   render={({ field }) => (
                     <FormItem className="w-full">
-                      <FormLabel>الكمية</FormLabel>
+                      <FormLabel>{t("quantity")}</FormLabel>
                       <FormControl>
                         <Input
                           disabled={isLoading}
-                          placeholder="الكمية"
+                          placeholder={t("quantity")}
                           {...field}
                         />
                       </FormControl>
@@ -85,11 +86,11 @@ function SpecialOrderModel({ isOpen, onClose }: SpecialOrderModelProps) {
                   name="description"
                   render={({ field }) => (
                     <FormItem className="w-full">
-                      <FormLabel>الوصف</FormLabel>
+                      <FormLabel>{t("description")}</FormLabel>
                       <FormControl>
                         <Textarea
                           disabled={isLoading}
-                          placeholder="الوصف"
+                          placeholder={t("description")}
                           {...field}
                         />
                       </FormControl>
@@ -99,7 +100,7 @@ function SpecialOrderModel({ isOpen, onClose }: SpecialOrderModelProps) {
                 />
 
                 <Button variant="main" type="submit" disabled={isLoading}>
-                  اضف الى السلة
+                  {t("add_to_cart")}
                 </Button>
               </div>
             </div>

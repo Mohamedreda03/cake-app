@@ -1,5 +1,6 @@
 import Alert from "./Alert";
 import { Button } from "../ui/button";
+import { useTranslations } from "next-intl";
 
 interface DeleteAlertProps {
   title: string;
@@ -18,6 +19,7 @@ export default function DeleteModel({
   onDelete,
   isLoading,
 }: DeleteAlertProps) {
+  const t = useTranslations("Models");
   return (
     <Alert
       title={title}
@@ -27,10 +29,10 @@ export default function DeleteModel({
     >
       <div dir="rtl" className="flex justify-end gap-2">
         <Button disabled={isLoading} onClick={onClose} variant="outline">
-          إلغاء
+          {t("cancel")}
         </Button>
         <Button disabled={isLoading} onClick={onDelete} variant="destructive">
-          حذف
+          {t("delete")}
         </Button>
       </div>
     </Alert>
