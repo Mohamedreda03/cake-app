@@ -50,6 +50,8 @@ const authMiddleware = auth((req) => {
 
   if (session) {
     return intlMiddleware(req);
+  } else {
+    return NextResponse.redirect(new URL("/sign-in", req.nextUrl).toString());
   }
 });
 
