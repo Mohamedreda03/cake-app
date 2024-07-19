@@ -29,6 +29,7 @@ export default function Users() {
   const pageNumber = searchParams.get("page") || 1;
   const locale = useLocale();
   const t = useTranslations("Dash_Categories");
+  console.log();
 
   const [search, setSearch] = useState<string>("");
 

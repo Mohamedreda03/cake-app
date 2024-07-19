@@ -31,8 +31,6 @@ export default async function ProductDetails({
     },
   });
 
-  console.log(categories);
-
   if (!product) {
     return <Loading />;
   }
