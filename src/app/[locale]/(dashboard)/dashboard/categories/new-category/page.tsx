@@ -1,8 +1,21 @@
 import { useTranslations } from "next-intl";
 import FormData from "./_components/FormData";
+import { getTranslations } from "next-intl/server";
+import { auth } from "@/auth";
 
-export default function NewCategory() {
-  const t = useTranslations("Dash_Categories");
+export default async function NewCategory() {
+  const t = await getTranslations("Dash_Categories");
+  const session = await auth();
+
+  if (!session?.user || session?.user.role === "USER") {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
   return (
     <div>
       <div className="px-5 md:px-20 py-10 flex items-center justify-between">

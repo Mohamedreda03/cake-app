@@ -38,6 +38,14 @@ export default function Cart({ params }: { params: { locale: string } }) {
   const handleCheckout = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (!session.data?.user) {
+      toast.error(
+        locale === "ar" ? "يجب تسجيل الدخول اولاً" : "You must login first"
+      );
+      router.push(`/${locale}/login`);
+      return;
+    }
+
     if (!cafeName || !orderMakerName || !address || !phone) {
       toast.error(
         locale === "ar" ? "الرجاء ملء جميع الحقول" : "Please fill all fields"
