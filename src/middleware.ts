@@ -1,18 +1,18 @@
-import { auth } from "@/auth";
-import { NextRequest, NextResponse } from "next/server";
+// import { auth } from "@/auth";
+// import { NextRequest, NextResponse } from "next/server";
 import createMiddleware from "next-intl/middleware";
 
 export const locales = ["ar", "en"];
 
-const publicPages = [
-  "/",
-  "/sign-in",
-  "/sign-up",
-  "/menu",
-  "/story",
-  "/factory",
-  "/cart",
-];
+// const publicPages = [
+//   "/",
+//   "/sign-in",
+//   "/sign-up",
+//   "/menu",
+//   "/story",
+//   "/factory",
+//   "/cart",
+// ];
 
 // const intlMiddleware =
 export default createMiddleware({

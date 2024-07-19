@@ -36,8 +36,6 @@ export default function DataTable({ data }: { data: TableProps[] }) {
 
   const queryClient = useQueryClient();
 
-  console.log(data);
-
   const { mutate, isLoading } = useMutation({
     mutationFn: async () => {
       await axios.delete(`/api/categories/${selectedCategory}`);

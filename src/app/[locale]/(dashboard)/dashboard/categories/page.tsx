@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { CirclePlus } from "lucide-react";
 import Link from "next/link";
 import { Category } from "@prisma/client";
-import { use, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useLocale, useTranslations } from "next-intl";
@@ -29,12 +29,6 @@ export default function Users() {
   const pageNumber = searchParams.get("page") || 1;
   const locale = useLocale();
   const t = useTranslations("Dash_Categories");
-  const session = useSession();
-  const router = useRouter();
-
-  if (!session?.data?.user || session?.data?.user?.role === "USER") {
-    router.push("/");
-  }
 
   const [search, setSearch] = useState<string>("");
 
@@ -51,8 +45,6 @@ export default function Users() {
       );
     },
   });
-
-  // console.log(categories);
 
   if (isLoading) {
     return <Loading />;
