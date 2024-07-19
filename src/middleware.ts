@@ -45,14 +45,6 @@ const authMiddleware = auth((req) => {
   }
 
   return intlMiddleware(req);
-
-  // const session = req.auth;
-
-  // if (session) {
-  //   return intlMiddleware(req);
-  // } else {
-  //   return NextResponse.redirect(new URL("/sign-in", req.nextUrl).toString());
-  // }
 });
 
 export default function middleware(req: NextRequest) {
@@ -73,33 +65,4 @@ export default function middleware(req: NextRequest) {
 
 export const config = {
   matcher: ["/((?!api|_next|.*\\..*).*)"],
-  // matcher: "/:path*",
 };
-
-// export default async function middleware(req: NextRequest) {
-//   const publicPathnameRegex = RegExp(
-//     `^(/(${locales.join("|")}))?(${publicPages
-//       .flatMap((p) => (p === "/" ? ["", "/"] : p))
-//       .join("|")})/?$`,
-//     "i"
-//   );
-//   const isPublicPage = publicPathnameRegex.test(req.nextUrl.pathname);
-//   if (isPublicPage) {
-//     return intlMiddleware(req);
-//   } else {
-//     return (authMiddleware as any)(req);
-//   }
-// }
-
-// export const config = {
-//   matcher: [
-//     "/((?!api|_next/static|.*svg|.*png|.*jpg|.*jpeg|.*gif|.*webp|_next/image|favicon.ico).*)",
-//   ],
-// };
-
-// export const config = {
-//   matcher: [
-//     "/((?!api|_next/static|_next/image|favicon.ico|hero-6.webp|logo.svg|public|icons).*)",
-//   ],
-//   // matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
-// };

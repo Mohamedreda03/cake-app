@@ -42,7 +42,7 @@ export default function Cart({ params }: { params: { locale: string } }) {
       toast.error(
         locale === "ar" ? "يجب تسجيل الدخول اولاً" : "You must login first"
       );
-      router.push(`/${locale}/login`);
+      router.push(`/${locale}/sign-in`);
       return;
     }
 
