@@ -50,8 +50,6 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
 
-    console.log(body.payment_id);
-
     if (body.payment_id) {
       const oldOrder = await db.order.findFirst({
         where: {

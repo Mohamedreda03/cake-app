@@ -17,6 +17,7 @@ const publicPages = [
 const intlMiddleware = createMiddleware({
   locales,
   defaultLocale: "ar",
+  localeDetection: false,
 });
 
 // const authMiddleware =
@@ -38,6 +39,22 @@ export default auth((req) => {
     req.auth?.user.role === "USER"
   ) {
     return NextResponse.redirect(new URL("/", req.nextUrl).toString());
+  }
+
+  if (
+    req.nextUrl.pathname.includes("/dashboard") &&
+    (req.auth?.user.role === "ADMIN" ||
+      req.auth?.user.role === "CHEF" ||
+      req.auth?.user.role === "ACCOUNTANT")
+  ) {
+    return intlMiddleware(req);
+  }
+
+  if (!req.auth && req.nextUrl.pathname.includes("/orders")) {
+    return NextResponse.redirect(new URL("/", req.nextUrl).toString());
+  }
+  if (req.auth && req.nextUrl.pathname.includes("/orders")) {
+    return intlMiddleware(req);
   }
 
   return intlMiddleware(req);
