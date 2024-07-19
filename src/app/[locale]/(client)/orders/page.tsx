@@ -43,9 +43,6 @@ export default async function Orders({
     },
   });
 
-  console.log(userOrders);
-  // console.log(userOrders[0].products);
-
   return (
     <div className="max-w-screen-xl mx-auto p-7">
       <div className="flex items-center justify-center">

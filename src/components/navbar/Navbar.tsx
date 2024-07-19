@@ -27,8 +27,8 @@ export default async function Navbar() {
     <div className="w-full px-5 md:px-7 max-w-screen-xl mx-auto h-[80px] border-b border-color-4/35 flex items-center justify-between">
       <div className="flex items-center gap-4">
         <ClientMobileMenu />
-        <Link href="/">
-          <Image src="/logo.svg" alt="logo" width={150} height={150} />
+        <Link href="/" className="relative h-[70px] w-[150px]">
+          <Image src="/logo.svg" alt="logo" fill />
         </Link>
       </div>
       <div className="md:flex items-center gap-4 hidden">
