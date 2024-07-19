@@ -14,62 +14,63 @@ const publicPages = [
   "/cart",
 ];
 
-const intlMiddleware = createMiddleware({
+// const intlMiddleware =
+export default createMiddleware({
   locales,
   defaultLocale: "ar",
   localeDetection: false,
 });
 
-const authMiddleware = auth((req) => {
-  // if (req.nextUrl.pathname.includes("/dashboard") && !req.auth) {
-  //   return NextResponse.redirect(new URL("/", req.nextUrl).toString());
-  // }
+// const authMiddleware = auth((req) => {
+//   // if (req.nextUrl.pathname.includes("/dashboard") && !req.auth) {
+//   //   return NextResponse.redirect(new URL("/", req.nextUrl).toString());
+//   // }
 
-  // if (
-  //   (req.nextUrl.pathname.includes("/sign-up") ||
-  //     req.nextUrl.pathname.includes("/sign-in")) &&
-  //   req.auth
-  // ) {
-  //   return NextResponse.redirect(new URL("/", req.nextUrl).toString());
-  // }
+//   // if (
+//   //   (req.nextUrl.pathname.includes("/sign-up") ||
+//   //     req.nextUrl.pathname.includes("/sign-in")) &&
+//   //   req.auth
+//   // ) {
+//   //   return NextResponse.redirect(new URL("/", req.nextUrl).toString());
+//   // }
 
-  // if (
-  //   req.nextUrl.pathname.includes("/dashboard") &&
-  //   req.auth?.user.role === "USER"
-  // ) {
-  //   return NextResponse.redirect(new URL("/", req.nextUrl).toString());
-  // }
+//   // if (
+//   //   req.nextUrl.pathname.includes("/dashboard") &&
+//   //   req.auth?.user.role === "USER"
+//   // ) {
+//   //   return NextResponse.redirect(new URL("/", req.nextUrl).toString());
+//   // }
 
-  // if (!req.auth && req.nextUrl.pathname.includes("/orders")) {
-  //   return NextResponse.redirect(new URL("/", req.nextUrl).toString());
-  // }
+//   // if (!req.auth && req.nextUrl.pathname.includes("/orders")) {
+//   //   return NextResponse.redirect(new URL("/", req.nextUrl).toString());
+//   // }
 
-  // return intlMiddleware(req);
+//   // return intlMiddleware(req);
 
-  const session = req.auth;
+//   const session = req.auth;
 
-  if (session) {
-    return intlMiddleware(req);
-  } else {
-    return NextResponse.redirect(new URL("/sign-in", req.nextUrl).toString());
-  }
-});
+//   if (session) {
+//     return intlMiddleware(req);
+//   } else {
+//     return NextResponse.redirect(new URL("/sign-in", req.nextUrl).toString());
+//   }
+// });
 
-export default function middleware(req: NextRequest) {
-  const publicPathnameRegex = RegExp(
-    `^(/(${locales.join("|")}))?(${publicPages
-      .flatMap((p) => (p === "/" ? ["", "/"] : p))
-      .join("|")})/?$`,
-    "i"
-  );
-  const isPublicPage = publicPathnameRegex.test(req.nextUrl.pathname);
+// export default function middleware(req: NextRequest) {
+//   const publicPathnameRegex = RegExp(
+//     `^(/(${locales.join("|")}))?(${publicPages
+//       .flatMap((p) => (p === "/" ? ["", "/"] : p))
+//       .join("|")})/?$`,
+//     "i"
+//   );
+//   const isPublicPage = publicPathnameRegex.test(req.nextUrl.pathname);
 
-  if (isPublicPage) {
-    return intlMiddleware(req);
-  } else {
-    return (authMiddleware as any)(req);
-  }
-}
+//   if (isPublicPage) {
+//     return intlMiddleware(req);
+//   } else {
+//     return (authMiddleware as any)(req);
+//   }
+// }
 
 export const config = {
   matcher: ["/((?!api|_next|.*\\..*).*)"],
