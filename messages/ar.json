@@ -233,5 +233,13 @@
     "sign_in_success": "تم تسجيل الدخول بنجاح",
     "sign_in_failed": "فشل تسجيل الدخول",
     "sign_in_error": "حدث خطأ ما، يرجى المحاولة مرة أخرى"
+  },
+  "Models": {
+    "cancel": "الغاء",
+    "delete": "حذف",
+    "create_special_order": "انشاء طلب خاص",
+    "quantity": "الكمية",
+    "description": "الوصف",
+    "add_to_cart": "اضافة الى السلة"
   }
 }

@@ -52,8 +52,8 @@ export default async function Orders({
       </div>
       <div className="max-w-screen-xl mx-auto p-7 min-h-[450px]">
         {userOrders.map((order) => (
-          <>
-            <div className="border bg-color-3/10 p-5" key={order.id}>
+          <div key={order.id}>
+            <div className="border bg-color-3/10 p-5">
               <div className="mt-3 max-w-screen-xl">
                 <h3 className="text-2xl mx-auto w-fit border-b-2 border-color-1 mb-3">
                   {t("order")}
@@ -171,7 +171,7 @@ export default async function Orders({
               )}
             </div>
             <div className="h-0.5 w-full bg-slate-200 my-5" />
-          </>
+          </div>
         ))}
       </div>
     </div>
