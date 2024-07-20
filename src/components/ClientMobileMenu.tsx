@@ -101,8 +101,8 @@ export default function ClientMobileMenu() {
             <Button
               variant="outline"
               className={cn(
-                "w-full mt-3 flex items-center justify-center gap-2 flex-row-reverse",
-                !session?.user ? "block" : "hidden"
+                "w-full mt-3 items-center justify-center gap-2 flex-row-reverse",
+                session?.user ? "flex" : "hidden"
               )}
               onClick={() =>
                 signOut({
