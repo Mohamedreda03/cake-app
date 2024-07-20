@@ -19,7 +19,10 @@ export default function LangButton({
       locale={locale === "ar" ? "en" : "ar"}
       className={cn(className, locale === "en" ? "flex-row-reverse" : "")}
     >
-      <Button variant="secondary" className="w-full">
+      <Button
+        variant="secondary"
+        className="w-full flex items-center justify-center gap-1.5"
+      >
         <Globe
           size={20}
           className={cn("text-gray-500", locale === "ar" ? "ml-2" : "mr-2")}

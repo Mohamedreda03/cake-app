@@ -10,6 +10,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { Button } from "../ui/button";
 import { ArrowLeftIcon } from "lucide-react";
 import LangButton from "../LangButton";
+import SignOutButton from "../SignOutButton";
 
 export default async function Navbar() {
   const t = await getTranslations("Navigation");
@@ -59,16 +60,7 @@ export default async function Navbar() {
             </Button>
           </Link>
         )}
-        {session?.user.role === "USER" && (
-          <Button
-            onClick={() => signOut()}
-            variant="outline"
-            className="hidden md:block"
-          >
-            {t("sign-out")}
-            <ArrowLeftIcon size={15} className="mr-1" />
-          </Button>
-        )}
+        <SignOutButton />
 
         <LangButton className="md:flex items-center hidden" />
         {!session?.user && (

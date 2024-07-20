@@ -92,16 +92,12 @@ export default function ClientMobileMenu() {
               </Link>
             </SheetClose>
 
-            <LangButton className="flex items-center w-full" />
+            <LangButton className="flex items-center w-full mt-2" />
 
             <Button
               variant="outline"
               className={cn(
-                "w-full mt-3 flex items-center justify-center gap-2",
-                {
-                  hidden: !session?.user,
-                  "flex-row-reverse": locale === "en",
-                }
+                "w-full mt-3 flex items-center justify-center gap-2 flex-row-reverse"
               )}
               onClick={() =>
                 signOut({
@@ -112,6 +108,14 @@ export default function ClientMobileMenu() {
               {t("sign-out")}
               <ArrowLeftIcon size={15} />
             </Button>
+
+            {!session?.user && (
+              <Link href="/sign-in" className="w-full mt-3">
+                <Button variant="outline" className="w-full">
+                  {t("sign-in")}
+                </Button>
+              </Link>
+            )}
           </div>
         </div>
       </SheetContent>
