@@ -11,11 +11,11 @@ export default function SignOutButton() {
   const t = useTranslations("Navigation");
   return (
     <>
-      {session?.user.role === "USER" && (
+      {session?.user && session?.user.role === "USER" && (
         <Button
           onClick={() => signOut()}
           variant="outline"
-          className="hidden md:block"
+          className="hidden md:flex items-center justify-center gap-1"
         >
           {t("sign-out")}
           <ArrowLeftIcon size={15} className="mr-1" />
