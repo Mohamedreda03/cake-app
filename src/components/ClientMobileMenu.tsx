@@ -39,7 +39,7 @@ export default function ClientMobileMenu() {
     },
     {
       name: t("story"),
-      path: "/about",
+      path: "/story",
     },
     {
       name: t("Billa_Factory"),
