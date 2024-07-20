@@ -48,7 +48,7 @@ export default async function Orders({
       <div className="flex items-center justify-center">
         <h1 className="text-5xl border-b-2 border-color-1">{t("orders")}</h1>
       </div>
-      <div className="max-w-screen-xl mx-auto p-7 min-h-[450px]">
+      <div className="max-w-screen-xl mx-auto md:p-7 min-h-[450px] mt-5">
         {userOrders.map((order) => (
           <div key={order.id}>
             <div className="border bg-color-3/10 p-5">

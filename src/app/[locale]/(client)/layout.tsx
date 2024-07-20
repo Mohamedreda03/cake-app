@@ -17,7 +17,7 @@ export default function layout({
       <main>{children}</main>
       <Link
         href="https://api.whatsapp.com/send?phone=966531458314&text=السلام%20عليكم،%20حاب%20استفسر%20عن%20التوريد"
-        className="fixed md:right-5 md:bottom-5 right-4 bottom-4"
+        className="fixed md:right-5 md:bottom-5 right-4 bottom-4 z-50"
       >
         <Image
           src="/icons/whatsapp.svg"

@@ -64,7 +64,8 @@ export default function ClientMobileMenu() {
                       "py-3 px-4 hover:bg-color-3/45 hover:text-color-2 flex gap-3 items-center",
                       pathname === item.path
                         ? "bg-color-3 text-color-2 hover:bg-color-3 hover:text-color-2"
-                        : "text-color-2"
+                        : "text-color-2",
+                      { hidden: item.path === "/orders" && !session?.user }
                     )}
                   >
                     {item.name}
@@ -72,6 +73,7 @@ export default function ClientMobileMenu() {
                 </Link>
               </SheetClose>
             ))}
+
             <SheetClose asChild>
               <Link
                 href="/dashboard/products"
