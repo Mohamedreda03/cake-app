@@ -77,7 +77,11 @@ export default function ClientMobileMenu() {
             <SheetClose asChild>
               <Link
                 href="/dashboard/products"
-                className={cn(session?.user ? "block" : "hidden")}
+                className={cn(
+                  session?.user && session?.user.role !== "USER"
+                    ? "block"
+                    : "hidden"
+                )}
               >
                 <div
                   className={cn(
