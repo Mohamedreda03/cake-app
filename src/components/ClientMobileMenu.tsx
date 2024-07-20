@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
 import { useLocale, useTranslations } from "next-intl";
 import LangButton from "./LangButton";
+import { useEffect } from "react";
 
 interface Menu {
   name: string;
@@ -22,11 +23,12 @@ interface Menu {
 }
 
 export default function ClientMobileMenu() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   const pathname = usePathname();
   const t = useTranslations("Navigation");
-  const locale = useLocale();
+
+  useEffect(() => {}, [session]);
 
   const menu: Menu[] = [
     {

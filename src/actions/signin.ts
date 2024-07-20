@@ -3,9 +3,10 @@ import bcrypt from "bcryptjs";
 
 import { SignInFormTypes, SignInSchema } from "@/types/schema";
 
-import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
 import { db } from "@/lib/db";
+import { auth, signIn } from "@/auth";
+import { redirect } from "next/navigation";
 
 const signin = async (data: SignInFormTypes) => {
   const validatedFields = SignInSchema.safeParse(data);
@@ -21,7 +22,7 @@ const signin = async (data: SignInFormTypes) => {
       },
     });
     if (!user) {
-      return { error: "الايمال غير صحيح" };
+      return { error: "The user does not exist" };
     }
 
     const isMatch = await bcrypt.compare(password, user.password!);
@@ -30,10 +31,10 @@ const signin = async (data: SignInFormTypes) => {
       return { error: "The password is incorrect" };
     }
 
-    const res = await signIn("credentials", {
+    await signIn("credentials", {
       email,
       password,
-      redirectTo: "/",
+      redirect: false,
     });
 
     return { success: "You have been logged in successfully" };

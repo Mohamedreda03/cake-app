@@ -22,18 +22,20 @@ import { useState, useTransition } from "react";
 import { SignInFormTypes, SignInSchema } from "@/types/schema";
 import signin from "@/actions/signin";
 import { Metadata } from "next";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+// import { useRouter as Router } from "next/router";
 import { useTranslations } from "next-intl";
 
 export default function Login() {
   const [isPanding, startTransition] = useTransition();
   const [errorMessage, setErrorMessage] = useState("");
   const t = useTranslations("Sign_Page");
-  const session = useSession();
+  const { data: session, update } = useSession();
   const router = useRouter();
+  // const rout = Router();
 
-  if (session.data?.user) {
+  if (session?.user) {
     router.push("/");
   }
 
@@ -45,11 +47,24 @@ export default function Login() {
     },
   });
 
-  const onSubmit = (data: SignInFormTypes) => {
-    startTransition(() => {
-      signin(data).then((data: any) => {
+  const onSubmit = async (data: SignInFormTypes) => {
+    startTransition(async () => {
+      await signin(data).then((data: any) => {
         setErrorMessage(data?.error);
+        if (data?.success) {
+          window.location.href = "/";
+        }
       });
+      // await signIn("credentials", {
+      //   email: data.email,
+      //   password: data.password,
+      //   redirect: false,
+      // })
+      //   .then(() => router.push("/"))
+      //   .catch((error) => {
+      //     setErrorMessage(error.message);
+      //     console.log(error);
+      //   });
     });
   };
 

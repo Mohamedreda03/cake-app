@@ -1,4 +1,3 @@
-import { auth } from "@/auth";
 import Hero from "@/components/Hero";
 import Products from "@/components/Products";
 

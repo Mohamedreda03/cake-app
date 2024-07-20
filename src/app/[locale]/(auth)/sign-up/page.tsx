@@ -26,6 +26,7 @@ import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 
 export default function Login() {
+  const [errorMessage, setErrorMessage] = useState("");
   const [isPanding, startTransition] = useTransition();
   const t = useTranslations("Sign_Page");
   const session = useSession();
@@ -47,11 +48,9 @@ export default function Login() {
 
   const onSubmit = (data: SignUpFormTypes) => {
     startTransition(() => {
-      signup(data);
-      // .then((data: any) => {
-      //   setErrorMessage(data?.error);
-      //   setSuccessMessage(data?.success);
-      // });
+      signup(data).then((data: any) => {
+        setErrorMessage(data?.error);
+      });
     });
   };
 
@@ -134,8 +133,12 @@ export default function Login() {
                   )}
                 />
                 {/* Error and Success message */}
-                {/* {errorMessage && <FormError message={errorMessage} />}
-                {successMessage && <FormSuccess message={successMessage} />} */}
+                {errorMessage && (
+                  <div className="flex items-center justify-center bg-red-50 border border-red-200 py-2 rounded-md">
+                    <p className="text-red-500">{errorMessage}</p>
+                  </div>
+                )}
+                {/* {successMessage && <FormSuccess message={successMessage} />} */}
               </div>
               <Button
                 variant="main"
