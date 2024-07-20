@@ -61,7 +61,7 @@ export default function ClientMobileMenu() {
                 <Link href={item.path}>
                   <div
                     className={cn(
-                      "py-3 px-4 hover:bg-color-3/45 hover:text-color-2 flex gap-3 items-center",
+                      "py-3 px-4 hover:bg-color-3/45 hover:text-color-2 flex gap-3 items-center justify-center text-xl",
                       pathname === item.path
                         ? "bg-color-3 text-color-2 hover:bg-color-3 hover:text-color-2"
                         : "text-color-2",
@@ -85,7 +85,7 @@ export default function ClientMobileMenu() {
               >
                 <div
                   className={cn(
-                    "py-3 px-4 hover:bg-color-3/45 hover:text-color-2 flex gap-3 items-center",
+                    "py-3 px-4 hover:bg-color-3/45 hover:text-color-2 flex gap-3 items-center justify-center text-xl",
                     pathname === "/dashboard/users"
                       ? "bg-color-3 text-color-2 hover:bg-color-3 hover:text-color-2"
                       : "text-color-2"
