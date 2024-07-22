@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 
 import { SignUpFormTypes, SignUpSchema } from "@/types/schema";
 import { db } from "@/lib/db";
-import { signIn } from "@/auth";
+
 import { redirect } from "next/navigation";
 
 const signup = async (data: SignUpFormTypes) => {
@@ -35,8 +35,6 @@ const signup = async (data: SignUpFormTypes) => {
   });
 
   redirect("/sign-in");
-
-  return { success: "register successfully." };
 };
 
 export default signup;

@@ -24,6 +24,7 @@ import { Session } from "next-auth";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { useLocale, useTranslations } from "next-intl";
+import LangButton from "../LangButton";
 
 interface Menu {
   name: string;
@@ -107,12 +108,12 @@ export default function MobileNavbar() {
                 </div>
               </Link>
             </SheetClose>
+            <LangButton className="my-3" link="/dashboard/products" />
             <Link href="/" className="">
               <Button
                 variant="outline"
                 className={cn(
-                  "w-full flex items-center justify-center gap-2",
-                  locale === "en" ? "flex-row-reverse" : ""
+                  "w-full flex items-center justify-center gap-2 flex-row-reverse"
                 )}
               >
                 {t("to_store")}
@@ -123,8 +124,7 @@ export default function MobileNavbar() {
               onClick={handleSignOut}
               variant="outline"
               className={cn(
-                "w-full flex items-center justify-center gap-2 mt-2",
-                locale === "en" ? "flex-row-reverse" : ""
+                "w-full flex items-center justify-center gap-2 mt-2 flex-row-reverse"
               )}
             >
               {t("sign_out")}

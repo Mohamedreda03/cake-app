@@ -16,7 +16,7 @@
   "Order_Data": {
     "name": "Name",
     "cafe_name": "Cafe Name",
-    "address": "Address",
+    "address": "Location on Google Map",
     "phone": "Phone",
     "checkout": "Checkout"
   },
