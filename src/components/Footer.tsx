@@ -113,7 +113,7 @@ export default async function Footer({ locale }: { locale: string }) {
             </div>
 
             <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:col-span-2 lg:grid-cols-2">
-              <div>
+              <div className="order-2 md:order-1">
                 <p className="font-medium text-color-2">
                   {t("Customer_Service")}
                 </p>
@@ -129,7 +129,12 @@ export default async function Footer({ locale }: { locale: string }) {
                 </div>
               </div>
 
-              <div className={cn(locale === "ar" ? "lg:mr-5" : "lg:ml-5")}>
+              <div
+                className={
+                  (cn(locale === "ar" ? "lg:mr-5" : "lg:ml-5"),
+                  "order-1 md:order-2")
+                }
+              >
                 <p className="font-medium text-color-2">{t("links")}</p>
 
                 <ul className="mt-6 space-y-4 text-sm">
