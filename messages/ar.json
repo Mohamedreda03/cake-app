@@ -217,7 +217,8 @@
     "updating": "جاري التحديث",
     "user_updated_success": "تم تحديث المستخدم بنجاح",
     "order_date": "تاريخ الطلب",
-    "orders": "الطلبات"
+    "orders": "الطلبات",
+    "password": "اعادة تعيين كلمة المرور"
   },
   "Sign_Page": {
     "sign_in": "تسجيل الدخول",

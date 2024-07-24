@@ -55,7 +55,7 @@ export default async function Orders({
         <h1 className="text-5xl border-b-2 border-color-1">{t("orders")}</h1>
       </div>
 
-      <div className="max-w-screen-sm mx-auto mt-10 text-xl">
+      <div className="max-w-screen-sm mx-auto mt-10 text-lg md:text-xl">
         <p className="flex gap-3">
           <span>{t("user_id")}</span>: <span>{user?.id}</span>
         </p>
@@ -63,7 +63,7 @@ export default async function Orders({
           <span>{t("user_name")}</span>: <span>{user?.name}</span>
         </p>
       </div>
-      <div className="max-w-screen-xl mx-auto p-7 min-h-[450px]">
+      <div className="max-w-screen-xl mx-auto my-7 min-h-[450px]">
         {userOrders.map((order) => (
           <div key={order.id}>
             <div className="border bg-color-3/10 p-5" key={order.id}>

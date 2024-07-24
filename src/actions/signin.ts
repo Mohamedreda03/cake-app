@@ -5,8 +5,7 @@ import { SignInFormTypes, SignInSchema } from "@/types/schema";
 
 import { AuthError } from "next-auth";
 import { db } from "@/lib/db";
-import { auth, signIn } from "@/auth";
-import { redirect } from "next/navigation";
+import { signIn } from "@/auth";
 
 const signin = async (data: SignInFormTypes) => {
   const validatedFields = SignInSchema.safeParse(data);

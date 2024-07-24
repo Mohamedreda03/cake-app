@@ -98,11 +98,21 @@ const FormData = ({ data }: { data: User }) => {
                   <FormItem>
                     <FormLabel>{t("user_email")}</FormLabel>
                     <FormControl>
-                      <Input
-                        disabled={true}
-                        placeholder="e.g example@gmail.com"
-                        {...field}
-                      />
+                      <Input placeholder="e.g example@gmail.com" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("password")}</FormLabel>
+                    <FormControl>
+                      <Input placeholder={t("password")} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

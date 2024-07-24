@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
+import bcrypt from "bcryptjs";
 
 export async function PATCH(
   req: NextRequest,
@@ -14,13 +15,23 @@ export async function PATCH(
     return NextResponse.redirect(new URL("/", req.nextUrl).toString());
   }
   const body = await req.json();
-  const user = await db.user.update({
+
+  let data: any = {
+    name: body.name,
+    email: body.email,
+    role: body.role,
+  };
+
+  if (body.password) {
+    const hashedPassword = await bcrypt.hash(body.password, 10);
+    data.password = hashedPassword;
+  }
+
+  await db.user.update({
     where: {
       id: params.userId,
     },
-    data: {
-      ...body,
-    },
+    data: data,
   });
 
   return NextResponse.json({ message: "User updated successfully" });

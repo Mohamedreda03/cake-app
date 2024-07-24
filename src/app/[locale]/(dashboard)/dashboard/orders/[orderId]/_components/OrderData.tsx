@@ -229,65 +229,73 @@ export function OrderData({
           </TableBody>
         </Table>
       )}
-      <div className="mt-10 max-w-screen-xl">
-        <h3 className="text-2xl mx-auto w-fit border-b-2 border-color-1 mb-3">
-          {t("order")}
-        </h3>
-        <Table className="max-w-screen-xl border">
-          <TableBody>
-            <TableRow>
-              <TableCell className="font-medium text-center">
-                {t("product_image")}
-              </TableCell>
-              <TableCell className="font-medium text-center">
-                {t("product_name_ar")}
-              </TableCell>
-              <TableCell className="font-medium text-center">
-                {t("product_name_en")}
-              </TableCell>
-              <TableCell className="font-medium text-center">
-                {t("product_quantity")}
-              </TableCell>
-              <TableCell className="font-medium text-center">
-                {t("product_size")}
-              </TableCell>
-              <TableCell className="font-medium text-center">
-                {t("product_price")}
-              </TableCell>
-              <TableCell className="font-medium text-center">
-                {t("note")}
-              </TableCell>
-            </TableRow>
-            {order.products?.map((product: ProductOrder) => (
-              <TableRow key={product.id}>
-                <TableCell className="text-center">
-                  <Image
-                    src={product.image}
-                    alt="product image"
-                    width={60}
-                    height={40}
-                    className="mx-auto object-cover"
-                  />
+      {session.data?.user.role !== "ACCOUNTANT" && (
+        <div className="mt-10 max-w-screen-xl">
+          <h3 className="text-2xl mx-auto w-fit border-b-2 border-color-1 mb-3">
+            {t("order")}
+          </h3>
+          <Table className="max-w-screen-xl border">
+            <TableBody>
+              <TableRow>
+                <TableCell className="font-medium text-center">
+                  {t("product_image")}
                 </TableCell>
-                <TableCell className="text-center">{product.name_ar}</TableCell>
-                <TableCell className="text-center">{product.name_en}</TableCell>
-                <TableCell className="text-center">
-                  {product.quantity}
+                <TableCell className="font-medium text-center">
+                  {t("product_name_ar")}
                 </TableCell>
-                <TableCell className="text-center">
-                  {product.size} {t("cm")}
+                <TableCell className="font-medium text-center">
+                  {t("product_name_en")}
                 </TableCell>
-                <TableCell className="text-center">
-                  {product.total} {t("curancy")}
+                <TableCell className="font-medium text-center">
+                  {t("product_quantity")}
                 </TableCell>
-                {product.note && (
-                  <TableCell className="text-center">{product.note}</TableCell>
-                )}
+                <TableCell className="font-medium text-center">
+                  {t("product_size")}
+                </TableCell>
+                <TableCell className="font-medium text-center">
+                  {t("product_price")}
+                </TableCell>
+                <TableCell className="font-medium text-center">
+                  {t("note")}
+                </TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+              {order.products?.map((product: ProductOrder) => (
+                <TableRow key={product.id}>
+                  <TableCell className="text-center">
+                    <Image
+                      src={product.image}
+                      alt="product image"
+                      width={60}
+                      height={40}
+                      className="mx-auto object-cover"
+                    />
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {product.name_ar}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {product.name_en}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {product.quantity}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {product.size} {t("cm")}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {product.total} {t("curancy")}
+                  </TableCell>
+                  {product.note && (
+                    <TableCell className="text-center">
+                      {product.note}
+                    </TableCell>
+                  )}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      )}
       {order.special_items.length > 0 && (
         <div>
           <div className="mt-10 max-w-screen-xl">

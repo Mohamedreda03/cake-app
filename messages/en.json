@@ -219,7 +219,8 @@
     "updating": "Updating",
     "user_updated_success": "User updated successfully",
     "order_date": "Order Date",
-    "orders": "Orders"
+    "orders": "Orders",
+    "password": "Reset Password"
   },
   "Sign_Page": {
     "sign_in": "Sign In",

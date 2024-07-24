@@ -5,6 +5,7 @@ import { Instagram } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import NextLink from "next/link";
+import Service from "./Service";
 
 export default async function Footer({ locale }: { locale: string }) {
   const session = await auth();
@@ -16,7 +17,7 @@ export default async function Footer({ locale }: { locale: string }) {
     { href: "/menu", label: t2("menu") },
     { href: "/story", label: t2("story") },
     { href: "/factory", label: t2("Billa_Factory") },
-    { href: "tel:0531458314", label: t2("Customer_Service") },
+    // { href: "tel:0531458314", label: t2("Customer_Service") },
   ];
 
   return (
@@ -113,7 +114,7 @@ export default async function Footer({ locale }: { locale: string }) {
             </div>
 
             <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:col-span-2 lg:grid-cols-2">
-              <div className="order-2 md:order-1">
+              {/* <div className="order-2 md:order-1">
                 <p className="font-medium text-color-2">
                   {t("Customer_Service")}
                 </p>
@@ -127,14 +128,9 @@ export default async function Footer({ locale }: { locale: string }) {
                     {t("Customer_Service")}: 0531458314
                   </NextLink>
                 </div>
-              </div>
+              </div> */}
 
-              <div
-                className={
-                  (cn(locale === "ar" ? "lg:mr-5" : "lg:ml-5"),
-                  "order-1 md:order-2")
-                }
-              >
+              <div className={cn(locale === "ar" ? "lg:mr-5" : "lg:ml-5")}>
                 <p className="font-medium text-color-2">{t("links")}</p>
 
                 <ul className="mt-6 space-y-4 text-sm">
@@ -149,6 +145,7 @@ export default async function Footer({ locale }: { locale: string }) {
                       </Link>
                     </li>
                   ))}
+                  <Service />
                 </ul>
               </div>
             </div>
