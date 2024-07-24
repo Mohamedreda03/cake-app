@@ -44,6 +44,20 @@ const authMiddleware = auth((req) => {
     return NextResponse.redirect(new URL("/", req.nextUrl).toString());
   }
 
+  if (
+    req.auth &&
+    (req.auth.user.role === "ACCOUNTANT" || req.auth.user.role === "CHEF") &&
+    (req.nextUrl.pathname.includes("/dashboard/products") ||
+      req.nextUrl.pathname.includes(
+        "/dashboard/categories" ||
+          req.nextUrl.pathname.includes("/dashboard/users")
+      ))
+  ) {
+    return NextResponse.redirect(
+      new URL("/dashboard/orders", req.nextUrl).toString()
+    );
+  }
+
   return intlMiddleware(req);
 });
 

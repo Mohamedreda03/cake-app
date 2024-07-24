@@ -82,7 +82,10 @@ export default function ClientMobileMenu() {
                 className={cn(
                   session?.user && session?.user.role !== "USER"
                     ? "block"
-                    : "hidden"
+                    : "hidden",
+                  session?.user.role === "ADMIN"
+                    ? "/dashboard/products"
+                    : "/dashboard/orders"
                 )}
               >
                 <div

@@ -51,7 +51,15 @@ export default function MenuLinks({ session }: { session: Session }) {
               "py-3 px-4 hover:bg-color-3/45 hover:text-color-2 flex gap-3 items-center",
               pathname.includes(item.path)
                 ? "bg-color-3 text-color-2 hover:bg-color-3 hover:text-color-2"
-                : "text-color-2"
+                : "text-color-2",
+
+              {
+                hidden:
+                  (session.user.role === "CHEF" ||
+                    session.user.role === "ACCOUNTANT") &&
+                  (item.path === "/dashboard/products" ||
+                    item.path === "/dashboard/categories"),
+              }
             )}
           >
             <item.Icon size={24} />

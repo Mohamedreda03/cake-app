@@ -50,7 +50,14 @@ export default async function Navbar() {
       </div>
       <div className="flex items-center justify-end gap-7 min-w-[150px]">
         {session?.user && session?.user.role !== "USER" && (
-          <Link href="/dashboard/products" className="hidden md:block">
+          <Link
+            href={
+              session.user.role === "ADMIN"
+                ? "/dashboard/products"
+                : "/dashboard/orders"
+            }
+            className="hidden md:block"
+          >
             <Button
               variant="outline"
               className={cn(locale === "en" ? "flex flex-row-reverse" : "")}
