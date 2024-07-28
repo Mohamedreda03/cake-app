@@ -173,8 +173,7 @@ export default function DataTable({ orders }: { orders: OrderType[] }) {
                         {t("details")}
                       </Button>
                     </Link>
-                    {(session.data?.user.role === "ADMIN" ||
-                      session.data?.user.role === "ACCOUNTANT") && (
+                    {session.data?.user.role === "ADMIN" && (
                       <Button
                         onClick={() => {
                           setSelectedUser(order.id);

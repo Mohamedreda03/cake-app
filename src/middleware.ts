@@ -58,6 +58,16 @@ const authMiddleware = auth((req) => {
     );
   }
 
+  if (
+    req.auth &&
+    req.auth.user.role === "MANAGER" &&
+    req.nextUrl.pathname.includes("/dashboard/users")
+  ) {
+    return NextResponse.redirect(
+      new URL("/dashboard/products", req.nextUrl).toString()
+    );
+  }
+
   return intlMiddleware(req);
 });
 

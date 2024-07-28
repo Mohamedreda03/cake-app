@@ -137,6 +137,7 @@ const FormData = ({ data }: { data: User }) => {
                         <SelectContent>
                           <SelectGroup>
                             <SelectItem value="ADMIN">ADMIN</SelectItem>
+                            <SelectItem value="MANAGER">MANAGER</SelectItem>
                             <SelectItem value="CHEF">CHEF</SelectItem>
                             <SelectItem value="ACCOUNTANT">
                               ACCOUNTANT

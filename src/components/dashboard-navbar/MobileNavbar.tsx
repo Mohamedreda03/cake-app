@@ -114,7 +114,15 @@ export default function MobileNavbar() {
                 </div>
               </Link>
             </SheetClose>
-            <LangButton className="my-3" link="/dashboard/products" />
+            <LangButton
+              className="my-3"
+              link={
+                session?.user.role === "ADMIN" ||
+                session?.user.role === "MANAGER"
+                  ? "/dashboard/products"
+                  : "/dashboard/orders"
+              }
+            />
             <Link href="/" className="">
               <Button
                 variant="outline"
