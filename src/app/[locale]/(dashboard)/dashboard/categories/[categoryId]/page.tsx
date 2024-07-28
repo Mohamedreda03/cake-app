@@ -2,7 +2,7 @@
 
 import FormData from "./_components/FormData";
 import Loading from "@/components/Loading";
-import Link from "next/link";
+import { Link } from "@/hooks/navigation";
 import { MoveLeft, MoveRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useParams, useRouter } from "next/navigation";

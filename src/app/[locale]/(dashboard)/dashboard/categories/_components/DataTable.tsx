@@ -14,7 +14,7 @@ import { Category } from "@prisma/client";
 import axios from "axios";
 import { useTranslations } from "next-intl";
 
-import Link from "next/link";
+import { Link } from "@/hooks/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useMutation, useQueryClient } from "react-query";

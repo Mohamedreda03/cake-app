@@ -18,7 +18,8 @@
     "cafe_name": "اسم المقهى",
     "address": "الموقع في قوقل ماب",
     "phone": "رقم الهاتف",
-    "checkout": "اكمال الطلب"
+    "checkout": "اكمال الطلب",
+    "order_receipt_date": "تاريخ استلام الطلب"
   },
 
   "More": {
@@ -200,7 +201,8 @@
     "note": "ملاحظة",
     "order_description": "وصف الطلب",
     "total_price": "المجموع",
-    "order_id": "رقم الطلب"
+    "order_id": "رقم الطلب",
+    "order_receipt_date": "تاريخ استلام الطلب"
   },
   "User_Page": {
     "users": "المستخدمين",

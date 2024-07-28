@@ -18,7 +18,8 @@
     "cafe_name": "Cafe Name",
     "address": "Location on Google Map",
     "phone": "Phone",
-    "checkout": "Checkout"
+    "checkout": "Checkout",
+    "order_receipt_date": "Order Receipt Date"
   },
   "More": {
     "curancy": "SAR",
@@ -199,7 +200,8 @@
     "product_quantity": "Product Quantity",
     "product_total": "Product Total",
     "note": "Note",
-    "order_description": "Order Description"
+    "order_description": "Order Description",
+    "order_receipt_date": "Order Receipt Date"
   },
   "User_Page": {
     "users": "Users",

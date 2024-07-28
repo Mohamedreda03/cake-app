@@ -58,23 +58,40 @@ export default async function Orders({
                 </h3>
                 <div className="my-5 flex flex-col gap-3">
                   <p>
-                    {t("order_id")}: {order.id}
+                    {t("order_id")}:<span className="mx-2"> {order.id}</span>
                   </p>
                   <p>
                     {t("payment_status")}:{" "}
-                    {order.payment_status === "PENDING" &&
-                      t("paiement_when_recieving")}
-                    {order.payment_status === "PAID" && t("payment_completed")}
+                    <span className="mx-2">
+                      {order.payment_status === "PENDING" &&
+                        t("paiement_when_recieving")}
+                      {order.payment_status === "PAID" &&
+                        t("payment_completed")}
+                    </span>
                   </p>
                   <p>
                     {t("order_date")}:{" "}
-                    {format(
-                      new Date(order.createdAt),
-                      "hh:mm a, dd MMMM yyyy",
-                      {
-                        locale: params.locale === "ar" ? ar : enUS,
-                      }
-                    )}
+                    <span className="mx-2">
+                      {format(
+                        new Date(order.createdAt),
+                        "hh:mm a, dd MMMM yyyy",
+                        {
+                          locale: params.locale === "ar" ? ar : enUS,
+                        }
+                      )}
+                    </span>
+                  </p>
+                  <p>
+                    {t("order_receipt_date")}:{" "}
+                    <span className="mx-2">
+                      {format(
+                        new Date(order.order_receipt_date),
+                        "hh:mm a, dd MMMM yyyy",
+                        {
+                          locale: params.locale === "ar" ? ar : enUS,
+                        }
+                      )}
+                    </span>
                   </p>
                 </div>
                 <Table className="max-w-screen-xl border">

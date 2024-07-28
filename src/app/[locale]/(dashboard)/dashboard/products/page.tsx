@@ -11,7 +11,7 @@ import { CirclePlus } from "lucide-react";
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import Link from "next/link";
+import { Link } from "@/hooks/navigation";
 import { useLocale, useTranslations } from "next-intl";
 
 export default function Users() {

@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 import Loading from "@/components/Loading";
-import Link from "next/link";
+import { Link } from "@/hooks/navigation";
 import { MoveLeft, MoveRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { OrderData } from "./_components/OrderData";

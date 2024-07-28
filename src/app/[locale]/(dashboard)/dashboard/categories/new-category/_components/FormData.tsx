@@ -10,15 +10,16 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { CategoryFormTypes, CategorySchema, UserForm } from "@/types/schema";
-import { useState, useTransition } from "react";
+import { CategoryFormTypes, CategorySchema } from "@/types/schema";
+
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
-import { useRouter } from "next/navigation";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
+import { useRouter } from "@/hooks/navigation";
 
 const FormData = () => {
   const router = useRouter();

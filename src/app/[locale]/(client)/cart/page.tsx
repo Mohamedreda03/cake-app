@@ -1,5 +1,6 @@
 "use client";
 
+import { getAddress } from "@/actions/getAddress";
 import CartItem from "@/components/CartItem";
 import SpecialCartItem from "@/components/SpecialCartItem";
 import { Button } from "@/components/ui/button";
@@ -12,7 +13,7 @@ import { LoaderCircle } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { FormEvent, useState, useTransition } from "react";
+import { FormEvent, useEffect, useState, useTransition } from "react";
 import toast from "react-hot-toast";
 
 export default function Cart({ params }: { params: { locale: string } }) {
@@ -21,6 +22,8 @@ export default function Cart({ params }: { params: { locale: string } }) {
   const [phone, setPhone] = useState<string>("");
   const [cafeName, setCafeName] = useState<string>("");
   const [orderMakerName, setOrderMakerName] = useState<string>("");
+  const [orderReceiptDate, setOrderReceiptDate] = useState<string>("");
+  const [addressId, setAddressId] = useState<string>("");
   const router = useRouter();
   const cart = useCart();
   const specialCart = useSpecialProduct();
@@ -34,6 +37,19 @@ export default function Cart({ params }: { params: { locale: string } }) {
   const total = cart.items.reduce((acc, item) => acc + item.total, 0);
 
   const [isPending, startPending] = useTransition();
+
+  useEffect(() => {
+    (async () => {
+      const data: any = await getAddress();
+      if (data) {
+        setCafeName(data.cafe_name);
+        setOrderMakerName(data.order_maker_name);
+        setAddress(data.address);
+        setPhone(data.phone);
+        setAddressId(data.id);
+      }
+    })();
+  }, []);
 
   const handleCheckout = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -66,6 +82,8 @@ export default function Cart({ params }: { params: { locale: string } }) {
           special_items: specialCart.items,
           status: "FAILED",
           payment_status: "FAILED",
+          order_receipt_date: new Date(orderReceiptDate),
+          address_id: addressId,
         });
 
         await axios
@@ -104,6 +122,8 @@ export default function Cart({ params }: { params: { locale: string } }) {
             total: total,
             items: cart.items,
             special_items: specialCart.items,
+            order_receipt_date: new Date(orderReceiptDate),
+            address_id: addressId,
           })
           .then(() => {
             toast.success(
@@ -239,6 +259,20 @@ export default function Cart({ params }: { params: { locale: string } }) {
                         disabled={isPending}
                         className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                         placeholder={tOrder("phone")}
+                        required
+                      />
+                    </div>
+                    <div className="col-span-2 sm:col-span-1">
+                      <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                        {tOrder("order_receipt_date")}
+                      </label>
+                      <input
+                        type="datetime-local"
+                        onChange={(e) => setOrderReceiptDate(e.target.value)}
+                        value={orderReceiptDate}
+                        disabled={isPending}
+                        className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+                        placeholder={tOrder("order_receipt_date")}
                         required
                       />
                     </div>

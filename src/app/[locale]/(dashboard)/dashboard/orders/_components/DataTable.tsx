@@ -17,7 +17,7 @@ import { format } from "date-fns";
 import { ar, enUS } from "date-fns/locale";
 import { useSession } from "next-auth/react";
 import { useLocale, useTranslations } from "next-intl";
-import Link from "next/link";
+import { Link } from "@/hooks/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useMutation, useQueryClient } from "react-query";

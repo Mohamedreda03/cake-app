@@ -65,6 +65,30 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    if (!body.address_id) {
+      await db.address.create({
+        data: {
+          userId: body.userId,
+          cafe_name: body.cafe_name,
+          order_maker_name: body.order_maker_name,
+          address: body.address,
+          phone: body.phone,
+        },
+      });
+    } else {
+      await db.address.update({
+        where: {
+          id: body.address_id,
+        },
+        data: {
+          cafe_name: body.cafe_name,
+          order_maker_name: body.order_maker_name,
+          address: body.address,
+          phone: body.phone,
+        },
+      });
+    }
+
     const order = await db.order.create({
       data: {
         userId: body.userId,
@@ -76,6 +100,7 @@ export async function POST(req: NextRequest) {
         total: body.total,
         status: body.status || "PENDING",
         payment_id: body.payment_id || "",
+        order_receipt_date: body.order_receipt_date,
         special_items: body.special_items && {
           createMany: {
             data: body.special_items.map((item: SpecialItem) => ({

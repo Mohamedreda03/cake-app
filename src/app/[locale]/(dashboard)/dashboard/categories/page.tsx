@@ -8,13 +8,12 @@ import { useRouter, useSearchParams } from "next/navigation";
 import PaginationButtons from "@/components/pagination-buttons";
 import { Button } from "@/components/ui/button";
 import { CirclePlus } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/hooks/navigation";
 import { Category } from "@prisma/client";
 import { use, useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useLocale, useTranslations } from "next-intl";
-import { useSession } from "next-auth/react";
 
 interface CategoryData extends Category {
   translation: {
@@ -29,7 +28,6 @@ export default function Users() {
   const pageNumber = searchParams.get("page") || 1;
   const locale = useLocale();
   const t = useTranslations("Dash_Categories");
-  console.log();
 
   const [search, setSearch] = useState<string>("");
 

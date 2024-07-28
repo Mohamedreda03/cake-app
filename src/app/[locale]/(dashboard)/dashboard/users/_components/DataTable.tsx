@@ -10,10 +10,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Link } from "@/hooks/navigation";
 import { User } from "@prisma/client";
 import axios from "axios";
 import { useTranslations } from "next-intl";
-import Link from "next/link";
+// import Link from "next/link";
 import { useEffect, useState, useTransition } from "react";
 import toast from "react-hot-toast";
 import { useMutation, useQueryClient } from "react-query";

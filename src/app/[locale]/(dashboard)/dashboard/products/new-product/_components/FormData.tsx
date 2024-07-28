@@ -23,7 +23,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/hooks/navigation";
 import { Textarea } from "@/components/ui/textarea";
 import { Category, CategoryTranslation } from "@prisma/client";
 import SizeModel from "@/components/models/SizeModel";

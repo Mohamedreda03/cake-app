@@ -18,6 +18,7 @@ model User {
   password      String?
   role          Role      @default(USER)
   orders        Order[]
+  Address       Address?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -67,6 +68,19 @@ enum Role {
   CHEF
   ACCOUNTANT
   USER
+}
+
+model Address {
+  id               String   @id @default(cuid())
+  cafe_name        String
+  order_maker_name String
+  address          String
+  phone            String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id])
 }
 
 model Category {
@@ -122,32 +136,21 @@ model Size {
 
   productId String
   product   Product @relation(fields: [productId], references: [id])
-  // translation SizeTranslation[]
 }
 
-// model SizeTranslation {
-//   id       String @id @default(cuid())
-//   language String
-//   name     String
-//   sizeId   String
-//   size     Size   @relation(fields: [sizeId], references: [id])
-
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-// }
-
 model Order {
-  id               String         @id @default(cuid())
-  cafe_name        String
-  order_maker_name String
-  total            Float
-  status           OrderStatus
-  payment_status   PaymentStatus
-  payment_id       String?
-  address          String
-  phone            String
-  products         ProductOrder[]
-  special_items    SpecialItem[]
+  id                 String         @id @default(cuid())
+  cafe_name          String
+  order_maker_name   String
+  total              Float
+  status             OrderStatus
+  payment_status     PaymentStatus
+  payment_id         String?
+  address            String
+  phone              String
+  products           ProductOrder[]
+  special_items      SpecialItem[]
+  order_receipt_date DateTime
 
   User      User?    @relation(fields: [userId], references: [id])
   userId    String?
