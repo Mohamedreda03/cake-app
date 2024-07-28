@@ -154,6 +154,7 @@ export function OrderData({
                 {order.phone}
               </TableCell>
             </TableRow>
+
             <TableRow>
               <TableCell className="font-medium w-[200px]">
                 {t("order_date")}
@@ -162,6 +163,21 @@ export function OrderData({
                 {format(new Date(order.createdAt), "hh:mm a, dd MMMM yyyy", {
                   locale: locale === "ar" ? ar : enUS,
                 })}
+              </TableCell>
+            </TableRow>
+
+            <TableRow>
+              <TableCell className="font-medium w-[200px]">
+                {t("order_receipt_date")}
+              </TableCell>
+              <TableCell colSpan={4} className="font-medium">
+                {format(
+                  new Date(order.order_receipt_date),
+                  "hh:mm a, dd MMMM yyyy",
+                  {
+                    locale: locale === "ar" ? ar : enUS,
+                  }
+                )}
               </TableCell>
             </TableRow>
           </TableBody>
@@ -224,6 +240,20 @@ export function OrderData({
                 {format(new Date(order.createdAt), "hh:mm a, dd MMMM yyyy", {
                   locale: locale === "ar" ? ar : enUS,
                 })}
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="font-medium w-[200px]">
+                {t("order_receipt_date")}
+              </TableCell>
+              <TableCell colSpan={4} className="font-medium">
+                {format(
+                  new Date(order.order_receipt_date),
+                  "hh:mm a, dd MMMM yyyy",
+                  {
+                    locale: locale === "ar" ? ar : enUS,
+                  }
+                )}
               </TableCell>
             </TableRow>
           </TableBody>

@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/sheet";
 import { signOut, useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
-import Link from "next/link";
+import { Link } from "@/hooks/navigation";
 import {
   LucideIcon,
   LayoutDashboard,
@@ -20,7 +20,6 @@ import {
   ArrowLeftIcon,
   ArrowLeft,
 } from "lucide-react";
-import { Session } from "next-auth";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { useLocale, useTranslations } from "next-intl";

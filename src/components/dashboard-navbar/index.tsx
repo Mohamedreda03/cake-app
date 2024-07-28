@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import MobileNavbar from "./MobileNavbar";
-import Link from "next/link";
+import { Link } from "@/hooks/navigation";
 import { Button } from "../ui/button";
 import { ArrowLeftIcon } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";

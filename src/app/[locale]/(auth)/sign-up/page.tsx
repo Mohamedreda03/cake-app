@@ -17,12 +17,12 @@ import { Input } from "@/components/ui/input";
 import Header from "@/components/auth/Header";
 
 import { Separator } from "@/components/ui/separator";
-import Link from "next/link";
+import { Link, useRouter } from "@/hooks/navigation";
 import { SignUpFormTypes, SignUpSchema } from "@/types/schema";
 import { useState, useTransition } from "react";
 import signup from "@/actions/signup";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+
 import { useTranslations } from "next-intl";
 
 export default function Login() {

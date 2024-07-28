@@ -80,17 +80,22 @@ export default function DataTable({ orders }: { orders: OrderType[] }) {
                   <TableHead className="text-center text-lg">
                     {t("payment_status")}
                   </TableHead>
+                  <TableHead className="text-center text-lg">
+                    {t("total_amount")}
+                  </TableHead>
                 </>
               )}
-              <TableHead className="text-center text-lg">
-                {t("order_date")}
-              </TableHead>
+
               <TableHead className="text-center text-lg">
                 {t("order_status")}
               </TableHead>
               <TableHead className="text-center text-lg">
-                {t("total_amount")}
+                {t("order_date")}
               </TableHead>
+              <TableHead className="text-center text-lg">
+                {t("order_receipt_date")}
+              </TableHead>
+
               <TableHead className="text-center text-lg"></TableHead>
             </TableRow>
           </TableHeader>
@@ -128,15 +133,21 @@ export default function DataTable({ orders }: { orders: OrderType[] }) {
                             t("paiement_when_recieving")}
                           {order.payment_status === "FAILED" &&
                             t("payment_failed")}
-
-                          {/* {order._count.special_items &&
-                        order.payment_status === "PAID" &&
-                        order._count.special_items > 0 &&
-                        "+ " + t("special_order")} */}
                         </div>
+                      </TableCell>
+
+                      <TableCell className="text-center">
+                        {order.total}{" "}
+                        <span className="mr-1">{t("curancy")}</span>
                       </TableCell>
                     </>
                   )}
+                  <TableCell className="text-center">
+                    {order.status === "PENDING" && t("pending")}
+                    {order.status === "PROCESSING" && t("in_preparation")}
+                    {order.status === "SHIPPED" && t("on_the_way")}
+                    {order.status === "DELIVERED" && t("delivered")}
+                  </TableCell>
                   <TableCell className="text-center">
                     {format(
                       new Date(order.createdAt),
@@ -146,14 +157,15 @@ export default function DataTable({ orders }: { orders: OrderType[] }) {
                       }
                     )}
                   </TableCell>
+
                   <TableCell className="text-center">
-                    {order.status === "PENDING" && t("pending")}
-                    {order.status === "PROCESSING" && t("in_preparation")}
-                    {order.status === "SHIPPED" && t("on_the_way")}
-                    {order.status === "DELIVERED" && t("delivered")}
-                  </TableCell>
-                  <TableCell className="text-center">
-                    {order.total} <span className="mr-1">{t("curancy")}</span>
+                    {format(
+                      new Date(order.order_receipt_date),
+                      "hh:mm a, dd MMMM yyyy",
+                      {
+                        locale: locale === "ar" ? ar : enUS,
+                      }
+                    )}
                   </TableCell>
                   <TableCell className="text-center flex gap-3 items-center justify-center">
                     <Link href={`/dashboard/orders/${order.id}`}>
@@ -161,16 +173,19 @@ export default function DataTable({ orders }: { orders: OrderType[] }) {
                         {t("details")}
                       </Button>
                     </Link>
-                    <Button
-                      onClick={() => {
-                        setSelectedUser(order.id);
-                        setIsOpen(true);
-                      }}
-                      className="text-sm"
-                      variant="destructive"
-                    >
-                      {t("delete")}
-                    </Button>
+                    {(session.data?.user.role === "ADMIN" ||
+                      session.data?.user.role === "ACCOUNTANT") && (
+                      <Button
+                        onClick={() => {
+                          setSelectedUser(order.id);
+                          setIsOpen(true);
+                        }}
+                        className="text-sm"
+                        variant="destructive"
+                      >
+                        {t("delete")}
+                      </Button>
+                    )}
                   </TableCell>
                 </TableRow>
               );

@@ -17,14 +17,11 @@ import { Input } from "@/components/ui/input";
 import Header from "@/components/auth/Header";
 
 import { Separator } from "@/components/ui/separator";
-import Link from "next/link";
+import { Link, useRouter } from "@/hooks/navigation";
 import { useState, useTransition } from "react";
 import { SignInFormTypes, SignInSchema } from "@/types/schema";
 import signin from "@/actions/signin";
-import { Metadata } from "next";
-import { signIn, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-// import { useRouter as Router } from "next/router";
+import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 
 export default function Login() {
@@ -55,16 +52,6 @@ export default function Login() {
           window.location.href = "/";
         }
       });
-      // await signIn("credentials", {
-      //   email: data.email,
-      //   password: data.password,
-      //   redirect: false,
-      // })
-      //   .then(() => router.push("/"))
-      //   .catch((error) => {
-      //     setErrorMessage(error.message);
-      //     console.log(error);
-      //   });
     });
   };
 

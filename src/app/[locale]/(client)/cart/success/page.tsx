@@ -6,8 +6,8 @@ import useSpecialProduct from "@/store/specialProduct";
 import axios from "axios";
 import { ArrowLeft, CheckCircle } from "lucide-react";
 import { useLocale } from "next-intl";
-import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { Link, useRouter } from "@/hooks/navigation";
+import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useTransition } from "react";
 import toast from "react-hot-toast";
 

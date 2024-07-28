@@ -9,7 +9,6 @@ import PaginationButtons from "@/components/pagination-buttons";
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { User } from "@prisma/client";
 import { useTranslations } from "next-intl";
 
 export default function Users() {
