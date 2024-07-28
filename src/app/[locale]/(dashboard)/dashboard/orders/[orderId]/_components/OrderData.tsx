@@ -77,7 +77,8 @@ export function OrderData({
         </div>
       </div>
       {(session.data?.user.role === "ADMIN" ||
-        session.data?.user.role === "ACCOUNTANT") && (
+        session.data?.user.role === "ACCOUNTANT" ||
+        session.data?.user.role === "MANAGER") && (
         <Table className="max-w-screen-xl border">
           <TableBody>
             <TableRow>
