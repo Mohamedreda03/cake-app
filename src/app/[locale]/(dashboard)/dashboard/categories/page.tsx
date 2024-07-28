@@ -56,14 +56,14 @@ export default function Users() {
   return (
     <div>
       <div className="px-5 md:px-20 py-10 flex items-center justify-between">
-        <h1 className="text-3xl font-medium border-b-2 border-color-1">
+        <h1 className="md:text-3xl text-2xl font-medium border-b-2 border-color-1">
           {t("categories")}
         </h1>
         <div>
           <Link href="/dashboard/categories/new-category">
             <Button
               variant="main"
-              className="text-lg flex items-center justify-center gap-2"
+              className="md:text-lg flex items-center justify-center gap-2"
             >
               {t("create_category")}
               <CirclePlus size={20} />

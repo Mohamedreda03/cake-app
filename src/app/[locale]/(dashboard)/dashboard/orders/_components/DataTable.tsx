@@ -72,7 +72,8 @@ export default function DataTable({ orders }: { orders: OrderType[] }) {
                 {t("cafe_name")}
               </TableHead>
               {(session.data?.user.role === "ADMIN" ||
-                session.data?.user.role === "ACCOUNTANT") && (
+                session.data?.user.role === "ACCOUNTANT" ||
+                session.data?.user.role === "MANAGER") && (
                 <>
                   <TableHead className="text-center text-lg">
                     {t("phone_number")}
@@ -110,7 +111,8 @@ export default function DataTable({ orders }: { orders: OrderType[] }) {
                     {order.cafe_name}
                   </TableCell>
                   {(session.data?.user.role === "ADMIN" ||
-                    session.data?.user.role === "ACCOUNTANT") && (
+                    session.data?.user.role === "ACCOUNTANT" ||
+                    session.data?.user.role === "MANAGER") && (
                     <>
                       <TableCell className="text-center">
                         {order.phone}
